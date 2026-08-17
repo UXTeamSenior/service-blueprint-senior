@@ -546,6 +546,90 @@
   }
   function getCurrent() { return APP.library.filter(function (b) { return b.id === APP.currentId; })[0]; }
 
+  /* ---------------- favoritos (individuais por navegador — não sincronizam com a equipe) ---------------- */
+  var FAV_KEY = "sbs_favorites_v1";
+  var localFavorites = (function () {
+    try {
+      var raw = localStorage.getItem(FAV_KEY);
+      if (raw) return new Set(JSON.parse(raw));
+    } catch (e) {}
+    return new Set();
+  })();
+  function saveLocalFavorites() {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(Array.from(localFavorites))); } catch (e) {}
+  }
+  function isFavorite(bp) { return localFavorites.has(bp.id); }
+  function toggleFavorite(bp) {
+    if (localFavorites.has(bp.id)) localFavorites.delete(bp.id); else localFavorites.add(bp.id);
+    saveLocalFavorites();
+  }
+
+  /* ---------------- acesso (código de acesso do workspace) ----------------
+     Código padrão de fábrica / reset: 202608 — este valor sempre funciona para
+     entrar, mesmo depois de trocado, e serve como reset caso a equipe esqueça o
+     código atual. O código em uso fica guardado no Supabase (tabela app_settings),
+     verificado pela função verify_access_code — nunca é lido em texto puro pelo
+     cliente. Para trocar o código, use "Alterar código" dentro do workspace. */
+  var ACCESS_KEY = "sbs_access_unlocked_v1";
+  function ensureAuth() {
+    if (!sb) { renderBootError({ message: "A biblioteca do Supabase não carregou — verifique sua conexão e recarregue a página." }); return; }
+    var unlocked = false;
+    try { unlocked = localStorage.getItem(ACCESS_KEY) === "1"; } catch (e) {}
+    if (unlocked) boot(); else renderCodeGate();
+  }
+  function signOut() {
+    try { localStorage.removeItem(ACCESS_KEY); } catch (e) {}
+    APP.library = []; APP.currentId = null; location.hash = "";
+    renderCodeGate();
+  }
+  function renderCodeGate() {
+    var root = app();
+    root.innerHTML = "";
+    var codeInput = el("input", { class: "search-input", type: "password", inputmode: "numeric", autocomplete: "off", placeholder: "código de acesso", style: "width:220px;display:block;margin:0 auto 8px;text-align:center;letter-spacing:0.1em;" });
+    var err = el("div", { class: "field-error", style: "text-align:center;min-height:16px;" });
+    var submitBtn = el("button", { class: "btn primary", style: "display:block;margin:14px auto 0;" }, [document.createTextNode("Entrar")]);
+    function submit() {
+      var code = codeInput.value.trim();
+      if (!code) return;
+      submitBtn.disabled = true; err.textContent = "";
+      sb.rpc("verify_access_code", { p_code: code }).then(function (res) {
+        submitBtn.disabled = false;
+        if (res.error) { err.textContent = "Não consegui verificar o código agora."; return; }
+        if (!res.data) { err.textContent = "Código incorreto."; return; }
+        try { localStorage.setItem(ACCESS_KEY, "1"); } catch (e) {}
+        boot();
+      });
+    }
+    submitBtn.addEventListener("click", submit);
+    codeInput.addEventListener("keydown", function (ev) { if (ev.key === "Enter") submit(); });
+    root.appendChild(el("div", { class: "empty-state" }, [
+      el("h2", { text: "Acesso restrito" }),
+      el("p", { text: "Informe o código de acesso do workspace para abrir os blueprints." }),
+      codeInput, err, submitBtn
+    ]));
+  }
+  function openChangeCodeModal() {
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: "Alterar código de acesso" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Quem souber o código atual (ou o código de reset) pode definir um novo. Todo mundo que acessa o workspace passa a precisar do código novo a partir de agora." }));
+    var oldInput = el("input", { class: "search-input", type: "password", placeholder: "código atual", style: "width:100%;margin-bottom:8px;" });
+    var newInput = el("input", { class: "search-input", type: "password", placeholder: "novo código (mín. 4 caracteres)", style: "width:100%;margin-bottom:8px;" });
+    var err = el("div", { class: "field-error" });
+    var saveBtn = el("button", { class: "btn primary" }, [document.createTextNode("Salvar novo código")]);
+    saveBtn.addEventListener("click", function () {
+      err.textContent = "";
+      saveBtn.disabled = true;
+      sb.rpc("set_access_code", { p_old_code: oldInput.value.trim(), p_new_code: newInput.value.trim() }).then(function (res) {
+        saveBtn.disabled = false;
+        if (res.error || !res.data) { err.textContent = "Código atual incorreto, ou o novo código é curto demais."; return; }
+        closeModal(); toast("Código de acesso atualizado");
+      });
+    });
+    wrap.appendChild(oldInput); wrap.appendChild(newInput); wrap.appendChild(err);
+    wrap.appendChild(el("div", { class: "modal-footer" }, [saveBtn]));
+    var closeModal = openModal(wrap);
+  }
+
   /* ---------------- dom helpers ---------------- */
   function el(tag, attrs, children) {
     var node = document.createElement(tag);
@@ -842,7 +926,7 @@
     var root = app();
     root.innerHTML = "";
     var retry = el("button", { class: "btn primary" }, [document.createTextNode("Tentar de novo")]);
-    retry.addEventListener("click", boot);
+    retry.addEventListener("click", ensureAuth);
     root.appendChild(el("div", { class: "empty-state" }, [
       el("h2", { text: "Não consegui conectar à base compartilhada" }),
       el("p", { text: (err && err.message) ? err.message : "Verifique sua conexão e tente novamente." }),
@@ -947,7 +1031,9 @@
             remoteInsert(rec).then(function () { APP.library.unshift(rec); openBlueprint(rec.id); }).catch(function () { b.disabled = false; });
           });
           return b;
-        })()
+        })(),
+        (function () { var b = el("button", { class: "btn small ghost", title: "Trocar o código de acesso do workspace" }, [document.createTextNode("Alterar código")]); b.addEventListener("click", openChangeCodeModal); return b; })(),
+        (function () { var b = el("button", { class: "btn small ghost", title: "Bloquear o acesso neste navegador" }, [document.createTextNode("Sair")]); b.addEventListener("click", signOut); return b; })()
       ])
     ]));
 
@@ -983,7 +1069,7 @@
     grid.innerHTML = "";
     var list = APP.library.filter(function (b) {
       if (libraryUi.statusFilter && b.status !== libraryUi.statusFilter) return false;
-      if (libraryUi.onlyFav && !b.favorite) return false;
+      if (libraryUi.onlyFav && !isFavorite(b)) return false;
       if (libraryUi.search && b.title.toLowerCase().indexOf(libraryUi.search.toLowerCase()) === -1) return false;
       return true;
     }).sort(function (a, b) { return b.updatedAt - a.updatedAt; });
@@ -999,8 +1085,8 @@
     list.forEach(function (bp) {
       var laneCount = bp.data.lanes.filter(function (l) { return l.kind === "content"; }).length;
       var card = el("div", { class: "bp-card", tabindex: "0", role: "button" });
-      var star = el("button", { class: "star-btn" + (bp.favorite ? " on" : ""), title: "Favoritar" }, [document.createTextNode(bp.favorite ? "★" : "☆")]);
-      star.addEventListener("click", function (ev) { ev.stopPropagation(); bp.favorite = !bp.favorite; touch(bp); renderLibrary(); });
+      var star = el("button", { class: "star-btn" + (isFavorite(bp) ? " on" : ""), title: "Favoritar" }, [document.createTextNode(isFavorite(bp) ? "★" : "☆")]);
+      star.addEventListener("click", function (ev) { ev.stopPropagation(); toggleFavorite(bp); renderLibrary(); });
       card.appendChild(el("div", { class: "row-top" }, [
         el("span", { class: "status-tag", style: "color:" + STATUS_DEFS[bp.status].varc }, [el("span", { class: "dot", style: "background:" + STATUS_DEFS[bp.status].varc }), document.createTextNode(STATUS_DEFS[bp.status].label)]),
         star
@@ -1042,8 +1128,8 @@
     statusSel.addEventListener("change", function () { bp.status = statusSel.value; touch(bp); pill.querySelector(".dot").style.background = STATUS_DEFS[bp.status].varc; });
     var pill = el("span", { class: "status-pill" }, [el("span", { class: "dot", style: "background:" + STATUS_DEFS[bp.status].varc }), statusSel]);
 
-    var star = el("button", { class: "star-btn" + (bp.favorite ? " on" : ""), title: "Favoritar" }, [document.createTextNode(bp.favorite ? "★" : "☆")]);
-    star.addEventListener("click", function () { bp.favorite = !bp.favorite; touch(bp); star.classList.toggle("on"); star.textContent = bp.favorite ? "★" : "☆"; });
+    var star = el("button", { class: "star-btn" + (isFavorite(bp) ? " on" : ""), title: "Favoritar" }, [document.createTextNode(isFavorite(bp) ? "★" : "☆")]);
+    star.addEventListener("click", function () { toggleFavorite(bp); star.classList.toggle("on"); star.textContent = isFavorite(bp) ? "★" : "☆"; });
 
     var historyBtn = el("button", { class: "btn ghost" }, [document.createTextNode("Histórico")]);
     historyBtn.addEventListener("click", function () { openHistoryModal(bp); });
@@ -2309,7 +2395,7 @@
     var embeddedFilters = window.__EMBEDDED_FILTERS__ || { activeProfileId: null, hiddenLanes: [], roles: [], channels: [], showReferences: true, viewMode: "swimlane" };
     renderViewer({ bp: window.__EMBEDDED_BLUEPRINT__, f: embeddedFilters });
   } else {
-    boot();
+    ensureAuth();
   }
 })();
 </script>
