@@ -1,8 +1,2317 @@
-<html>
-  <head>
-    
-  </head>
-  <body>
-    
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Service Blueprint Senior</title>
+<style>
+  :root {
+    --paper: #f5f8fc;
+    --surface: #ffffff;
+    --surface-2: #eaf0f7;
+    --ink: #16324f;
+    --ink-soft: #4d6a87;
+    --line: #c9d6e4;
+    --line-strong: #9db3c8;
+    --accent: #2e6fbe;
+    --accent-strong: #1d4e8c;
+    --accent-tint: #e2edf9;
+    --warm: #b96a1e;
+    --warm-tint: #f6e6d3;
+    --danger: #b6402e;
+    --danger-tint: #f8e2dd;
+    --good: #2f8f5b;
+    --good-tint: #e0f0e7;
+    --highlight: #7c4fd1;
+    --highlight-tint: #efe6fb;
+    --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-tech: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0f2740; --surface: #15304c; --surface-2: #1c3a5a;
+      --ink: #e7f0fa; --ink-soft: #a9c2da;
+      --line: #2e4f6e; --line-strong: #446f95;
+      --accent: #7fb3e8; --accent-strong: #bcd9f5; --accent-tint: #1e3f5f;
+      --warm: #e3a768; --warm-tint: #3a2c1a;
+      --danger: #e0796a; --danger-tint: #3a231f;
+      --good: #6fcb98; --good-tint: #1c3527;
+      --highlight: #c3a4f0; --highlight-tint: #2f2447;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0f2740; --surface: #15304c; --surface-2: #1c3a5a;
+    --ink: #e7f0fa; --ink-soft: #a9c2da;
+    --line: #2e4f6e; --line-strong: #446f95;
+    --accent: #7fb3e8; --accent-strong: #bcd9f5; --accent-tint: #1e3f5f;
+    --warm: #e3a768; --warm-tint: #3a2c1a;
+    --danger: #e0796a; --danger-tint: #3a231f;
+    --good: #6fcb98; --good-tint: #1c3527;
+    --highlight: #c3a4f0; --highlight-tint: #2f2447;
+  }
+  :root[data-theme="light"] {
+    --paper: #f5f8fc; --surface: #ffffff; --surface-2: #eaf0f7;
+    --ink: #16324f; --ink-soft: #4d6a87;
+    --line: #c9d6e4; --line-strong: #9db3c8;
+    --accent: #2e6fbe; --accent-strong: #1d4e8c; --accent-tint: #e2edf9;
+    --warm: #b96a1e; --warm-tint: #f6e6d3;
+    --danger: #b6402e; --danger-tint: #f8e2dd;
+    --good: #2f8f5b; --good-tint: #e0f0e7;
+    --highlight: #7c4fd1; --highlight-tint: #efe6fb;
+  }
+
+  * { box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+  button { font-family: inherit; font-size: 12.5px; cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: 0.55; }
+  button:focus-visible, [contenteditable]:focus-visible, [contenteditable]:focus, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  a { color: var(--accent-strong); }
+
+  /* The dropdown popup a <select> opens is rendered by the OS/browser, not by our theme â€”
+     without this, its options fall back to light-on-light or dark-on-dark depending on the
+     select's own (often muted/transparent) closed-state color. */
+  select { color-scheme: light dark; }
+  select option { color: var(--ink); background-color: var(--surface); }
+  select option:checked, select option:hover { color: var(--ink); background-color: var(--surface-2); }
+
+  .eyebrow { font-family: var(--font-tech); font-size: 10.5px; letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-soft); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink);
+    border-radius: 6px; padding: 7px 12px; font-weight: 600; white-space: nowrap;
+  }
+  .btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent-strong); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover:not(:disabled) { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+  .btn.ghost { border-color: transparent; background: transparent; }
+  .btn.ghost:hover:not(:disabled) { background: var(--surface-2); }
+  .btn.danger:hover:not(:disabled) { border-color: var(--danger); color: var(--danger); }
+  .btn.small { padding: 4px 9px; font-size: 11.5px; }
+  .divider-v { width: 1px; align-self: stretch; background: var(--line); margin: 0 2px; }
+  .spacer { flex: 1; }
+  .icon-btn { border: none; background: transparent; color: var(--ink-soft); font-size: 15px; border-radius: 6px; padding: 5px 7px; line-height: 1; }
+  .icon-btn:hover:not(:disabled) { background: var(--surface-2); color: var(--ink); }
+  .icon-btn.active { color: var(--accent-strong); background: var(--accent-tint); }
+  .ctrl-row { display: flex; align-items: center; gap: 2px; margin-bottom: 4px; }
+  .mini-btn { border: none; background: transparent; color: var(--ink-soft); font-size: 11px; line-height: 1; padding: 2px 5px; border-radius: 4px; }
+  .mini-btn:hover:not(:disabled) { background: var(--surface); color: var(--accent-strong); }
+  .mini-btn:disabled { opacity: 0.3; }
+  .mini-btn.confirm { background: var(--danger); color: #fff; }
+
+  [contenteditable="true"]:hover { background: var(--surface-2); border-radius: 3px; }
+
+  /* ---------- shell ---------- */
+  #app { min-height: 100vh; display: flex; flex-direction: column; }
+  .topbar {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 14px 22px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--surface) 0%, var(--paper) 100%);
+  }
+  .topbar .titles { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .topbar h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; border-radius: 4px; padding: 1px 3px; margin-left: -3px; max-width: 46ch; overflow: hidden; text-overflow: ellipsis; }
+  .topbar .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .toolbar2 {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 9px 22px; border-bottom: 1px solid var(--line); background: var(--surface);
+  }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong);
+    background: var(--surface); border-radius: 999px; padding: 4px 5px 4px 5px; font-size: 11.5px; font-weight: 600;
+  }
+  .status-pill select { border: none; background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; display: inline-block; }
+  .star-btn { border: none; background: transparent; color: var(--line-strong); font-size: 17px; line-height: 1; padding: 2px 4px; border-radius: 6px; }
+  .star-btn:hover { background: var(--surface-2); }
+  .star-btn.on { color: var(--warm); }
+
+  /* ---------- library ---------- */
+  .library-main { padding: 22px 26px 60px; flex: 1; }
+  .library-toolrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .search-input { border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 7px 11px; font-size: 12.5px; width: 220px; }
+  .chip-toggle {
+    border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-soft);
+    border-radius: 999px; padding: 5px 12px; font-size: 11.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .chip-toggle.active { border-color: var(--accent); background: var(--accent-tint); color: var(--accent-strong); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 14px; }
+  .bp-card {
+    border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 14px 15px;
+    display: flex; flex-direction: column; gap: 9px; cursor: pointer; transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+  .bp-card:hover { border-color: var(--accent); }
+  .bp-card .row-top { display: flex; align-items: center; justify-content: space-between; }
+  .status-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-tech); }
+  .bp-card .title { font-weight: 700; font-size: 14.5px; text-wrap: balance; }
+  .bp-card .meta { font-size: 11.5px; color: var(--ink-soft); font-family: var(--font-tech); }
+  .bp-card .row-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+  .empty-state { text-align: center; padding: 70px 20px; color: var(--ink-soft); }
+  .empty-state h2 { color: var(--ink); font-size: 18px; margin: 0 0 6px; }
+  .empty-state .actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
+
+  /* ---------- filter strip (editor + viewer) ---------- */
+  .filter-strip { border-bottom: 1px solid var(--line); background: var(--surface-2); padding: 14px 22px; display: flex; flex-wrap: wrap; gap: 26px; }
+  .filter-strip .group { display: flex; flex-direction: column; gap: 7px; }
+  .filter-strip .group h3 { font-size: 10px; margin: 0; }
+  .group-help { font-size: 10.5px; color: var(--ink-soft); margin: 2px 0 0; max-width: 230px; line-height: 1.35; }
+  .profile-row, .chip-row, .lane-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .profile-chip { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 6px; padding: 6px 26px 6px 10px; font-size: 11.5px; text-align: left; cursor: pointer; position: relative; min-width: 96px; }
+  .profile-chip strong { display: block; font-size: 12px; border-radius: 3px; }
+  .profile-chip span { display: block; font-size: 10px; color: var(--ink-soft); }
+  .profile-chip.active { border-color: var(--accent); background: var(--accent-tint); }
+  .profile-chip .profile-rm { position: absolute; top: 2px; right: 2px; }
+  .profile-chip.add-profile { border-style: dashed; background: transparent; font-weight: 600; color: var(--ink-soft); display: flex; align-items: center; padding: 6px 10px; }
+  .profile-chip.add-profile:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .chip { border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-soft); border-radius: 999px; padding: 4px 11px; font-family: var(--font-tech); font-size: 11px; }
+  .chip.selected { background: var(--warm-tint); border-color: var(--warm); color: var(--warm); font-weight: 600; }
+  .lane-toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 5px 9px; }
+  .lane-toggle input { accent-color: var(--accent); }
+  .empty-hint { font-size: 11.5px; color: var(--ink-soft); font-style: italic; }
+
+  /* ---------- canvas ---------- */
+  .canvas-scroll { overflow-x: auto; padding: 20px 24px 60px; flex: 1; }
+  .canvas-grid { display: grid; border-top: 1px solid var(--line); border-left: 1px solid var(--line); min-width: max-content; }
+  .lane-label, .stage-head, .cell { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stage-head { background: var(--surface-2); padding: 10px 12px; position: sticky; top: 0; z-index: 2; }
+  .stage-head .name { font-weight: 700; font-size: 13px; border-radius: 3px; }
+  .col-resize-handle { position: absolute; top: 0; bottom: 0; right: -3px; width: 6px; cursor: col-resize; z-index: 3; background: transparent; }
+  .col-resize-handle:hover, .col-resize-handle.active { background: var(--accent); opacity: 0.55; }
+  .stage-head .remove { float: right; border: none; background: transparent; color: var(--ink-soft); font-size: 13px; line-height: 1; padding: 2px 4px; border-radius: 4px; }
+  .stage-head .remove:hover { background: var(--danger); color: #fff; }
+  .stage-head .remove.confirm { background: var(--danger); color: #fff; }
+  .corner { background: var(--surface-2); position: sticky; left: 0; top: 0; z-index: 3; }
+  .lane-label { background: var(--surface-2); position: sticky; left: 0; z-index: 1; padding: 10px 11px; display: flex; flex-direction: column; gap: 4px; justify-content: center; border-left: 3px solid var(--line-strong); }
+  .lane-label .name { font-weight: 700; font-size: 12.5px; border-radius: 3px; }
+  .lane-label .kind { font-family: var(--font-tech); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+  .lane-label .remove-lane { align-self: flex-start; border: none; background: transparent; color: var(--ink-soft); font-size: 10.5px; text-decoration: underline; padding: 0; }
+  .lane-label .remove-lane:hover { color: var(--danger); }
+  .lane-label .remove-lane.confirm { color: var(--danger); font-weight: 700; }
+  .cell { background: var(--surface); padding: 9px 11px; min-width: 200px; display: flex; flex-direction: column; gap: 6px; transition: opacity 0.15s ease; }
+  .cell.dimmed { opacity: 0.32; }
+  .cell .text { min-height: 34px; font-size: 12.8px; border-radius: 3px; }
+  .cell .text:empty::before { content: attr(data-placeholder); color: var(--ink-soft); font-style: italic; }
+  .tagrow { display: flex; gap: 5px; flex-wrap: wrap; }
+  .tag-input { font-family: var(--font-tech); font-size: 10.5px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-soft); border-radius: 999px; padding: 2px 8px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tag-input:hover { color: var(--ink); border-color: var(--accent); }
+  .cell-action-select { display: block; font-family: var(--font-tech); font-size: 10px; border: 1px dashed var(--line-strong); background: transparent; color: var(--ink-soft); border-radius: 999px; padding: 2px 8px; margin-top: 4px; max-width: 100%; }
+  .cell-action-select:hover { border-color: var(--accent); color: var(--accent-strong); }
+  .cell.highlighted { outline: 2px solid var(--highlight); background: var(--highlight-tint); }
+  .tag-input.role { border-color: var(--accent); color: var(--accent-strong); background: var(--accent-tint); }
+  .tag-input.channel { border-color: var(--warm); color: var(--warm); background: var(--warm-tint); }
+  .divider-row { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; padding: 3px 12px; background: var(--paper); border-bottom: 1px dashed var(--line-strong); }
+  .divider-row .line { flex: 1; height: 0; border-top: 1px dashed var(--line-strong); }
+  .divider-row .label { font-family: var(--font-tech); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; border-radius: 3px; padding: 1px 3px; }
+  .add-stage-cell { display: flex; align-items: center; justify-content: center; min-width: 60px; background: var(--surface-2); }
+  .add-stage-btn { border: 1px dashed var(--line-strong); background: transparent; color: var(--ink-soft); border-radius: 6px; width: 34px; height: 34px; font-size: 18px; }
+  .add-stage-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .add-lane-row { display: flex; justify-content: flex-start; padding: 12px 24px 0; }
+  .add-lane-btn { border: 1px dashed var(--line-strong); background: transparent; color: var(--ink-soft); border-radius: 6px; padding: 6px 12px; font-size: 11.5px; }
+  .add-lane-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .stage-head.phase-merged { display: flex; flex-direction: column; gap: 6px; }
+  .phase-merged-name { display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; font-size: 13px; text-align: center; }
+  .phase-merged-name [contenteditable] { border-radius: 3px; }
+  .phase-merged-name .mini-btn { color: inherit; opacity: 0.7; }
+  .phase-merged-name .mini-btn:hover { opacity: 1; background: rgba(255,255,255,0.25); }
+  .phase-merged-cols { display: grid; gap: 2px; border-top: 1px dashed currentColor; opacity: 0.9; padding-top: 4px; }
+  .phase-merged-col { display: flex; align-items: center; justify-content: center; gap: 0; position: relative; }
+  .phase-merged-col .mini-btn { color: inherit; opacity: 0.7; }
+  .phase-merged-col .mini-btn:hover { opacity: 1; background: rgba(255,255,255,0.25); }
+  .type-swatch { width: 16px; height: 16px; border-radius: 50%; border: 2px solid transparent; padding: 0; cursor: pointer; flex: none; }
+  .type-swatch.active { border-color: var(--ink); }
+  .color-swatch-row { display: flex; gap: 5px; margin-top: 7px; }
+  .phase-select { display: block; font-family: var(--font-tech); font-size: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft); border-radius: 999px; padding: 1px 4px; margin-top: 6px; max-width: 100%; }
+  .divider-row .mini-btn { color: var(--ink-soft); }
+
+  .evidence-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+  .evidence-pill { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--ink-soft); border-radius: 999px; padding: 2px 8px; font-size: 10px; font-family: var(--font-tech); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .evidence-pill img { width: 16px; height: 16px; object-fit: cover; border-radius: 3px; flex: none; }
+  .evidence-pill.add { border-style: dashed; background: transparent; }
+  .evidence-pill.add:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .evidence-pill.type-img { border-color: var(--accent); color: var(--accent-strong); background: var(--accent-tint); }
+  .evidence-pill.type-oportunidade, .evidence-pill.type-solucao { border-color: var(--good); color: var(--good); background: var(--good-tint); }
+  .evidence-pill.type-pain { border-color: var(--danger); color: var(--danger); background: var(--danger-tint); }
+  .evidence-pill.type-metrica { border-color: var(--warm); color: var(--warm); background: var(--warm-tint); }
+
+  .ref-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+  .ref-pill { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--accent); background: var(--accent-tint); color: var(--accent-strong); border-radius: 999px; padding: 2px 8px; font-size: 10px; font-family: var(--font-tech); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ref-pill.add { border-style: dashed; background: transparent; color: var(--ink-soft); border-color: var(--line-strong); }
+  .ref-pill.add:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .cell-flash { animation: cellFlash 1.6s ease; }
+
+  /* ---------- flowchart view ---------- */
+  .cell.flow-node { position: relative; }
+  .flow-handle { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); padding: 0; opacity: 0; transition: opacity 0.12s ease, transform 0.12s ease; z-index: 6; }
+  .cell.flow-node:hover .flow-handle, .flow-handle:focus-visible { opacity: 1; }
+  .flow-handle:hover { background: var(--accent); transform: scale(1.25); }
+  .flow-handle.n { top: -7px; left: 50%; margin-left: -7px; cursor: crosshair; }
+  .flow-handle.s { bottom: -7px; left: 50%; margin-left: -7px; cursor: crosshair; }
+  .flow-handle.e { right: -7px; top: 50%; margin-top: -7px; cursor: crosshair; }
+  .flow-handle.w { left: -7px; top: 50%; margin-top: -7px; cursor: crosshair; }
+  .flow-svg { position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; }
+  .flow-edge-path { fill: none; stroke: var(--accent); stroke-width: 2; pointer-events: none; }
+  .flow-edge-hit { fill: none; stroke: transparent; stroke-width: 14; pointer-events: stroke; cursor: pointer; }
+  .flow-edge-group:hover .flow-edge-path { stroke: var(--danger); stroke-width: 2.6; }
+  @keyframes cellFlash { 0%, 100% { box-shadow: none; } 15%, 45% { box-shadow: inset 0 0 0 2px var(--accent); } }
+
+  .chart-cell { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); padding: 8px 12px; }
+  .chart-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .chart-plot { position: relative; width: 100%; height: 64px; }
+  .chart-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .chart-line { fill: none; stroke: var(--accent); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+  .chart-zero-line { stroke: var(--line-strong); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+  .chart-dot-marker { position: absolute; width: 9px; height: 9px; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px var(--surface); }
+  .chart-dot-marker.pos { background: var(--good); }
+  .chart-dot-marker.neg { background: var(--danger); }
+  .chart-dot-marker.neu { background: var(--ink-soft); }
+  .chart-inputs { display: grid; gap: 4px; }
+  .chart-score { font-family: var(--font-tech); font-size: 10.5px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-soft); border-radius: 4px; padding: 2px; text-align: center; }
+
+  .viewer-banner { background: var(--accent-tint); color: var(--accent-strong); font-family: var(--font-tech); font-size: 11px; padding: 7px 22px; text-align: center; letter-spacing: 0.03em; }
+
+  /* ---------- modal / toast ---------- */
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 30, 48, 0.45); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 50; }
+  .modal { background: var(--surface); border-radius: 10px; border: 1px solid var(--line); width: min(640px, 100%); max-height: 84vh; overflow-y: auto; padding: 20px 22px 22px; }
+  .modal h2 { margin: 0 0 4px; font-size: 17px; }
+  .modal .modal-sub { font-size: 12px; color: var(--ink-soft); margin: 0 0 16px; }
+  .modal .close-x { float: right; border: none; background: transparent; font-size: 18px; color: var(--ink-soft); border-radius: 6px; padding: 2px 7px; }
+  .modal .close-x:hover { background: var(--surface-2); }
+  .tab-row { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tab-btn { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+  .tab-btn.active { border-color: var(--accent); background: var(--accent-tint); color: var(--accent-strong); }
+  textarea.syntax-input { width: 100%; min-height: 180px; font-family: var(--font-tech); font-size: 11.5px; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); border-radius: 6px; padding: 10px; resize: vertical; }
+  .example-block { background: var(--paper); border: 1px dashed var(--line-strong); border-radius: 6px; padding: 10px 12px; font-family: var(--font-tech); font-size: 10.5px; white-space: pre-wrap; margin-top: 10px; max-height: 220px; overflow-y: auto; }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+  .field-error { color: var(--danger); font-size: 11.5px; margin-top: 6px; }
+  .disabled-note { background: var(--warm-tint); border: 1px solid var(--warm); color: var(--warm); border-radius: 6px; padding: 10px 12px; font-size: 12px; }
+  .share-url { flex: 1; min-width: 0; font-family: var(--font-tech); font-size: 11px; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); border-radius: 6px; padding: 8px 10px; }
+  .version-item { display: flex; justify-content: space-between; align-items: center; padding: 9px 4px; border-bottom: 1px solid var(--line); font-size: 12px; }
+  .version-item:last-child { border-bottom: none; }
+
+  .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 9px 16px; border-radius: 7px; font-size: 12.5px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 60; }
+  :root[data-theme="dark"] .toast, @media (prefers-color-scheme: dark) { }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+
+  @media print {
+    .topbar .actions, .toolbar2, .filter-strip, .add-stage-cell, .add-lane-row,
+    .stage-head .remove, .lane-label .remove-lane, .viewer-banner,
+    .ctrl-row, .phase-merged-name .mini-btn, .phase-merged-cols, .phase-select, .evidence-pill.add, .chart-inputs, .ref-pill.add, .cell-action-select, .flow-handle, .flow-svg, .col-resize-handle, .color-swatch-row { display: none !important; }
+    body { background: #fff; color: #16324f; font-size: 10.5px; }
+    .canvas-scroll { padding: 8px 0 0; overflow: visible; }
+    .canvas-grid { min-width: 0 !important; width: 100%; }
+    .cell, .stage-head, .lane-label { min-width: 0; break-inside: avoid; }
+    .print-summary { display: block !important; }
+    @page { size: A4 landscape; margin: 10mm; }
+  }
+  .print-summary { display: none; font-family: var(--font-tech); font-size: 9.5px; color: var(--ink-soft); margin: 0 0 10px; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div id="app"></div>
+<div id="modalRoot"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script id="appScript">
+(function () {
+  "use strict";
+
+  var SUPABASE_URL = "https://zzfrxcieshtjcepuhhqy.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_lXkLlI8toPrq5XDyxPO21A_r2Z4X1JQ";
+  var TABLE = "blueprints";
+  var sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+  var uidCounter = 1;
+  function uid(p) { return p + (uidCounter++); }
+
+  var STATUS_DEFS = {
+    rascunho: { label: "Rascunho", varc: "var(--ink-soft)" },
+    em_revisao: { label: "Em revisÃ£o", varc: "var(--warm)" },
+    validado: { label: "Validado", varc: "var(--good)" },
+    atencao: { label: "AtenÃ§Ã£o", varc: "var(--danger)" }
+  };
+  var STATUS_ORDER = ["rascunho", "em_revisao", "validado", "atencao"];
+
+  var LANE_DEFS = [
+    { key: "evidence", name: "EvidÃªncia FÃ­sica", kind: "content", side: "front" },
+    { key: "customer", name: "AÃ§Ãµes do Cliente", kind: "content", side: "front" },
+    { key: "d1", name: "Linha de InteraÃ§Ã£o", kind: "divider" },
+    { key: "frontstage", name: "Frontstage (visÃ­vel)", kind: "content", side: "front" },
+    { key: "d2", name: "Linha de Visibilidade", kind: "divider" },
+    { key: "backstage", name: "Backstage (nÃ£o visÃ­vel)", kind: "content", side: "back" },
+    { key: "d3", name: "Linha de InteraÃ§Ã£o Interna", kind: "divider" },
+    { key: "support", name: "Processos de Apoio", kind: "content", side: "back" }
+  ];
+
+  var LANE_TYPE_COLORS = ["accent", "warm", "good", "danger"];
+
+  function defaultLaneTypesForData() {
+    return [
+      { id: uid("ltype"), label: "Visual", color: "accent" },
+      { id: uid("ltype"), label: "Backstage", color: "warm" }
+    ];
+  }
+
+  function ensureLaneTypes(data) {
+    if (!data.laneTypes || !data.laneTypes.length) data.laneTypes = defaultLaneTypesForData();
+    var backstageType = data.laneTypes.filter(function (t) { return t.label === "Backstage"; })[0];
+    data.lanes.forEach(function (l) {
+      if (l.kind !== "content") return;
+      var valid = l.typeId && data.laneTypes.some(function (t) { return t.id === l.typeId; });
+      if (!valid) l.typeId = (l.side === "back" && backstageType) ? backstageType.id : data.laneTypes[0].id;
+    });
+  }
+
+  function defaultProfilesForLanes(lanes) {
+    function idsForKeys(keys) { return lanes.filter(function (l) { return keys.indexOf(l.key) !== -1; }).map(function (l) { return l.id; }); }
+    var hasDefaultKeys = lanes.some(function (l) { return ["evidence", "customer", "backstage", "support"].indexOf(l.key) !== -1; });
+    if (!hasDefaultKeys) return [{ id: uid("profile"), label: "Completo", hint: "Todas as camadas visÃ­veis", hiddenLaneIds: [] }];
+    return [
+      { id: uid("profile"), label: "Executivo", hint: "SÃ³ a experiÃªncia do cliente", hiddenLaneIds: idsForKeys(["evidence", "backstage", "support"]) },
+      { id: uid("profile"), label: "Operacional", hint: "Blueprint completo", hiddenLaneIds: [] },
+      { id: uid("profile"), label: "TÃ©cnico", hint: "Sistemas e bastidores", hiddenLaneIds: idsForKeys(["evidence", "customer"]) }
+    ];
+  }
+
+  var PHASE_TINTS = [
+    { tint: "var(--accent-tint)", strong: "var(--accent-strong)" },
+    { tint: "var(--warm-tint)", strong: "var(--warm)" },
+    { tint: "var(--good-tint)", strong: "var(--good)" },
+    { tint: "var(--danger-tint)", strong: "var(--danger)" }
+  ];
+
+  var EVIDENCE_TYPES = {
+    nota: { label: "Nota", desc: "ObservaÃ§Ã£o livre â€” contexto sobre esse ponto que nÃ£o se encaixa nos outros tipos." },
+    img: { label: "Imagem", desc: "Uma captura de tela, foto ou print que ilustra esse momento." },
+    oportunidade: { label: "Oportunidade", desc: "Uma possibilidade de melhoria ou expansÃ£o identificada nesse ponto." },
+    solucao: { label: "SoluÃ§Ã£o", desc: "Uma proposta concreta para resolver um problema identificado nesse ponto." },
+    pain: { label: "Pain point", desc: "Uma dificuldade, frustraÃ§Ã£o ou barreira que o cliente ou time enfrenta aqui." },
+    metrica: { label: "MÃ©trica", desc: "Um nÃºmero que mede esse ponto â€” ex: NPS, tempo mÃ©dio, taxa de conversÃ£o." }
+  };
+
+  var FILTER_HELP = {
+    perfil: "Conjuntos salvos de camadas visÃ­veis, para adaptar a leitura do blueprint a diferentes pÃºblicos.",
+    camadas: "Controla quais linhas do blueprint aparecem. Desmarque uma camada para simplificar a visualizaÃ§Ã£o.",
+    papel: "Quem executa essa aÃ§Ã£o â€” cargo, time ou pessoa responsÃ¡vel (ex: SDR, Suporte, Cliente).",
+    canal: "Por onde essa aÃ§Ã£o acontece â€” o meio ou sistema utilizado (ex: E-mail, Telefone, AplicaÃ§Ã£o).",
+    vinculos: "Mostra as referÃªncias entre cÃ©lulas â€” como atalhos na prÃ³pria cÃ©lula (Camadas) ou como linhas conectando os nÃ³s (Fluxograma)."
+  };
+
+  var FLOW_HINT = "Fluxograma: os vÃ­nculos entre cÃ©lulas aparecem como linhas conectando os nÃ³s. Passe o mouse sobre uma cÃ©lula e clique em um dos pontos na borda para criar um novo vÃ­nculo. Para editar papel, canal, evidÃªncia ou destaque de uma cÃ©lula, volte para a visÃ£o Camadas.";
+
+  var SYNTAX_EXAMPLE = [
+    "titulo: RenovaÃ§Ã£o de contrato",
+    "status: rascunho",
+    "",
+    "etapas:",
+    "- Alerta de vencimento",
+    "- NegociaÃ§Ã£o",
+    "- RenovaÃ§Ã£o assinada",
+    "",
+    "fases:",
+    "- AtenÃ§Ã£o: Alerta de vencimento, NegociaÃ§Ã£o",
+    "- Fechamento: RenovaÃ§Ã£o assinada",
+    "",
+    "camada: AÃ§Ãµes do Cliente",
+    "- Alerta de vencimento: Recebe e-mail de vencimento prÃ³ximo [canal: E-mail] [pain: NÃ£o sabe como renovar sozinho]",
+    "- NegociaÃ§Ã£o: Conversa com o time de CS sobre o novo plano [papel: Cliente] [oportunidade: Upsell para plano premium]",
+    "- RenovaÃ§Ã£o assinada: Assina o aditivo contratual [canal: CLM] [metrica: NPS=64]",
+    "",
+    "divisor: Linha de InteraÃ§Ã£o",
+    "",
+    "camada: Frontstage (visÃ­vel)",
+    "- Alerta de vencimento: CS dispara alerta automÃ¡tico [papel: CS]",
+    "- NegociaÃ§Ã£o: CS apresenta proposta de renovaÃ§Ã£o [papel: CS] [solucao: Oferecer desconto por fidelidade]",
+    "- RenovaÃ§Ã£o assinada: CS confirma assinatura [papel: CS]",
+    "",
+    "grafico: EmoÃ§Ã£o do usuÃ¡rio",
+    "- Alerta de vencimento: -1",
+    "- NegociaÃ§Ã£o: 0",
+    "- RenovaÃ§Ã£o assinada: 2"
+  ].join("\n");
+
+  /* ---------------- state ---------------- */
+  var APP = { library: [], currentId: null, filters: freshFilters(), importTab: "syntax" };
+
+  function freshFilters() { return { activeProfileId: null, hiddenLanes: new Set(), roles: new Set(), channels: new Set(), showReferences: true, viewMode: "swimlane" }; }
+
+  function cellKey(laneId, stageId) { return laneId + "::" + stageId; }
+
+  /* ---------------- seed content ---------------- */
+  function buildDefaultLanes() {
+    var laneTypes = defaultLaneTypesForData();
+    var visualId = laneTypes[0].id, backstageId = laneTypes[1].id;
+    var lanes = LANE_DEFS.map(function (d) {
+      var l = { id: uid("lane"), key: d.key, name: d.name, kind: d.kind };
+      if (d.kind === "content") l.typeId = d.side === "back" ? backstageId : visualId;
+      return l;
+    });
+    return { lanes: lanes, laneTypes: laneTypes };
+  }
+
+  function seedPortable() {
+    var stageNames = ["Descoberta", "AvaliaÃ§Ã£o / Trial", "ContrataÃ§Ã£o", "Onboarding", "Uso contÃ­nuo", "Suporte & renovaÃ§Ã£o"];
+    var stages = stageNames.map(function (n) { return { id: uid("stage"), name: n }; });
+    var built = buildDefaultLanes(); var lanes = built.lanes;
+    var byKey = {}; lanes.forEach(function (l) { byKey[l.key] = l.id; });
+    var cells = {};
+    function set(laneKey, i, text, role, channel) {
+      cells[cellKey(byKey[laneKey], stages[i].id)] = { text: text, role: role || "", channel: channel || "" };
+    }
+    set("customer", 0, "Ouve falar da Senior via indicaÃ§Ã£o ou busca por um ERP", "", "Site / SEO");
+    set("customer", 1, "Assiste demo e testa ambiente sandbox", "", "Videochamada");
+    set("customer", 2, "Assina contrato e define escopo do projeto", "", "E-mail / CLM");
+    set("customer", 3, "Participa das reuniÃµes de implantaÃ§Ã£o e valida parametrizaÃ§Ãµes", "", "ReuniÃµes");
+    set("customer", 4, "Usa o sistema no dia a dia; abre chamados quando trava", "", "AplicaÃ§Ã£o");
+    set("customer", 5, "Renova contrato ou expande mÃ³dulos contratados", "", "E-mail");
+    set("evidence", 0, "Site institucional, cases de clientes");
+    set("evidence", 1, "Ambiente de demonstraÃ§Ã£o, proposta comercial");
+    set("evidence", 2, "Contrato assinado, cronograma de implantaÃ§Ã£o");
+    set("evidence", 3, "Checklist de parametrizaÃ§Ã£o, treinamento gravado");
+    set("evidence", 4, "Dashboard de uso, tickets de suporte");
+    set("evidence", 5, "RelatÃ³rio de renovaÃ§Ã£o, proposta de upsell");
+    set("frontstage", 0, "SDR qualifica o lead", "SDR");
+    set("frontstage", 1, "PrÃ©-vendas conduz a demo", "PrÃ©-vendas");
+    set("frontstage", 2, "Vendas fecha o contrato", "Vendas");
+    set("frontstage", 3, "Consultor de implantaÃ§Ã£o parametriza o sistema com o cliente", "ImplantaÃ§Ã£o");
+    set("frontstage", 4, "Suporte responde chamados", "Suporte");
+    set("frontstage", 5, "Customer Success conduz reuniÃ£o de renovaÃ§Ã£o", "CS");
+    set("backstage", 2, "JurÃ­dico valida clÃ¡usulas contratuais", "JurÃ­dico");
+    set("backstage", 3, "Time tÃ©cnico migra dados legados", "Engenharia de Dados");
+    set("backstage", 4, "Time de produto prioriza bugs reportados", "Produto");
+    set("support", 2, "CRM / CLM", "", "Sistema interno");
+    set("support", 3, "Ferramenta de migraÃ§Ã£o, ambiente de homologaÃ§Ã£o", "", "Sistema interno");
+    set("support", 4, "Plataforma de suporte (tickets), base de conhecimento", "", "Sistema interno");
+    set("support", 5, "CRM, sistema de billing", "", "Sistema interno");
+    return { title: "Onboarding de clientes â€“ Plataforma Senior", status: "validado", favorite: true, stages: stages, lanes: lanes, cells: cells, phases: [], profiles: defaultProfilesForLanes(lanes), laneTypes: built.laneTypes };
+  }
+
+  function blankPortable() {
+    var stages = [{ id: uid("stage"), name: "Etapa 1" }, { id: uid("stage"), name: "Etapa 2" }, { id: uid("stage"), name: "Etapa 3" }];
+    var built = buildDefaultLanes(); var lanes = built.lanes;
+    return { title: "Novo blueprint", status: "rascunho", favorite: false, stages: stages, lanes: lanes, cells: {}, phases: [], profiles: defaultProfilesForLanes(lanes), laneTypes: built.laneTypes };
+  }
+
+  /* ---------------- persistence (Supabase â€” shared team database) ---------------- */
+  function wrapRecord(portable) {
+    var now = Date.now();
+    return {
+      id: uid("bp"), title: portable.title, status: portable.status || "rascunho", favorite: !!portable.favorite,
+      createdAt: now, updatedAt: now,
+      data: { stages: portable.stages, lanes: portable.lanes, cells: portable.cells, phases: portable.phases || [], profiles: (portable.profiles && portable.profiles.length) ? portable.profiles : defaultProfilesForLanes(portable.lanes), laneTypes: (portable.laneTypes && portable.laneTypes.length) ? portable.laneTypes : defaultLaneTypesForData() },
+      versions: []
+    };
+  }
+  function rowToRecord(row) {
+    return {
+      id: row.id, title: row.title, status: row.status || "rascunho", favorite: !!row.favorite,
+      createdAt: row.created_at ? new Date(row.created_at).getTime() : Date.now(),
+      updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : Date.now(),
+      data: row.data || {}, versions: row.versions || [], importKey: row.import_key || null
+    };
+  }
+  function recordToRow(bp) {
+    return { id: bp.id, title: bp.title, status: bp.status, favorite: !!bp.favorite, data: bp.data, versions: bp.versions || [], import_key: bp.importKey || null, updated_at: new Date(bp.updatedAt || Date.now()).toISOString() };
+  }
+  async function loadLibraryRemote() {
+    var res = await sb.from(TABLE).select("*").order("updated_at", { ascending: false });
+    if (res.error) throw res.error;
+    if (res.data && res.data.length) return res.data.map(rowToRecord);
+    var seed = wrapRecord(seedPortable());
+    await remoteInsert(seed);
+    return [seed];
+  }
+  async function remoteInsert(bp) {
+    var row = recordToRow(bp);
+    row.created_at = new Date(bp.createdAt || Date.now()).toISOString();
+    var res = await sb.from(TABLE).insert(row);
+    if (res.error) { toast("Erro ao salvar: " + res.error.message); throw res.error; }
+  }
+  async function remoteDelete(id) {
+    var res = await sb.from(TABLE).delete().eq("id", id);
+    if (res.error) { toast("Erro ao excluir: " + res.error.message); throw res.error; }
+  }
+  var touchTimers = {};
+  function touch(bp) {
+    bp.updatedAt = Date.now();
+    clearTimeout(touchTimers[bp.id]);
+    touchTimers[bp.id] = setTimeout(function () {
+      sb.from(TABLE).update(recordToRow(bp)).eq("id", bp.id).then(function (res) {
+        if (res.error) toast("NÃ£o sincronizou com a base: " + res.error.message);
+      });
+    }, 500);
+  }
+  function getCurrent() { return APP.library.filter(function (b) { return b.id === APP.currentId; })[0]; }
+
+  /* ---------------- dom helpers ---------------- */
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "class") node.className = attrs[k];
+      else if (k === "text") node.textContent = attrs[k];
+      else if (k === "html") node.innerHTML = attrs[k];
+      else node.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c) node.appendChild(c); });
+    return node;
+  }
+  function q(sel, root) { return (root || document).querySelector(sel); }
+  function app() { return document.getElementById("app"); }
+
+  var removeArmed = null;
+  function armRemove(btn, onConfirm) {
+    if (removeArmed && removeArmed !== btn) { removeArmed.classList.remove("confirm"); removeArmed.textContent = removeArmed.dataset.label; }
+    if (btn.classList.contains("confirm")) { onConfirm(); removeArmed = null; }
+    else {
+      btn.dataset.label = btn.textContent; btn.textContent = "confirmar"; btn.classList.add("confirm"); removeArmed = btn;
+      setTimeout(function () { if (removeArmed === btn) { btn.classList.remove("confirm"); btn.textContent = btn.dataset.label; removeArmed = null; } }, 3500);
+    }
+  }
+  function armRemoveIcon(btn, onConfirm) {
+    if (removeArmed && removeArmed !== btn) removeArmed.classList.remove("confirm");
+    if (btn.classList.contains("confirm")) { onConfirm(); removeArmed = null; }
+    else {
+      btn.classList.add("confirm"); removeArmed = btn;
+      setTimeout(function () { if (removeArmed === btn) { btn.classList.remove("confirm"); removeArmed = null; } }, 3500);
+    }
+  }
+  function moveInArray(arr, index, dir) {
+    var j = index + dir;
+    if (j < 0 || j >= arr.length) return false;
+    var tmp = arr[index]; arr[index] = arr[j]; arr[j] = tmp;
+    return true;
+  }
+  function pruneEmptyPhases(data) {
+    data.phases = (data.phases || []).filter(function (p) { return data.stages.some(function (s) { return s.phaseId === p.id; }); });
+  }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = document.getElementById("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2400);
+  }
+
+  function fmtDate(ts) {
+    var d = new Date(ts);
+    return d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  }
+  function fmtRelative(ts) {
+    var diff = Date.now() - ts, min = Math.round(diff / 60000);
+    if (min < 1) return "agora";
+    if (min < 60) return "hÃ¡ " + min + " min";
+    var h = Math.round(min / 60);
+    if (h < 24) return "hÃ¡ " + h + "h";
+    var d = Math.round(h / 24);
+    return "hÃ¡ " + d + "d";
+  }
+  function escapeHtml(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+
+  /* ---------------- downloads ---------------- */
+  function offerDownload(filename, dataStr, mime) {
+    if (window.claude && window.claude.downloads) {
+      window.claude.downloads.save({ filename: filename, data: dataStr })
+        .then(function () { toast("Download iniciado: " + filename); })
+        .catch(function (err) {
+          if (err && err.code === "declined") return;
+          fallbackDownload(filename, dataStr, mime);
+        });
+    } else {
+      fallbackDownload(filename, dataStr, mime);
+    }
+  }
+  function fallbackDownload(filename, dataStr, mime) {
+    var blob = new Blob([dataStr], { type: mime || "text/plain" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    toast("Download iniciado: " + filename);
+  }
+  function slugify(s) { return (s || "blueprint").toLowerCase().normalize("NFD").replace(/[Ì€-Í¯]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "blueprint"; }
+
+  function downscaleImage(file, maxDim, quality, cb) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        var w = Math.max(1, Math.round(img.width * scale)), h = Math.max(1, Math.round(img.height * scale));
+        var canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        cb(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /* ---------------- blueprint syntax parser/serializer ---------------- */
+  var EVIDENCE_TAG_TYPES = ["nota", "oportunidade", "solucao", "pain", "metrica"];
+
+  function extractAllTags(text, tagName) {
+    var re = new RegExp("\\[" + tagName + ":\\s*([^\\]]*)\\]", "gi");
+    var out = [], m;
+    while ((m = re.exec(text))) out.push(m[1].trim());
+    return out;
+  }
+
+  function parseBlueprintSyntax(text) {
+    var lines = text.replace(/\r\n/g, "\n").split("\n");
+    var title = "Blueprint importado", status = "rascunho";
+    var stageOrder = [], stageSet = {};
+    var lanes = [], cellsByLaneName = {};
+    var phaseDefs = [];
+    var mode = null, currentLane = null;
+    function ensureStage(name) { if (!stageSet[name]) { stageSet[name] = true; stageOrder.push(name); } }
+
+    lines.forEach(function (raw) {
+      var line = raw.trim();
+      if (line === "") { mode = null; return; }
+      var m;
+      if ((m = /^t[iÃ­]tulo:\s*(.+)$/i.exec(line))) { title = m[1].trim(); mode = null; return; }
+      if ((m = /^status:\s*(.+)$/i.exec(line))) {
+        var s = m[1].trim().toLowerCase();
+        if (STATUS_ORDER.indexOf(s) !== -1) status = s;
+        mode = null; return;
+      }
+      if (/^etapas:\s*$/i.test(line)) { mode = "etapas"; return; }
+      if (/^fases:\s*$/i.test(line)) { mode = "fases"; return; }
+      if ((m = /^camada:\s*(.+)$/i.exec(line))) { currentLane = m[1].trim(); lanes.push({ name: currentLane, kind: "content" }); cellsByLaneName[currentLane] = {}; mode = "camada"; return; }
+      if ((m = /^grafico:\s*(.+)$/i.exec(line))) { currentLane = m[1].trim(); lanes.push({ name: currentLane, kind: "chart" }); cellsByLaneName[currentLane] = {}; mode = "grafico"; return; }
+      if ((m = /^divisor:\s*(.+)$/i.exec(line))) { lanes.push({ name: m[1].trim(), kind: "divider" }); mode = null; return; }
+      if (line.charAt(0) === "-") {
+        var body = line.slice(1).trim();
+        if (mode === "etapas") { ensureStage(body); return; }
+        if (mode === "fases") {
+          var pm = /^([^:]+):\s*(.*)$/.exec(body);
+          if (pm) phaseDefs.push({ name: pm[1].trim(), stageNames: pm[2].split(",").map(function (n) { return n.trim(); }).filter(Boolean) });
+          return;
+        }
+        if (mode === "grafico" && currentLane) {
+          var gm = /^([^:]+):\s*(.*)$/.exec(body);
+          if (gm) {
+            var gStageName = gm[1].trim();
+            var gVal = parseInt(gm[2].trim(), 10);
+            if (isNaN(gVal)) gVal = 0;
+            gVal = Math.max(-2, Math.min(2, gVal));
+            ensureStage(gStageName);
+            cellsByLaneName[currentLane][gStageName] = { value: gVal };
+          }
+          return;
+        }
+        if (mode === "camada" && currentLane) {
+          var mm = /^([^:]+):\s*(.*)$/.exec(body);
+          if (mm) {
+            var stageName = mm[1].trim(), rest = mm[2], role = "", channel = "";
+            rest = rest.replace(/\[papel:\s*([^\]]*)\]/i, function (_, v) { role = v.trim(); return ""; });
+            rest = rest.replace(/\[canal:\s*([^\]]*)\]/i, function (_, v) { channel = v.trim(); return ""; });
+            var evidences = [];
+            extractAllTags(rest, "nota").forEach(function (v) { evidences.push({ id: uid("ev"), type: "nota", text: v }); });
+            extractAllTags(rest, "oportunidade").forEach(function (v) { evidences.push({ id: uid("ev"), type: "oportunidade", text: v }); });
+            extractAllTags(rest, "solucao").forEach(function (v) { evidences.push({ id: uid("ev"), type: "solucao", text: v }); });
+            extractAllTags(rest, "pain").forEach(function (v) { evidences.push({ id: uid("ev"), type: "pain", text: v }); });
+            extractAllTags(rest, "metrica").forEach(function (v) {
+              var eq = v.indexOf("=");
+              var mLabel = eq === -1 ? v : v.slice(0, eq).trim();
+              var mValue = eq === -1 ? "" : v.slice(eq + 1).trim();
+              evidences.push({ id: uid("ev"), type: "metrica", metricLabel: mLabel, metricValue: mValue });
+            });
+            rest = rest.replace(new RegExp("\\[(" + EVIDENCE_TAG_TYPES.join("|") + "):[^\\]]*\\]", "gi"), "").trim();
+            ensureStage(stageName);
+            cellsByLaneName[currentLane][stageName] = { text: rest.trim(), role: role, channel: channel, evidences: evidences };
+          }
+        }
+      }
+    });
+
+    if (lanes.length === 0) throw new Error('Nenhuma camada encontrada. Use "camada: Nome" seguido de linhas "- Etapa: texto".');
+    if (stageOrder.length === 0) throw new Error('Nenhuma etapa encontrada. Use um bloco "etapas:" ou defina etapas dentro das camadas.');
+
+    var stages = stageOrder.map(function (n) { return { id: uid("stage"), name: n }; });
+    var stageIdByName = {}; stages.forEach(function (s) { stageIdByName[s.name] = s.id; });
+    var laneObjs = lanes.map(function (l) { return { id: uid("lane"), key: uid("k"), name: l.name, kind: l.kind, side: "front" }; });
+    var cells = {};
+    laneObjs.forEach(function (laneObj, i) {
+      if (lanes[i].kind === "divider") return;
+      var laneCells = cellsByLaneName[lanes[i].name] || {};
+      Object.keys(laneCells).forEach(function (stageName) {
+        var sid = stageIdByName[stageName];
+        if (sid) cells[cellKey(laneObj.id, sid)] = laneCells[stageName];
+      });
+    });
+
+    var phases = [];
+    phaseDefs.forEach(function (pd) {
+      var phase = { id: uid("phase"), name: pd.name };
+      var any = false;
+      pd.stageNames.forEach(function (sn) {
+        var sid = stageIdByName[sn];
+        if (sid) { var st = stages.filter(function (s) { return s.id === sid; })[0]; if (st) { st.phaseId = phase.id; any = true; } }
+      });
+      if (any) phases.push(phase);
+    });
+
+    return { title: title, status: status, favorite: false, stages: stages, lanes: laneObjs, cells: cells, phases: phases, profiles: defaultProfilesForLanes(laneObjs), laneTypes: defaultLaneTypesForData() };
+  }
+
+  function serializeBlueprintSyntax(bp) {
+    var lines = ["titulo: " + bp.title, "status: " + bp.status, "", "etapas:"];
+    bp.stages.forEach(function (s) { lines.push("- " + s.name); });
+    if (bp.phases && bp.phases.length) {
+      lines.push("");
+      lines.push("fases:");
+      bp.phases.forEach(function (p) {
+        var names = bp.stages.filter(function (s) { return s.phaseId === p.id; }).map(function (s) { return s.name; });
+        if (names.length) lines.push("- " + p.name + ": " + names.join(", "));
+      });
+    }
+    bp.lanes.forEach(function (lane) {
+      lines.push("");
+      if (lane.kind === "divider") { lines.push("divisor: " + lane.name); return; }
+      if (lane.kind === "chart") {
+        lines.push("grafico: " + lane.name);
+        bp.stages.forEach(function (s) {
+          var c = bp.cells[cellKey(lane.id, s.id)];
+          if (c && typeof c.value === "number") lines.push("- " + s.name + ": " + c.value);
+        });
+        return;
+      }
+      lines.push("camada: " + lane.name);
+      bp.stages.forEach(function (s) {
+        var c = bp.cells[cellKey(lane.id, s.id)];
+        if (!c || (!c.text && !c.role && !c.channel && !(c.evidences && c.evidences.length))) return;
+        var tags = "";
+        if (c.role) tags += " [papel: " + c.role + "]";
+        if (c.channel) tags += " [canal: " + c.channel + "]";
+        (c.evidences || []).forEach(function (ev) {
+          if (ev.type === "metrica") tags += " [metrica: " + (ev.metricLabel || "") + "=" + (ev.metricValue || "") + "]";
+          else if (ev.type !== "img" && ev.text) tags += " [" + ev.type + ": " + ev.text + "]";
+        });
+        lines.push("- " + s.name + ": " + (c.text || "") + tags);
+      });
+    });
+    return lines.join("\n");
+  }
+
+  function portableFromRecord(bp) { return { title: bp.title, status: bp.status, favorite: bp.favorite, stages: bp.data.stages, lanes: bp.data.lanes, cells: bp.data.cells, phases: bp.data.phases || [], profiles: bp.data.profiles || defaultProfilesForLanes(bp.data.lanes), laneTypes: bp.data.laneTypes || defaultLaneTypesForData() }; }
+
+  /* ---------------- share link ---------------- */
+  function encodeShareState(bp, filters) {
+    var payload = JSON.stringify({
+      v: 1, bp: portableFromRecord(bp),
+      f: { activeProfileId: filters.activeProfileId, hiddenLanes: Array.from(filters.hiddenLanes), roles: Array.from(filters.roles), channels: Array.from(filters.channels), showReferences: filters.showReferences !== false, viewMode: filters.viewMode === "flow" ? "flow" : "swimlane" }
+    });
+    return btoa(unescape(encodeURIComponent(payload)));
+  }
+  function decodeShareState(b64) {
+    var payload = decodeURIComponent(escape(atob(b64)));
+    return JSON.parse(payload);
+  }
+  function encodeEditState(bp) {
+    var payload = JSON.stringify({ v: 1, bp: portableFromRecord(bp) });
+    return btoa(unescape(encodeURIComponent(payload)));
+  }
+
+  /* ---------------- router ---------------- */
+  function boot() {
+    renderBootLoading();
+    loadLibraryRemote().then(function (lib) {
+      APP.library = lib;
+      subscribeRealtime();
+      window.addEventListener("hashchange", route);
+      route();
+    }).catch(function (err) { renderBootError(err); });
+  }
+  function renderBootLoading() {
+    var root = app();
+    root.innerHTML = "";
+    root.appendChild(el("div", { class: "empty-state" }, [
+      el("h2", { text: "Conectando Ã  base compartilhadaâ€¦" }),
+      el("p", { text: "Carregando os blueprints da equipe." })
+    ]));
+  }
+  function renderBootError(err) {
+    var root = app();
+    root.innerHTML = "";
+    var retry = el("button", { class: "btn primary" }, [document.createTextNode("Tentar de novo")]);
+    retry.addEventListener("click", boot);
+    root.appendChild(el("div", { class: "empty-state" }, [
+      el("h2", { text: "NÃ£o consegui conectar Ã  base compartilhada" }),
+      el("p", { text: (err && err.message) ? err.message : "Verifique sua conexÃ£o e tente novamente." }),
+      el("div", { class: "actions" }, [retry])
+    ]));
+  }
+  function subscribeRealtime() {
+    sb.channel("blueprints-sync")
+      .on("postgres_changes", { event: "*", schema: "public", table: TABLE }, handleRemoteChange)
+      .subscribe();
+  }
+  var pendingRemoteRerender = false;
+  document.addEventListener("blur", function () {
+    if (!pendingRemoteRerender) return;
+    pendingRemoteRerender = false;
+    setTimeout(function () { if (getCurrent()) renderEditor(); }, 50);
+  }, true);
+  function handleRemoteChange(payload) {
+    if (payload.eventType === "DELETE") {
+      var oldId = payload.old && payload.old.id;
+      var wasCurrent = APP.currentId === oldId;
+      APP.library = APP.library.filter(function (b) { return b.id !== oldId; });
+      if (wasCurrent) { toast("Este blueprint foi excluÃ­do por outra pessoa"); APP.currentId = null; goLibrary(); }
+      else if (!getCurrent() && (location.hash === "" || location.hash === "#")) renderLibrary();
+      return;
+    }
+    var rec = rowToRecord(payload.new);
+    var idx = APP.library.map(function (b) { return b.id; }).indexOf(rec.id);
+    var isRemoteEdit = idx !== -1 && APP.library[idx].updatedAt !== rec.updatedAt;
+    if (idx === -1) APP.library.unshift(rec); else APP.library[idx] = rec;
+    if (APP.currentId === rec.id) {
+      var ae = document.activeElement;
+      var isEditingField = ae && (ae.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName));
+      if (isEditingField) { pendingRemoteRerender = true; return; }
+      if (isRemoteEdit) toast("Atualizado por outra pessoa");
+      renderEditor();
+    } else if (location.hash === "" || location.hash === "#") {
+      renderLibrary();
+    }
+  }
+  function route() {
+    var hash = location.hash;
+    var m;
+    if ((m = /^#view=(.+)$/.exec(hash))) {
+      try { renderViewer(decodeShareState(decodeURIComponent(m[1]))); return; }
+      catch (e) { renderLibrary(); return; }
+    }
+    if ((m = /^#edit=(.+)$/.exec(hash))) {
+      var rawEdit = decodeURIComponent(m[1]);
+      var existingImport = APP.library.filter(function (b) { return b.importKey === rawEdit; })[0];
+      if (existingImport) { location.hash = "#b=" + existingImport.id; return; }
+      try {
+        var editDecoded = decodeShareState(rawEdit);
+        var importedRec = wrapRecord(editDecoded.bp);
+        importedRec.importKey = rawEdit;
+        renderBootLoading();
+        remoteInsert(importedRec).then(function () {
+          APP.library.unshift(importedRec);
+          toast("Blueprint recebido por link â€” agora faz parte da base compartilhada");
+          location.hash = "#b=" + importedRec.id;
+        }).catch(function () { renderLibrary(); });
+      } catch (e) { renderLibrary(); }
+      return;
+    }
+    if ((m = /^#b=([^&]+)$/.exec(hash))) {
+      var wantedId = m[1];
+      var found = APP.library.filter(function (b) { return b.id === wantedId; })[0];
+      if (found) { APP.currentId = found.id; APP.filters = freshFilters(); renderEditor(); return; }
+      renderBootLoading();
+      sb.from(TABLE).select("*").eq("id", wantedId).maybeSingle().then(function (res) {
+        if (res.data) {
+          var rec = rowToRecord(res.data);
+          APP.library.unshift(rec);
+          APP.currentId = rec.id; APP.filters = freshFilters(); renderEditor();
+        } else {
+          toast("Esse blueprint nÃ£o existe mais ou foi excluÃ­do");
+          renderLibrary();
+        }
+      });
+      return;
+    }
+    renderLibrary();
+  }
+  function goLibrary() { location.hash = ""; }
+  function openBlueprint(id) { location.hash = "#b=" + id; }
+
+  /* ================= LIBRARY VIEW ================= */
+  var libraryUi = { search: "", statusFilter: null, onlyFav: false };
+
+  function renderLibrary() {
+    var root = app();
+    root.innerHTML = "";
+    root.appendChild(el("header", { class: "topbar" }, [
+      el("div", { class: "titles" }, [el("div", { class: "eyebrow", text: "Workspace" }), el("h1", { text: "Blueprints" })]),
+      el("div", { class: "actions" }, [
+        (function () { var b = el("button", { class: "btn" }, [document.createTextNode("Importar")]); b.addEventListener("click", function () { openImportModal(); }); return b; })(),
+        (function () {
+          var b = el("button", { class: "btn primary" }, [document.createTextNode("+ Novo blueprint")]);
+          b.addEventListener("click", function () {
+            b.disabled = true;
+            var rec = wrapRecord(blankPortable());
+            remoteInsert(rec).then(function () { APP.library.unshift(rec); openBlueprint(rec.id); }).catch(function () { b.disabled = false; });
+          });
+          return b;
+        })()
+      ])
+    ]));
+
+    var main = el("div", { class: "library-main" });
+    var toolrow = el("div", { class: "library-toolrow" });
+    var search = el("input", { class: "search-input", type: "text", placeholder: "Buscar por tÃ­tuloâ€¦" });
+    search.value = libraryUi.search;
+    search.addEventListener("input", function () { libraryUi.search = search.value; renderLibraryGrid(grid); });
+    toolrow.appendChild(search);
+
+    var allChip = el("button", { class: "chip-toggle" + (libraryUi.statusFilter === null ? " active" : "") }, [document.createTextNode("Todos")]);
+    allChip.addEventListener("click", function () { libraryUi.statusFilter = null; renderLibrary(); });
+    toolrow.appendChild(allChip);
+    STATUS_ORDER.forEach(function (s) {
+      var chip = el("button", { class: "chip-toggle" + (libraryUi.statusFilter === s ? " active" : "") }, [
+        el("span", { class: "dot", style: "background:" + STATUS_DEFS[s].varc }), document.createTextNode(STATUS_DEFS[s].label)
+      ]);
+      chip.addEventListener("click", function () { libraryUi.statusFilter = s; renderLibrary(); });
+      toolrow.appendChild(chip);
+    });
+    var favChip = el("button", { class: "chip-toggle" + (libraryUi.onlyFav ? " active" : "") }, [document.createTextNode(libraryUi.onlyFav ? "â˜… Favoritos" : "â˜† Favoritos")]);
+    favChip.addEventListener("click", function () { libraryUi.onlyFav = !libraryUi.onlyFav; renderLibrary(); });
+    toolrow.appendChild(favChip);
+    main.appendChild(toolrow);
+
+    var grid = el("div", { class: "card-grid" });
+    main.appendChild(grid);
+    root.appendChild(main);
+    renderLibraryGrid(grid);
+  }
+
+  function renderLibraryGrid(grid) {
+    grid.innerHTML = "";
+    var list = APP.library.filter(function (b) {
+      if (libraryUi.statusFilter && b.status !== libraryUi.statusFilter) return false;
+      if (libraryUi.onlyFav && !b.favorite) return false;
+      if (libraryUi.search && b.title.toLowerCase().indexOf(libraryUi.search.toLowerCase()) === -1) return false;
+      return true;
+    }).sort(function (a, b) { return b.updatedAt - a.updatedAt; });
+
+    if (list.length === 0) {
+      grid.appendChild(el("div", { class: "empty-state", style: "grid-column:1/-1" }, [
+        el("h2", { text: APP.library.length === 0 ? "Crie seu primeiro blueprint" : "Nenhum blueprint encontrado" }),
+        el("p", { text: APP.library.length === 0 ? "Comece do zero ou importe um blueprint existente." : "Ajuste a busca ou os filtros." })
+      ]));
+      return;
+    }
+
+    list.forEach(function (bp) {
+      var laneCount = bp.data.lanes.filter(function (l) { return l.kind === "content"; }).length;
+      var card = el("div", { class: "bp-card", tabindex: "0", role: "button" });
+      var star = el("button", { class: "star-btn" + (bp.favorite ? " on" : ""), title: "Favoritar" }, [document.createTextNode(bp.favorite ? "â˜…" : "â˜†")]);
+      star.addEventListener("click", function (ev) { ev.stopPropagation(); bp.favorite = !bp.favorite; touch(bp); renderLibrary(); });
+      card.appendChild(el("div", { class: "row-top" }, [
+        el("span", { class: "status-tag", style: "color:" + STATUS_DEFS[bp.status].varc }, [el("span", { class: "dot", style: "background:" + STATUS_DEFS[bp.status].varc }), document.createTextNode(STATUS_DEFS[bp.status].label)]),
+        star
+      ]));
+      card.appendChild(el("div", { class: "title", text: bp.title }));
+      card.appendChild(el("div", { class: "meta", text: bp.data.stages.length + " etapas Â· " + laneCount + " camadas Â· atualizado " + fmtRelative(bp.updatedAt) }));
+      var delBtn = el("button", { class: "btn small danger ghost" }, [document.createTextNode("Excluir")]);
+      delBtn.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        armRemove(delBtn, function () {
+          APP.library = APP.library.filter(function (b) { return b.id !== bp.id; });
+          renderLibrary();
+          remoteDelete(bp.id);
+        });
+      });
+      card.appendChild(el("div", { class: "row-bottom" }, [el("span", { class: "eyebrow", text: "abrir â†’" }), delBtn]));
+      card.addEventListener("click", function () { openBlueprint(bp.id); });
+      grid.appendChild(card);
+    });
+  }
+
+  /* ================= EDITOR VIEW ================= */
+  var editorUi = { filtersOpen: false };
+
+  function renderEditor() {
+    var bp = getCurrent();
+    if (!bp) { goLibrary(); return; }
+    var root = app();
+    root.innerHTML = "";
+
+    var back = el("button", { class: "btn ghost" }, [document.createTextNode("â† Blueprints")]);
+    back.addEventListener("click", goLibrary);
+
+    var title = el("h1", { contenteditable: "true", spellcheck: "false", text: bp.title });
+    title.addEventListener("blur", function () { bp.title = title.textContent.trim() || bp.title; touch(bp); });
+
+    var statusSel = el("select", {});
+    STATUS_ORDER.forEach(function (s) { var o = el("option", { value: s, text: STATUS_DEFS[s].label }); if (s === bp.status) o.selected = true; statusSel.appendChild(o); });
+    statusSel.addEventListener("change", function () { bp.status = statusSel.value; touch(bp); pill.querySelector(".dot").style.background = STATUS_DEFS[bp.status].varc; });
+    var pill = el("span", { class: "status-pill" }, [el("span", { class: "dot", style: "background:" + STATUS_DEFS[bp.status].varc }), statusSel]);
+
+    var star = el("button", { class: "star-btn" + (bp.favorite ? " on" : ""), title: "Favoritar" }, [document.createTextNode(bp.favorite ? "â˜…" : "â˜†")]);
+    star.addEventListener("click", function () { bp.favorite = !bp.favorite; touch(bp); star.classList.toggle("on"); star.textContent = bp.favorite ? "â˜…" : "â˜†"; });
+
+    var historyBtn = el("button", { class: "btn ghost" }, [document.createTextNode("HistÃ³rico")]);
+    historyBtn.addEventListener("click", function () { openHistoryModal(bp); });
+    var shareBtn = el("button", { class: "btn" }, [document.createTextNode("Compartilhar")]);
+    shareBtn.addEventListener("click", function () { openShareModal(bp); });
+
+    var downloadWrap = el("div", { style: "position:relative;display:inline-block;" });
+    var downloadBtn = el("button", { class: "btn" }, [document.createTextNode("Baixar â–¾")]);
+    var downloadMenu = el("div", { style: "display:none;position:absolute;right:0;top:calc(100% + 4px);background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.12);min-width:170px;z-index:10;padding:4px;" });
+    [["Baixar PDF", function () { downloadPdfExport(bp); }], ["Baixar HTML", function () { downloadHtml(bp); }], ["Baixar JSON", function () { downloadJson(bp); }]].forEach(function (pair) {
+      var item = el("button", { class: "btn ghost", style: "display:block;width:100%;text-align:left;" }, [document.createTextNode(pair[0])]);
+      item.addEventListener("click", function () { downloadMenu.style.display = "none"; pair[1](); });
+      downloadMenu.appendChild(item);
+    });
+    downloadBtn.addEventListener("click", function (ev) { ev.stopPropagation(); downloadMenu.style.display = downloadMenu.style.display === "none" ? "block" : "none"; });
+    document.addEventListener("click", function () { downloadMenu.style.display = "none"; });
+    downloadWrap.appendChild(downloadBtn); downloadWrap.appendChild(downloadMenu);
+
+    var saveBtn = el("button", { class: "btn primary" }, [document.createTextNode("Salvar")]);
+    saveBtn.addEventListener("click", function () { pushVersion(bp); toast("VersÃ£o salva no histÃ³rico"); });
+
+    root.appendChild(el("header", { class: "topbar" }, [
+      back,
+      el("div", { class: "titles" }, [el("div", { class: "eyebrow", text: "Workspace / Blueprint" }), title]),
+      pill, star,
+      el("div", { class: "actions" }, [historyBtn, shareBtn, downloadWrap, saveBtn])
+    ]));
+
+    var addStage = el("button", { class: "btn small" }, [document.createTextNode("+ Etapa")]);
+    addStage.addEventListener("click", function () { bp.data.stages.push({ id: uid("stage"), name: "Nova etapa" }); touch(bp); renderCanvasArea(); });
+    var addLane = el("button", { class: "btn small" }, [document.createTextNode("+ Camada")]);
+    addLane.addEventListener("click", function () { addLaneToBp(bp); renderCanvasArea(); });
+    var addDivider = el("button", { class: "btn small" }, [document.createTextNode("+ Divisor")]);
+    addDivider.addEventListener("click", function () { addDividerToBp(bp); renderCanvasArea(); });
+    var addChart = el("button", { class: "btn small" }, [document.createTextNode("+ GrÃ¡fico de emoÃ§Ã£o")]);
+    addChart.addEventListener("click", function () { addChartLaneToBp(bp); renderCanvasArea(); });
+    var filtersToggle = el("button", { class: "icon-btn" + (editorUi.filtersOpen ? " active" : "") }, [document.createTextNode("â–¤ Filtros")]);
+    filtersToggle.addEventListener("click", function () { editorUi.filtersOpen = !editorUi.filtersOpen; renderCanvasArea(); });
+    var swimBtn = el("button", { class: "icon-btn", title: "Ver como camadas" }, [document.createTextNode("â–¦ Camadas")]);
+    var flowBtn = el("button", { class: "icon-btn", title: "Ver como fluxograma" }, [document.createTextNode("â‡„ Fluxograma")]);
+    swimBtn.addEventListener("click", function () { APP.filters.viewMode = "swimlane"; renderCanvasArea(); });
+    flowBtn.addEventListener("click", function () { APP.filters.viewMode = "flow"; renderCanvasArea(); });
+
+    root.appendChild(el("div", { class: "toolbar2" }, [addStage, addLane, addDivider, addChart, el("div", { class: "spacer" }), swimBtn, flowBtn, el("div", { class: "divider-v" }), filtersToggle]));
+
+    var body = el("div", { id: "editorBody" });
+    root.appendChild(body);
+    renderCanvasArea();
+
+    function renderCanvasArea() {
+      swimBtn.classList.toggle("active", APP.filters.viewMode !== "flow");
+      flowBtn.classList.toggle("active", APP.filters.viewMode === "flow");
+      body.innerHTML = "";
+      if (editorUi.filtersOpen) body.appendChild(buildFilterStrip(bp.data, APP.filters, "edit", function () { renderCanvasArea(); }));
+      if (APP.filters.viewMode === "flow") body.appendChild(el("p", { class: "group-help", style: "padding:0 24px;margin:10px 0 0;", text: FLOW_HINT }));
+      var scroll = el("div", { class: "canvas-scroll" });
+      scroll.appendChild(buildCanvasGrid(bp.data, APP.filters, "edit", function () { touch(bp); }));
+      body.appendChild(scroll);
+      var addLaneRow = el("div", { class: "add-lane-row" });
+      var btn = el("button", { class: "add-lane-btn" }, [document.createTextNode("+ nova camada de conteÃºdo")]);
+      btn.addEventListener("click", function () { addLaneToBp(bp); renderCanvasArea(); });
+      addLaneRow.appendChild(btn);
+      body.appendChild(addLaneRow);
+    }
+  }
+
+  function addLaneToBp(bp) {
+    var supportIdx = bp.data.lanes.map(function (l) { return l.key; }).indexOf("support");
+    var newLane = { id: uid("lane"), key: uid("custom"), name: "Nova camada", kind: "content", side: "front" };
+    if (supportIdx === -1) bp.data.lanes.push(newLane); else bp.data.lanes.splice(supportIdx, 0, newLane);
+    touch(bp);
+  }
+
+  function addDividerToBp(bp) {
+    bp.data.lanes.push({ id: uid("lane"), key: uid("div"), name: "Nova linha de interaÃ§Ã£o", kind: "divider" });
+    touch(bp);
+  }
+
+  function addChartLaneToBp(bp) {
+    bp.data.lanes.push({ id: uid("lane"), key: uid("chart"), name: "EmoÃ§Ã£o do usuÃ¡rio", kind: "chart" });
+    touch(bp);
+  }
+
+  function pushVersion(bp) {
+    bp.versions.unshift({ savedAt: Date.now(), data: JSON.parse(JSON.stringify(bp.data)) });
+    if (bp.versions.length > 15) bp.versions.length = 15;
+    touch(bp);
+  }
+
+  /* ================= VIEWER (read-only via link) ================= */
+  function renderViewer(decoded) {
+    var root = app();
+    root.innerHTML = "";
+    var data = { stages: decoded.bp.stages, lanes: decoded.bp.lanes, cells: decoded.bp.cells, phases: decoded.bp.phases || [] };
+    var filters = { activeProfileId: decoded.f.activeProfileId, hiddenLanes: new Set(decoded.f.hiddenLanes), roles: new Set(decoded.f.roles), channels: new Set(decoded.f.channels), showReferences: decoded.f.showReferences !== false, viewMode: decoded.f.viewMode === "flow" ? "flow" : "swimlane" };
+
+    root.appendChild(el("div", { class: "viewer-banner", text: "MODO VISUALIZAÃ‡ÃƒO Â· SOMENTE LEITURA â€” os filtros abaixo estÃ£o disponÃ­veis" }));
+    root.appendChild(el("header", { class: "topbar" }, [
+      el("div", { class: "titles" }, [
+        el("div", { class: "eyebrow", text: "Blueprint compartilhado" }),
+        el("h1", { text: decoded.bp.title })
+      ]),
+      el("span", { class: "status-tag", style: "color:" + STATUS_DEFS[decoded.bp.status].varc + ";margin-left:8px;" }, [
+        el("span", { class: "dot", style: "background:" + STATUS_DEFS[decoded.bp.status].varc }), document.createTextNode(STATUS_DEFS[decoded.bp.status].label)
+      ])
+    ]));
+
+    var filtersToggle = el("button", { class: "icon-btn active" }, [document.createTextNode("â–¤ Filtros")]);
+    var swimBtn = el("button", { class: "icon-btn" + (filters.viewMode !== "flow" ? " active" : ""), title: "Ver como camadas" }, [document.createTextNode("â–¦ Camadas")]);
+    var flowBtn = el("button", { class: "icon-btn" + (filters.viewMode === "flow" ? " active" : ""), title: "Ver como fluxograma" }, [document.createTextNode("â‡„ Fluxograma")]);
+    swimBtn.addEventListener("click", function () { filters.viewMode = "swimlane"; draw(); });
+    flowBtn.addEventListener("click", function () { filters.viewMode = "flow"; draw(); });
+    var body = el("div", {});
+    root.appendChild(el("div", { class: "toolbar2" }, [swimBtn, flowBtn, el("div", { class: "divider-v" }), filtersToggle]));
+    root.appendChild(body);
+
+    var open = true;
+    function draw() {
+      body.innerHTML = "";
+      swimBtn.classList.toggle("active", filters.viewMode !== "flow");
+      flowBtn.classList.toggle("active", filters.viewMode === "flow");
+      if (open) body.appendChild(buildFilterStrip(data, filters, "view", draw));
+      if (filters.viewMode === "flow") body.appendChild(el("p", { class: "group-help", style: "padding:0 22px;margin:10px 0 0;", text: FLOW_HINT }));
+      var scroll = el("div", { class: "canvas-scroll" });
+      scroll.appendChild(buildCanvasGrid(data, filters, "view", function () {}));
+      body.appendChild(scroll);
+    }
+    filtersToggle.addEventListener("click", function () { open = !open; filtersToggle.classList.toggle("active", open); draw(); });
+    draw();
+  }
+
+  /* ================= shared: filter strip + canvas grid ================= */
+  function buildFilterStrip(data, filters, mode, onChange) {
+    var strip = el("div", { class: "filter-strip" });
+
+    data.profiles = (data.profiles && data.profiles.length) ? data.profiles : defaultProfilesForLanes(data.lanes);
+    var editableStrip = mode === "edit";
+    var profGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "Perfil de visÃ£o" }), el("p", { class: "group-help", text: FILTER_HELP.perfil })]);
+    var profRow = el("div", { class: "profile-row" });
+    data.profiles.forEach(function (p) {
+      var chip = el("div", { class: "profile-chip" + (filters.activeProfileId === p.id ? " active" : ""), role: "button", tabindex: "0" });
+      var nameEl = el("strong", { text: p.label });
+      if (editableStrip) {
+        nameEl.contentEditable = "true"; nameEl.spellcheck = false;
+        nameEl.addEventListener("click", function (ev) { ev.stopPropagation(); });
+        nameEl.addEventListener("blur", function () { p.label = nameEl.textContent.trim() || p.label; onChange(); });
+      }
+      chip.appendChild(nameEl);
+      chip.appendChild(el("span", { text: p.hint || "" }));
+      chip.addEventListener("click", function () {
+        filters.activeProfileId = p.id;
+        filters.hiddenLanes = new Set(p.hiddenLaneIds);
+        onChange();
+      });
+      if (editableStrip) {
+        var rmP = el("button", { class: "mini-btn profile-rm", text: "Ã—", title: "Remover perfil" });
+        rmP.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          armRemoveIcon(rmP, function () {
+            data.profiles = data.profiles.filter(function (x) { return x.id !== p.id; });
+            if (filters.activeProfileId === p.id) filters.activeProfileId = null;
+            onChange();
+          });
+        });
+        chip.appendChild(rmP);
+      }
+      profRow.appendChild(chip);
+    });
+    if (editableStrip) {
+      var addProfileBtn = el("button", { class: "profile-chip add-profile" }, [document.createTextNode("+ Salvar visÃ£o atual")]);
+      addProfileBtn.addEventListener("click", function () {
+        var newProfile = { id: uid("profile"), label: "Novo perfil", hint: "", hiddenLaneIds: Array.from(filters.hiddenLanes) };
+        data.profiles.push(newProfile);
+        filters.activeProfileId = newProfile.id;
+        onChange();
+      });
+      profRow.appendChild(addProfileBtn);
+    }
+    profGroup.appendChild(profRow); strip.appendChild(profGroup);
+
+    var laneGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "Camadas visÃ­veis" }), el("p", { class: "group-help", text: FILTER_HELP.camadas })]);
+    var laneRow = el("div", { class: "lane-row" });
+    data.lanes.filter(function (l) { return l.kind === "content"; }).forEach(function (lane) {
+      var label = el("label", { class: "lane-toggle" });
+      var input = el("input", { type: "checkbox" });
+      input.checked = !filters.hiddenLanes.has(lane.id);
+      input.addEventListener("change", function () {
+        if (filters.hiddenLanes.has(lane.id)) filters.hiddenLanes.delete(lane.id); else filters.hiddenLanes.add(lane.id);
+        filters.activeProfileId = null; onChange();
+      });
+      label.appendChild(input); label.appendChild(el("span", { text: lane.name }));
+      laneRow.appendChild(label);
+    });
+    laneGroup.appendChild(laneRow); strip.appendChild(laneGroup);
+
+    strip.appendChild(buildChipGroup("Papel", FILTER_HELP.papel, collectValues(data, "role"), filters.roles, onChange));
+    strip.appendChild(buildChipGroup("Canal", FILTER_HELP.canal, collectValues(data, "channel"), filters.channels, onChange));
+
+    var refGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "VÃ­nculos entre cÃ©lulas" }), el("p", { class: "group-help", text: FILTER_HELP.vinculos })]);
+    var refLabel = el("label", { class: "lane-toggle" });
+    var refInput = el("input", { type: "checkbox" });
+    refInput.checked = filters.showReferences !== false;
+    refInput.addEventListener("change", function () { filters.showReferences = refInput.checked; onChange(); });
+    refLabel.appendChild(refInput); refLabel.appendChild(el("span", { text: "Mostrar vÃ­nculos" }));
+    refGroup.appendChild(refLabel);
+    strip.appendChild(refGroup);
+    return strip;
+  }
+
+  function buildChipGroup(labelText, help, values, selectedSet, onChange) {
+    var group = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: labelText }), el("p", { class: "group-help", text: help || "" })]);
+    var row = el("div", { class: "chip-row" });
+    if (values.length === 0) row.appendChild(el("div", { class: "empty-hint", text: "Nenhum valor cadastrado" }));
+    values.forEach(function (v) {
+      var chip = el("button", { class: "chip" + (selectedSet.has(v) ? " selected" : ""), text: v });
+      chip.addEventListener("click", function () { if (selectedSet.has(v)) selectedSet.delete(v); else selectedSet.add(v); onChange(); });
+      row.appendChild(chip);
+    });
+    group.appendChild(row);
+    return group;
+  }
+
+  function collectValues(data, field) {
+    var set = new Set();
+    Object.keys(data.cells).forEach(function (k) { var v = data.cells[k][field]; if (v) set.add(v); });
+    return Array.from(set).sort();
+  }
+
+  function isDimmed(cellData, filters) {
+    if (!cellData) cellData = { role: "", channel: "" };
+    if (filters.roles.size > 0 && !filters.roles.has(cellData.role)) return true;
+    if (filters.channels.size > 0 && !filters.channels.has(cellData.channel)) return true;
+    return false;
+  }
+
+  function buildStageHead(data, editable, onEdit, stage, stageIdx, grid) {
+    var head = el("div", { class: "stage-head", style: stage.color ? ("border-bottom: 3px solid var(--" + stage.color + ");") : "" });
+    if (editable) {
+      var ctrl = el("div", { class: "ctrl-row" });
+      var mvLeft = el("button", { class: "mini-btn", text: "â—€", title: "Mover etapa para a esquerda" });
+      mvLeft.disabled = stageIdx === 0;
+      mvLeft.addEventListener("click", function () { if (moveInArray(data.stages, data.stages.indexOf(stage), -1)) { onEdit(); rerenderIfEditor(); } });
+      var mvRight = el("button", { class: "mini-btn", text: "â–¶", title: "Mover etapa para a direita" });
+      mvRight.disabled = stageIdx === data.stages.length - 1;
+      mvRight.addEventListener("click", function () { if (moveInArray(data.stages, data.stages.indexOf(stage), 1)) { onEdit(); rerenderIfEditor(); } });
+      ctrl.appendChild(mvLeft); ctrl.appendChild(mvRight); ctrl.appendChild(el("div", { class: "spacer" }));
+      var rm = el("button", { class: "remove", text: "Ã—" });
+      rm.addEventListener("click", function () {
+        armRemove(rm, function () {
+          data.stages = data.stages.filter(function (s) { return s.id !== stage.id; });
+          Object.keys(data.cells).forEach(function (k) { if (k.indexOf("::" + stage.id) !== -1) delete data.cells[k]; });
+          onEdit(); rerenderIfEditor();
+        });
+      });
+      ctrl.appendChild(rm);
+      head.appendChild(ctrl);
+    }
+    var name = el("div", { class: "name", text: stage.name });
+    if (editable) { name.contentEditable = "true"; name.spellcheck = false; name.addEventListener("blur", function () { stage.name = name.textContent.trim() || stage.name; onEdit(); }); }
+    head.appendChild(name);
+    if (editable) {
+      var phaseSel = el("select", { class: "phase-select" });
+      phaseSel.appendChild(el("option", { value: "", text: "Sem fase" }));
+      (data.phases || []).forEach(function (p) { var o = el("option", { value: p.id, text: p.name }); if (stage.phaseId === p.id) o.selected = true; phaseSel.appendChild(o); });
+      phaseSel.appendChild(el("option", { value: "__new__", text: "+ Nova faseâ€¦" }));
+      phaseSel.addEventListener("change", function () {
+        if (phaseSel.value === "__new__") {
+          var newPhase = { id: uid("phase"), name: "Nova fase" };
+          data.phases = data.phases || []; data.phases.push(newPhase);
+          stage.phaseId = newPhase.id;
+        } else {
+          stage.phaseId = phaseSel.value || null;
+        }
+        onEdit(); rerenderIfEditor();
+      });
+      head.appendChild(phaseSel);
+    }
+    if (editable) {
+      var colorRow = el("div", { class: "color-swatch-row" });
+      LANE_TYPE_COLORS.forEach(function (c) {
+        var sw = el("button", { class: "type-swatch" + (stage.color === c ? " active" : ""), style: "background:var(--" + c + ");", title: "Pintar etapa de " + c, type: "button" });
+        sw.addEventListener("click", function () { stage.color = (stage.color === c) ? null : c; onEdit(); rerenderIfEditor(); });
+        colorRow.appendChild(sw);
+      });
+      head.appendChild(colorRow);
+    }
+    if (editable) {
+      var resizeHandle = el("div", { class: "col-resize-handle", title: "Arraste para redimensionar Â· duplo clique para ajuste automÃ¡tico" });
+      attachColumnResize(resizeHandle, stage, data, grid, editable, onEdit);
+      head.appendChild(resizeHandle);
+    }
+    return head;
+  }
+
+  function buildMergedPhaseHeader(data, editable, onEdit, phase, stagesInGroup, idxInPhases, grid) {
+    var tint = PHASE_TINTS[idxInPhases % PHASE_TINTS.length];
+    var outer = el("div", { class: "stage-head phase-merged", style: "grid-column: span " + stagesInGroup.length + ";background:" + tint.tint + ";" });
+    var nameRow = el("div", { class: "phase-merged-name", style: "color:" + tint.strong + ";" });
+    var nameSpan = el("span", { text: phase.name });
+    if (editable) {
+      nameSpan.contentEditable = "true"; nameSpan.spellcheck = false;
+      nameSpan.addEventListener("blur", function () { phase.name = nameSpan.textContent.trim() || phase.name; onEdit(); });
+    }
+    nameRow.appendChild(nameSpan);
+    if (editable) {
+      var ungroup = el("button", { class: "mini-btn", text: "Ã—", title: "Desagrupar fase (mantÃ©m as etapas)" });
+      ungroup.addEventListener("click", function () {
+        stagesInGroup.forEach(function (s) { s.phaseId = null; });
+        onEdit(); rerenderIfEditor();
+      });
+      nameRow.appendChild(ungroup);
+    }
+    outer.appendChild(nameRow);
+
+    if (editable) {
+      var subRow = el("div", { class: "phase-merged-cols" });
+      subRow.style.gridTemplateColumns = "repeat(" + stagesInGroup.length + ", 1fr)";
+      stagesInGroup.forEach(function (stage) {
+        var col = el("div", { class: "phase-merged-col", title: stage.name, style: stage.color ? ("border-bottom: 3px solid var(--" + stage.color + ");") : "" });
+        var idx = data.stages.indexOf(stage);
+        var mvLeft = el("button", { class: "mini-btn", text: "â—€", title: "Mover " + stage.name + " para a esquerda" });
+        mvLeft.disabled = idx === 0;
+        mvLeft.addEventListener("click", function () { if (moveInArray(data.stages, data.stages.indexOf(stage), -1)) { onEdit(); rerenderIfEditor(); } });
+        var mvRight = el("button", { class: "mini-btn", text: "â–¶", title: "Mover " + stage.name + " para a direita" });
+        mvRight.disabled = idx === data.stages.length - 1;
+        mvRight.addEventListener("click", function () { if (moveInArray(data.stages, data.stages.indexOf(stage), 1)) { onEdit(); rerenderIfEditor(); } });
+        var rm = el("button", { class: "mini-btn", text: "Ã—", title: "Remover " + stage.name });
+        rm.addEventListener("click", function () {
+          armRemoveIcon(rm, function () {
+            data.stages = data.stages.filter(function (s) { return s.id !== stage.id; });
+            Object.keys(data.cells).forEach(function (k) { if (k.indexOf("::" + stage.id) !== -1) delete data.cells[k]; });
+            onEdit(); rerenderIfEditor();
+          });
+        });
+        var colorBtn = el("button", { class: "mini-btn", text: "â—", title: "Pintar " + stage.name + " (clique para trocar de cor)" });
+        colorBtn.style.color = stage.color ? ("var(--" + stage.color + ")") : "";
+        colorBtn.addEventListener("click", function () {
+          var palette = [null].concat(LANE_TYPE_COLORS);
+          var next = palette[(palette.indexOf(stage.color || null) + 1) % palette.length];
+          stage.color = next;
+          colorBtn.style.color = next ? ("var(--" + next + ")") : "";
+          col.style.borderBottom = next ? ("3px solid var(--" + next + ")") : "";
+          onEdit();
+        });
+        col.appendChild(mvLeft); col.appendChild(mvRight); col.appendChild(rm); col.appendChild(colorBtn);
+        var colResizeHandle = el("div", { class: "col-resize-handle", title: "Arraste para redimensionar Â· duplo clique para ajuste automÃ¡tico" });
+        attachColumnResize(colResizeHandle, stage, data, grid, editable, onEdit);
+        col.appendChild(colResizeHandle);
+        subRow.appendChild(col);
+      });
+      outer.appendChild(subRow);
+    }
+    return outer;
+  }
+
+  function buildEmotionChart(data, lane, editable, onEdit, rerenderIfEditor) {
+    var wrap = el("div", { class: "chart-wrap" });
+    var stages = data.stages;
+    var n = stages.length;
+    var scores = stages.map(function (s) {
+      var c = data.cells[cellKey(lane.id, s.id)];
+      return c && typeof c.value === "number" ? c.value : 0;
+    });
+    function xPct(i) { return n <= 1 ? 50 : (i / (n - 1)) * 100; }
+    function yPct(score) { return 50 - (score / 2) * 38; }
+
+    var plot = el("div", { class: "chart-plot" });
+    var svgNS = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("viewBox", "0 0 100 100");
+    svg.setAttribute("preserveAspectRatio", "none");
+    svg.setAttribute("class", "chart-svg");
+    var zeroLine = document.createElementNS(svgNS, "line");
+    zeroLine.setAttribute("x1", "0"); zeroLine.setAttribute("x2", "100");
+    zeroLine.setAttribute("y1", "50"); zeroLine.setAttribute("y2", "50");
+    zeroLine.setAttribute("class", "chart-zero-line");
+    svg.appendChild(zeroLine);
+    if (n > 1) {
+      var pts = scores.map(function (s, i) { return xPct(i) + "," + yPct(s); }).join(" ");
+      var poly = document.createElementNS(svgNS, "polyline");
+      poly.setAttribute("points", pts);
+      poly.setAttribute("class", "chart-line");
+      svg.appendChild(poly);
+    }
+    plot.appendChild(svg);
+    scores.forEach(function (s, i) {
+      var dot = el("div", { class: "chart-dot-marker " + (s > 0 ? "pos" : s < 0 ? "neg" : "neu"), style: "left:" + xPct(i) + "%;top:" + yPct(s) + "%;" });
+      plot.appendChild(dot);
+    });
+    wrap.appendChild(plot);
+
+    if (editable) {
+      var row = el("div", { class: "chart-inputs" });
+      row.style.gridTemplateColumns = "repeat(" + Math.max(1, n) + ", 1fr)";
+      stages.forEach(function (stage, i) {
+        var sel = el("select", { class: "chart-score" });
+        [-2, -1, 0, 1, 2].forEach(function (v) {
+          var o = el("option", { value: String(v), text: (v > 0 ? "+" : "") + v });
+          if (scores[i] === v) o.selected = true;
+          sel.appendChild(o);
+        });
+        sel.addEventListener("change", function () {
+          data.cells[cellKey(lane.id, stage.id)] = { value: parseInt(sel.value, 10) };
+          onEdit(); rerenderIfEditor();
+        });
+        row.appendChild(sel);
+      });
+      wrap.appendChild(row);
+    }
+    return wrap;
+  }
+
+  function stageColTrack(stage) { return stage.width ? (stage.width + "px") : "minmax(200px, 1fr)"; }
+  function computeGridTemplateColumns(data, editable) {
+    return "230px " + data.stages.map(stageColTrack).join(" ") + (editable ? " 60px" : "");
+  }
+  function attachColumnResize(handle, stage, data, grid, editable, onEdit) {
+    handle.addEventListener("mousedown", function (ev) {
+      if (ev.button !== 0) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var startX = ev.clientX;
+      var startWidth = stage.width || handle.parentElement.getBoundingClientRect().width;
+      handle.classList.add("active");
+      function onMove(e) {
+        stage.width = Math.max(140, Math.round(startWidth + (e.clientX - startX)));
+        grid.style.gridTemplateColumns = computeGridTemplateColumns(data, editable);
+      }
+      function onUp() {
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onUp);
+        handle.classList.remove("active");
+        onEdit();
+      }
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onUp);
+    });
+    handle.addEventListener("dblclick", function (ev) {
+      ev.stopPropagation();
+      delete stage.width;
+      grid.style.gridTemplateColumns = computeGridTemplateColumns(data, editable);
+      onEdit();
+    });
+  }
+
+  function buildCanvasGrid(data, filters, mode, onEdit) {
+    var editable = mode === "edit";
+    pruneEmptyPhases(data);
+    ensureLaneTypes(data);
+    var grid = el("div", { class: "canvas-grid" });
+    var visibleLanes = data.lanes.filter(function (l) { return l.kind === "divider" || !filters.hiddenLanes.has(l.id); });
+    grid.style.gridTemplateColumns = computeGridTemplateColumns(data, editable);
+
+    grid.appendChild(el("div", { class: "lane-label corner", text: "Camada \\ Etapa" }));
+    var si = 0;
+    while (si < data.stages.length) {
+      var stage = data.stages[si];
+      var pid = stage.phaseId || null;
+      var phaseObj = pid ? (data.phases || []).filter(function (p) { return p.id === pid; })[0] : null;
+      if (!phaseObj) {
+        grid.appendChild(buildStageHead(data, editable, onEdit, stage, si, grid));
+        si++;
+        continue;
+      }
+      var runLen = 1;
+      while (si + runLen < data.stages.length && (data.stages[si + runLen].phaseId || null) === pid) runLen++;
+      var groupStages = data.stages.slice(si, si + runLen);
+      grid.appendChild(buildMergedPhaseHeader(data, editable, onEdit, phaseObj, groupStages, (data.phases || []).indexOf(phaseObj), grid));
+      si += runLen;
+    }
+    if (editable) {
+      var addCell = el("div", { class: "add-stage-cell" });
+      var addBtn = el("button", { class: "add-stage-btn", text: "+" });
+      addBtn.addEventListener("click", function () { data.stages.push({ id: uid("stage"), name: "Nova etapa" }); onEdit(); rerenderIfEditor(); });
+      addCell.appendChild(addBtn); grid.appendChild(addCell);
+    }
+
+    visibleLanes.forEach(function (lane) {
+      if (lane.kind === "divider") {
+        var row = el("div", { class: "divider-row" });
+        row.appendChild(el("div", { class: "line" }));
+        if (editable) {
+          var dIdx = data.lanes.indexOf(lane);
+          var upD = el("button", { class: "mini-btn", text: "â–²", title: "Mover linha para cima" });
+          upD.disabled = dIdx === 0;
+          upD.addEventListener("click", function () { if (moveInArray(data.lanes, data.lanes.indexOf(lane), -1)) { onEdit(); rerenderIfEditor(); } });
+          row.appendChild(upD);
+          var downD = el("button", { class: "mini-btn", text: "â–¼", title: "Mover linha para baixo" });
+          downD.disabled = dIdx === data.lanes.length - 1;
+          downD.addEventListener("click", function () { if (moveInArray(data.lanes, data.lanes.indexOf(lane), 1)) { onEdit(); rerenderIfEditor(); } });
+          row.appendChild(downD);
+        }
+        var lbl = el("span", { class: "label", text: lane.name });
+        if (editable) { lbl.contentEditable = "true"; lbl.spellcheck = false; lbl.addEventListener("blur", function () { lane.name = lbl.textContent.trim() || lane.name; onEdit(); }); }
+        row.appendChild(lbl);
+        if (editable) {
+          var rmD = el("button", { class: "mini-btn", text: "Ã—", title: "Remover linha" });
+          rmD.addEventListener("click", function () {
+            armRemoveIcon(rmD, function () {
+              data.lanes = data.lanes.filter(function (l) { return l.id !== lane.id; });
+              onEdit(); rerenderIfEditor();
+            });
+          });
+          row.appendChild(rmD);
+        }
+        row.appendChild(el("div", { class: "line" }));
+        grid.appendChild(row); return;
+      }
+
+      var laneType = lane.kind === "content" ? (data.laneTypes || []).filter(function (t) { return t.id === lane.typeId; })[0] : null;
+      var laneColorTok = lane.color || (laneType ? laneType.color : "line-strong");
+      var labelCell = el("div", { class: "lane-label", style: "border-left-color: var(--" + laneColorTok + ");" });
+      if (editable) {
+        var ctrlL = el("div", { class: "ctrl-row" });
+        var lIdx = data.lanes.indexOf(lane);
+        var upL = el("button", { class: "mini-btn", text: "â–²", title: "Mover camada para cima" });
+        upL.disabled = lIdx === 0;
+        upL.addEventListener("click", function () { if (moveInArray(data.lanes, data.lanes.indexOf(lane), -1)) { onEdit(); rerenderIfEditor(); } });
+        var downL = el("button", { class: "mini-btn", text: "â–¼", title: "Mover camada para baixo" });
+        downL.disabled = lIdx === data.lanes.length - 1;
+        downL.addEventListener("click", function () { if (moveInArray(data.lanes, data.lanes.indexOf(lane), 1)) { onEdit(); rerenderIfEditor(); } });
+        ctrlL.appendChild(upL); ctrlL.appendChild(downL); ctrlL.appendChild(el("div", { class: "spacer" }));
+        var rmLane = el("button", { class: "remove-lane", text: "remover" });
+        rmLane.addEventListener("click", function () {
+          armRemove(rmLane, function () {
+            data.lanes = data.lanes.filter(function (l) { return l.id !== lane.id; });
+            Object.keys(data.cells).forEach(function (k) { if (k.indexOf(lane.id + "::") === 0) delete data.cells[k]; });
+            onEdit(); rerenderIfEditor();
+          });
+        });
+        ctrlL.appendChild(rmLane);
+        labelCell.appendChild(ctrlL);
+      }
+      var nm = el("div", { class: "name", text: lane.name });
+      if (editable) { nm.contentEditable = "true"; nm.spellcheck = false; nm.addEventListener("blur", function () { lane.name = nm.textContent.trim() || lane.name; onEdit(); }); }
+      labelCell.appendChild(nm);
+      labelCell.appendChild(el("span", { class: "kind", text: lane.kind === "chart" ? "grÃ¡fico" : (laneType ? laneType.label : "") }));
+      if (editable && lane.kind === "content") {
+        var typeSel = el("select", { class: "phase-select" });
+        (data.laneTypes || []).forEach(function (t) {
+          var o = el("option", { value: t.id, text: t.label });
+          if (lane.typeId === t.id) o.selected = true;
+          typeSel.appendChild(o);
+        });
+        typeSel.appendChild(el("option", { value: "__manage__", text: "âœŽ Gerenciar tiposâ€¦" }));
+        typeSel.addEventListener("change", function () {
+          if (typeSel.value === "__manage__") {
+            openLaneTypesModal(data, function () { onEdit(); rerenderIfEditor(); });
+          } else {
+            lane.typeId = typeSel.value;
+            onEdit(); rerenderIfEditor();
+          }
+        });
+        labelCell.appendChild(typeSel);
+        var laneColorRow = el("div", { class: "color-swatch-row" });
+        LANE_TYPE_COLORS.forEach(function (c) {
+          var sw = el("button", { class: "type-swatch" + (lane.color === c ? " active" : ""), style: "background:var(--" + c + ");", title: "Pintar camada de " + c, type: "button" });
+          sw.addEventListener("click", function () { lane.color = (lane.color === c) ? null : c; onEdit(); rerenderIfEditor(); });
+          laneColorRow.appendChild(sw);
+        });
+        labelCell.appendChild(laneColorRow);
+      }
+      grid.appendChild(labelCell);
+
+      if (lane.kind === "chart") {
+        var chartSpan = data.stages.length + (editable ? 1 : 0);
+        var chartOuter = el("div", { class: "chart-cell", style: "grid-column: span " + Math.max(1, chartSpan) + ";" });
+        chartOuter.appendChild(buildEmotionChart(data, lane, editable, onEdit, rerenderIfEditor));
+        grid.appendChild(chartOuter);
+        return;
+      }
+
+      data.stages.forEach(function (stage) {
+        var key = cellKey(lane.id, stage.id);
+        var cd = data.cells[key] || { text: "", role: "", channel: "" };
+        var dimmed = isDimmed(cd, filters);
+        var cellEl = el("div", { class: "cell" + (dimmed ? " dimmed" : "") + (cd.highlighted ? " highlighted" : "") + (filters.viewMode === "flow" ? " flow-node" : ""), "data-cell-key": key });
+        var textEl = el("div", { class: "text" });
+        textEl.setAttribute("data-placeholder", "descrever aÃ§Ã£o...");
+        textEl.textContent = cd.text;
+        if (editable) {
+          textEl.contentEditable = "true"; textEl.spellcheck = false;
+          textEl.addEventListener("blur", function () { var v = data.cells[key] || { text: "", role: "", channel: "" }; v.text = textEl.textContent.trim(); data.cells[key] = v; onEdit(); });
+        }
+        cellEl.appendChild(textEl);
+
+        if (cd.role || cd.channel) {
+          var tagrow = el("div", { class: "tagrow" });
+          if (cd.role) {
+            var rolePill = el("button", { class: "tag-input role", text: cd.role, title: editable ? "Editar papel" : FILTER_HELP.papel });
+            if (editable) rolePill.addEventListener("click", function () { openTagModal(data, lane.id, stage.id, "role", function () { onEdit(); rerenderIfEditor(); }); });
+            tagrow.appendChild(rolePill);
+          }
+          if (cd.channel) {
+            var channelPill = el("button", { class: "tag-input channel", text: cd.channel, title: editable ? "Editar canal" : FILTER_HELP.canal });
+            if (editable) channelPill.addEventListener("click", function () { openTagModal(data, lane.id, stage.id, "channel", function () { onEdit(); rerenderIfEditor(); }); });
+            tagrow.appendChild(channelPill);
+          }
+          cellEl.appendChild(tagrow);
+        }
+
+        if ((cd.evidences || []).length > 0) {
+          var evRow = el("div", { class: "evidence-row" });
+          cd.evidences.forEach(function (ev) {
+            var pill = el("button", { class: "evidence-pill type-" + ev.type });
+            var typeDef = EVIDENCE_TYPES[ev.type];
+            var typeLabel = typeDef ? typeDef.label : ev.type;
+            if (ev.type === "img" && ev.imageData) pill.appendChild(el("img", { src: ev.imageData }));
+            var textPart;
+            if (ev.type === "metrica") textPart = (ev.metricLabel || "MÃ©trica") + ": " + (ev.metricValue || "");
+            else textPart = ev.text ? (ev.text.length > 16 ? ev.text.slice(0, 16) + "â€¦" : ev.text) : typeLabel;
+            pill.appendChild(el("span", { text: textPart }));
+            pill.addEventListener("click", function () {
+              openEvidenceModal(data, lane.id, stage.id, ev.id, function () { onEdit(); rerenderIfEditor(); }, !editable);
+            });
+            evRow.appendChild(pill);
+          });
+          cellEl.appendChild(evRow);
+        }
+
+        if (filters.viewMode !== "flow" && filters.showReferences !== false && (cd.references || []).length > 0) {
+          var refRow = el("div", { class: "ref-row" });
+          cd.references.forEach(function (r) {
+            var refLane = data.lanes.filter(function (l) { return l.id === r.laneId; })[0];
+            var refStage = data.stages.filter(function (s) { return s.id === r.stageId; })[0];
+            if (!refStage) return;
+            var pill = el("button", { class: "ref-pill", title: "Ir para " + refStage.name + (refLane ? " Â· " + refLane.name : "") });
+            pill.appendChild(el("span", { text: "â†” " + refStage.name + (refLane ? " Â· " + refLane.name : "") }));
+            pill.addEventListener("click", function () {
+              var target = document.querySelector('[data-cell-key="' + cellKey(r.laneId, r.stageId) + '"]');
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+                target.classList.add("cell-flash");
+                setTimeout(function () { target.classList.remove("cell-flash"); }, 1600);
+              }
+            });
+            refRow.appendChild(pill);
+          });
+          cellEl.appendChild(refRow);
+        }
+
+        if (editable && filters.viewMode !== "flow") {
+          var actionSel = el("select", { class: "cell-action-select" });
+          actionSel.appendChild(el("option", { value: "", text: "+ adicionar" }));
+          if (!cd.role) actionSel.appendChild(el("option", { value: "papel", text: "Papel" }));
+          if (!cd.channel) actionSel.appendChild(el("option", { value: "canal", text: "Canal" }));
+          actionSel.appendChild(el("option", { value: "evidencia", text: "EvidÃªncia" }));
+          actionSel.appendChild(el("option", { value: "vinculo", text: "VÃ­nculo" }));
+          actionSel.appendChild(el("option", { value: "destacar", text: cd.highlighted ? "Remover destaque" : "Destacar" }));
+          actionSel.addEventListener("change", function () {
+            var action = actionSel.value;
+            if (action === "papel") openTagModal(data, lane.id, stage.id, "role", function () { onEdit(); rerenderIfEditor(); });
+            else if (action === "canal") openTagModal(data, lane.id, stage.id, "channel", function () { onEdit(); rerenderIfEditor(); });
+            else if (action === "evidencia") openEvidenceModal(data, lane.id, stage.id, null, function () { onEdit(); rerenderIfEditor(); }, false);
+            else if (action === "vinculo") openReferenceModal(data, lane.id, stage.id, function () { onEdit(); rerenderIfEditor(); });
+            else if (action === "destacar") {
+              var v = data.cells[key] || { text: "", role: "", channel: "" };
+              v.highlighted = !v.highlighted;
+              data.cells[key] = v;
+              onEdit(); rerenderIfEditor();
+            }
+          });
+          cellEl.appendChild(actionSel);
+        }
+
+        if (editable && filters.viewMode === "flow") {
+          ["n", "e", "s", "w"].forEach(function (dir) {
+            var handle = el("button", { class: "flow-handle " + dir, type: "button", title: "Criar vÃ­nculo a partir desta cÃ©lula" });
+            handle.addEventListener("click", function (ev) {
+              ev.stopPropagation();
+              openReferenceModal(data, lane.id, stage.id, function () { onEdit(); rerenderIfEditor(); });
+            });
+            cellEl.appendChild(handle);
+          });
+        }
+
+        grid.appendChild(cellEl);
+      });
+      if (editable) grid.appendChild(el("div", { class: "cell", style: "background:transparent;border:none;" }));
+    });
+
+    if (mode !== "export" && filters.viewMode === "flow") attachFlowLines(grid, data, filters, editable, onEdit);
+
+    return grid;
+  }
+
+  /* ================= flowchart overlay: draws reference lines between cells ================= */
+  function attachFlowLines(grid, data, filters, editable, onEdit) {
+    var SVG_NS = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "flow-svg");
+    var defs = document.createElementNS(SVG_NS, "defs");
+    defs.innerHTML = '<marker id="flowArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent);"></path></marker>';
+    svg.appendChild(defs);
+    grid.style.position = "relative";
+    grid.appendChild(svg);
+
+    function edgePoint(rect, gridRect, dir) {
+      if (dir === "l") return { x: rect.left - gridRect.left, y: rect.top - gridRect.top + rect.height / 2 };
+      if (dir === "r") return { x: rect.right - gridRect.left, y: rect.top - gridRect.top + rect.height / 2 };
+      if (dir === "t") return { x: rect.left - gridRect.left + rect.width / 2, y: rect.top - gridRect.top };
+      return { x: rect.left - gridRect.left + rect.width / 2, y: rect.bottom - gridRect.top };
+    }
+
+    function redraw() {
+      if (!document.body.contains(grid)) { ro.disconnect(); window.removeEventListener("resize", redraw); return; }
+      if (filters.showReferences === false) { while (svg.lastChild !== defs) svg.removeChild(svg.lastChild); return; }
+      var gridRect = grid.getBoundingClientRect();
+      svg.setAttribute("width", grid.scrollWidth);
+      svg.setAttribute("height", grid.scrollHeight);
+      while (svg.lastChild !== defs) svg.removeChild(svg.lastChild);
+
+      data.lanes.filter(function (l) { return l.kind === "content"; }).forEach(function (lane) {
+        data.stages.forEach(function (stage) {
+          var key = cellKey(lane.id, stage.id);
+          var cd = data.cells[key];
+          if (!cd || !(cd.references || []).length) return;
+          var srcEl = grid.querySelector('[data-cell-key="' + key + '"]');
+          if (!srcEl) return;
+          var srcRect = srcEl.getBoundingClientRect();
+          cd.references.forEach(function (r) {
+            var dstEl = grid.querySelector('[data-cell-key="' + cellKey(r.laneId, r.stageId) + '"]');
+            if (!dstEl) return;
+            var dstRect = dstEl.getBoundingClientRect();
+            var sCenter = { x: srcRect.left - gridRect.left + srcRect.width / 2, y: srcRect.top - gridRect.top + srcRect.height / 2 };
+            var dCenter = { x: dstRect.left - gridRect.left + dstRect.width / 2, y: dstRect.top - gridRect.top + dstRect.height / 2 };
+            var horizontal = Math.abs(dCenter.x - sCenter.x) >= Math.abs(dCenter.y - sCenter.y);
+            var p1, p2;
+            if (horizontal) {
+              p1 = edgePoint(srcRect, gridRect, dCenter.x >= sCenter.x ? "r" : "l");
+              p2 = edgePoint(dstRect, gridRect, dCenter.x >= sCenter.x ? "l" : "r");
+            } else {
+              p1 = edgePoint(srcRect, gridRect, dCenter.y >= sCenter.y ? "b" : "t");
+              p2 = edgePoint(dstRect, gridRect, dCenter.y >= sCenter.y ? "t" : "b");
+            }
+            var dx = p2.x - p1.x, dy = p2.y - p1.y;
+            var c1 = horizontal ? { x: p1.x + dx * 0.5, y: p1.y } : { x: p1.x, y: p1.y + dy * 0.5 };
+            var c2 = horizontal ? { x: p2.x - dx * 0.5, y: p2.y } : { x: p2.x, y: p2.y - dy * 0.5 };
+            var d = "M " + p1.x + " " + p1.y + " C " + c1.x + " " + c1.y + ", " + c2.x + " " + c2.y + ", " + p2.x + " " + p2.y;
+
+            var g = document.createElementNS(SVG_NS, "g");
+            var hit = document.createElementNS(SVG_NS, "path");
+            hit.setAttribute("d", d); hit.setAttribute("class", "flow-edge-hit");
+            var path = document.createElementNS(SVG_NS, "path");
+            path.setAttribute("d", d); path.setAttribute("class", "flow-edge-path"); path.setAttribute("marker-end", "url(#flowArrow)");
+            g.appendChild(hit); g.appendChild(path);
+            if (editable) {
+              g.setAttribute("class", "flow-edge-group");
+              g.addEventListener("click", function () {
+                openRemoveReferenceModal(data, lane.id, stage.id, r.id, function () { onEdit(); rerenderIfEditor(); redraw(); });
+              });
+            }
+            svg.appendChild(g);
+          });
+        });
+      });
+    }
+
+    var ro = new ResizeObserver(function () { redraw(); });
+    ro.observe(grid);
+    window.addEventListener("resize", redraw);
+    setTimeout(redraw, 0);
+    requestAnimationFrame(redraw);
+  }
+
+  function openRemoveReferenceModal(data, laneId, stageId, refId, onSaved) {
+    var key = cellKey(laneId, stageId);
+    var cell = data.cells[key];
+    if (!cell || !cell.references) return;
+    var ref = cell.references.filter(function (r) { return r.id === refId; })[0];
+    if (!ref) return;
+    var srcLane = data.lanes.filter(function (l) { return l.id === laneId; })[0];
+    var srcStage = data.stages.filter(function (s) { return s.id === stageId; })[0];
+    var dstLane = data.lanes.filter(function (l) { return l.id === ref.laneId; })[0];
+    var dstStage = data.stages.filter(function (s) { return s.id === ref.stageId; })[0];
+
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: "Remover vÃ­nculo" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: (srcStage ? srcStage.name : "?") + " Â· " + (srcLane ? srcLane.name : "?") + "   â†’   " + (dstStage ? dstStage.name : "?") + " Â· " + (dstLane ? dstLane.name : "?") }));
+    var footer = el("div", { class: "modal-footer" });
+    var rm = el("button", { class: "btn danger ghost" }, [document.createTextNode("Remover vÃ­nculo")]);
+    rm.addEventListener("click", function () {
+      cell.references = cell.references.filter(function (x) { return x.id !== refId; });
+      onSaved(); closeModal();
+    });
+    footer.appendChild(rm);
+    wrap.appendChild(footer);
+    var closeModal = openModal(wrap);
+  }
+
+  function rerenderIfEditor() { if (getCurrent()) renderEditor(); }
+
+  /* ================= export (PDF chrome / static HTML) ================= */
+  function buildPrintSummary(bp) {
+    var activeP = (bp.data.profiles || []).filter(function (p) { return p.id === APP.filters.activeProfileId; })[0];
+    var bits = ["Perfil: " + (activeP ? activeP.label : "Personalizado")];
+    if (APP.filters.roles.size) bits.push("Papel: " + Array.from(APP.filters.roles).join(", "));
+    if (APP.filters.channels.size) bits.push("Canal: " + Array.from(APP.filters.channels).join(", "));
+    var hidden = bp.data.lanes.filter(function (l) { return APP.filters.hiddenLanes.has(l.id); }).map(function (l) { return l.name; });
+    if (hidden.length) bits.push("Camadas ocultas: " + hidden.join(", "));
+    return bits.join(" Â· ") + " Â· gerado em " + new Date().toLocaleDateString("pt-BR");
+  }
+
+  function buildExportHtml(bp, autoprint) {
+    var gridClone = buildCanvasGrid(bp.data, APP.filters, "export", function () {});
+    var styleText = document.querySelector("style").outerHTML;
+    var summary = buildPrintSummary(bp);
+    var wrapper = document.createElement("div");
+    wrapper.innerHTML =
+      '<header class="topbar"><div class="titles"><div class="eyebrow">Service Blueprint</div><h1>' + escapeHtml(bp.title) + "</h1></div></header>" +
+      '<div class="canvas-scroll"><div class="print-summary" style="display:block">' + escapeHtml(summary) + "</div></div>";
+    wrapper.querySelector(".canvas-scroll").appendChild(gridClone);
+    var printScript = autoprint ? ("<script>window.addEventListener(\"load\", function () { setTimeout(function () { window.print(); }, 60); });</" + "script>") : "";
+    return "<!doctype html><html><head><meta charset=\"utf-8\"><title>" + escapeHtml(bp.title) + "</title>" + styleText +
+      "<style>body{padding:0}</style></head><body>" + wrapper.innerHTML + printScript + "</body></html>";
+  }
+  function downloadHtml(bp) { offerDownload(slugify(bp.title) + ".html", buildExportHtml(bp, false), "text/html"); }
+  function downloadJson(bp) { offerDownload(slugify(bp.title) + ".json", JSON.stringify(portableFromRecord(bp), null, 2), "application/json"); }
+  function downloadPdfExport(bp) {
+    offerDownload(slugify(bp.title) + "-imprimir.html", buildExportHtml(bp, true), "text/html");
+    toast("Baixado â€” abra o arquivo: a impressÃ£o abre sozinha (escolha \"Salvar como PDF\")");
+  }
+
+  /* ================= modals ================= */
+  function openModal(contentEl) {
+    var backdrop = el("div", { class: "modal-backdrop" });
+    var modal = el("div", { class: "modal" });
+    var closeX = el("button", { class: "close-x", text: "Ã—" });
+    closeX.addEventListener("click", close);
+    backdrop.addEventListener("click", function (ev) { if (ev.target === backdrop) close(); });
+    modal.appendChild(closeX);
+    modal.appendChild(contentEl);
+    backdrop.appendChild(modal);
+    document.getElementById("modalRoot").appendChild(backdrop);
+    function close() { backdrop.remove(); }
+    return close;
+  }
+
+  function openHistoryModal(bp) {
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: "HistÃ³rico de versÃµes" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Salvo neste navegador. Clique em \"Salvar\" no editor para criar um novo checkpoint (atÃ© 15)." }));
+    if (bp.versions.length === 0) wrap.appendChild(el("div", { class: "empty-hint", text: "Nenhuma versÃ£o salva ainda." }));
+    bp.versions.forEach(function (v, idx) {
+      var row = el("div", { class: "version-item" });
+      row.appendChild(el("span", { text: fmtDate(v.savedAt) }));
+      var restore = el("button", { class: "btn small" }, [document.createTextNode("Restaurar")]);
+      restore.addEventListener("click", function () {
+        armRemove(restore, function () {
+          bp.data = JSON.parse(JSON.stringify(v.data));
+          touch(bp); closeModal(); renderEditor(); toast("VersÃ£o restaurada");
+        });
+      });
+      row.appendChild(restore);
+      wrap.appendChild(row);
+    });
+    var closeModal = openModal(wrap);
+  }
+
+  function openEvidenceModal(data, laneId, stageId, evidenceId, onSaved, readOnly) {
+    var key = cellKey(laneId, stageId);
+    var cell = data.cells[key] || (data.cells[key] = { text: "", role: "", channel: "", evidences: [] });
+    cell.evidences = cell.evidences || [];
+    var existing = evidenceId ? cell.evidences.filter(function (e) { return e.id === evidenceId; })[0] : null;
+    var currentType = existing ? existing.type : null;
+    var pendingImageData = existing && existing.type === "img" ? existing.imageData : null;
+
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: existing ? "EvidÃªncia" : "Adicionar evidÃªncia" }));
+    var typeRow = el("div", { class: "tab-row" });
+    var body = el("div", {});
+    var footer = el("div", { class: "modal-footer" });
+
+    if (!existing && !readOnly) {
+      Object.keys(EVIDENCE_TYPES).forEach(function (t) {
+        var b = el("button", { class: "tab-btn" + (currentType === t ? " active" : ""), title: EVIDENCE_TYPES[t].desc || "" }, [document.createTextNode(EVIDENCE_TYPES[t].label)]);
+        b.addEventListener("click", function () {
+          currentType = t;
+          Array.prototype.forEach.call(typeRow.children, function (c) { c.classList.remove("active"); });
+          b.classList.add("active");
+          renderFields();
+        });
+        typeRow.appendChild(b);
+      });
+      wrap.appendChild(typeRow);
+    } else if (existing) {
+      wrap.appendChild(el("p", { class: "modal-sub", text: EVIDENCE_TYPES[existing.type] ? EVIDENCE_TYPES[existing.type].label : existing.type }));
+    }
+    wrap.appendChild(body);
+    wrap.appendChild(footer);
+
+    function renderFields() {
+      body.innerHTML = "";
+      body._collect = null;
+      if (!currentType) { body.appendChild(el("div", { class: "empty-hint", text: "Escolha um tipo de evidÃªncia acima." })); renderFooter(); return; }
+      if (EVIDENCE_TYPES[currentType] && EVIDENCE_TYPES[currentType].desc) body.appendChild(el("p", { class: "modal-sub", style: "margin-bottom:10px;", text: EVIDENCE_TYPES[currentType].desc }));
+      if (currentType === "metrica") {
+        var labelInput = el("input", { class: "search-input", style: "width:100%;margin-bottom:8px;", placeholder: "Nome da mÃ©trica (ex: NPS)" });
+        labelInput.value = existing ? existing.metricLabel || "" : "";
+        labelInput.disabled = !!readOnly;
+        var valueInput = el("input", { class: "search-input", style: "width:100%;", placeholder: "Valor (ex: 42, 3.2 dias)" });
+        valueInput.value = existing ? existing.metricValue || "" : "";
+        valueInput.disabled = !!readOnly;
+        body.appendChild(labelInput); body.appendChild(valueInput);
+        body._collect = function () { return { metricLabel: labelInput.value.trim(), metricValue: valueInput.value.trim() }; };
+      } else if (currentType === "img") {
+        var preview = el("div", {});
+        if (pendingImageData) preview.appendChild(el("img", { src: pendingImageData, style: "max-width:100%;border-radius:6px;margin-bottom:8px;display:block;" }));
+        body.appendChild(preview);
+        if (!readOnly) {
+          var fileInput = el("input", { type: "file", accept: "image/*" });
+          fileInput.addEventListener("change", function () {
+            var f = fileInput.files[0]; if (!f) return;
+            downscaleImage(f, 640, 0.72, function (dataUrl) {
+              pendingImageData = dataUrl;
+              preview.innerHTML = "";
+              preview.appendChild(el("img", { src: dataUrl, style: "max-width:100%;border-radius:6px;margin-bottom:8px;display:block;" }));
+            });
+          });
+          body.appendChild(fileInput);
+        }
+        body._collect = function () { return { imageData: pendingImageData }; };
+      } else {
+        var ta = el("textarea", { class: "syntax-input", style: "min-height:100px;font-family:var(--font-body);" });
+        ta.placeholder = (EVIDENCE_TYPES[currentType] ? EVIDENCE_TYPES[currentType].label : currentType) + "â€¦";
+        ta.value = existing ? existing.text || "" : "";
+        ta.disabled = !!readOnly;
+        body.appendChild(ta);
+        body._collect = function () { return { text: ta.value.trim() }; };
+      }
+      renderFooter();
+    }
+
+    function renderFooter() {
+      footer.innerHTML = "";
+      if (readOnly) return;
+      var saveBtn = el("button", { class: "btn primary" }, [document.createTextNode("Salvar")]);
+      saveBtn.addEventListener("click", function () {
+        if (!currentType) return;
+        var extra = body._collect ? body._collect() : {};
+        if (existing) {
+          Object.keys(extra).forEach(function (k) { existing[k] = extra[k]; });
+        } else {
+          var newEv = { id: uid("ev"), type: currentType };
+          Object.keys(extra).forEach(function (k) { newEv[k] = extra[k]; });
+          cell.evidences.push(newEv);
+        }
+        onSaved(); closeModal();
+      });
+      footer.appendChild(saveBtn);
+      if (existing) {
+        var delBtn = el("button", { class: "btn danger ghost" }, [document.createTextNode("Remover")]);
+        delBtn.addEventListener("click", function () {
+          armRemove(delBtn, function () {
+            cell.evidences = cell.evidences.filter(function (e) { return e.id !== existing.id; });
+            onSaved(); closeModal();
+          });
+        });
+        footer.appendChild(delBtn);
+      }
+    }
+
+    renderFields();
+    var closeModal = openModal(wrap);
+  }
+
+  function openTagModal(data, laneId, stageId, field, onSaved) {
+    var key = cellKey(laneId, stageId);
+    var cell = data.cells[key] || (data.cells[key] = { text: "", role: "", channel: "", evidences: [], references: [] });
+    var label = field === "role" ? "Papel" : "Canal";
+    var help = field === "role" ? FILTER_HELP.papel : FILTER_HELP.canal;
+    var existingValues = collectValues(data, field);
+
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: label }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: help }));
+
+    var sel = el("select", { class: "search-input", style: "width:100%;margin-bottom:8px;" });
+    sel.appendChild(el("option", { value: "", text: "â€” selecionar existente â€”" }));
+    existingValues.forEach(function (v) { var o = el("option", { value: v, text: v }); if (cell[field] === v) o.selected = true; sel.appendChild(o); });
+    var newInput = el("input", { class: "search-input", style: "width:100%;", placeholder: "Ou digite um novo " + label.toLowerCase() + "â€¦" });
+    if (cell[field] && existingValues.indexOf(cell[field]) === -1) newInput.value = cell[field];
+    sel.addEventListener("change", function () { if (sel.value) newInput.value = ""; });
+    newInput.addEventListener("input", function () { if (newInput.value) sel.value = ""; });
+
+    wrap.appendChild(sel);
+    wrap.appendChild(newInput);
+
+    var footer = el("div", { class: "modal-footer" });
+    var saveBtn = el("button", { class: "btn primary" }, [document.createTextNode("Salvar")]);
+    saveBtn.addEventListener("click", function () {
+      cell[field] = (newInput.value.trim() || sel.value || "").trim();
+      onSaved(); closeModal();
+    });
+    footer.appendChild(saveBtn);
+    if (cell[field]) {
+      var rm = el("button", { class: "btn danger ghost" }, [document.createTextNode("Remover")]);
+      rm.addEventListener("click", function () { cell[field] = ""; onSaved(); closeModal(); });
+      footer.appendChild(rm);
+    }
+    wrap.appendChild(footer);
+    var closeModal = openModal(wrap);
+  }
+
+  function cellRefOptionLabel(data, lane, stage) {
+    var c = data.cells[cellKey(lane.id, stage.id)];
+    var desc = c && c.text ? c.text.trim().replace(/\s+/g, " ") : "";
+    if (desc.length > 70) desc = desc.slice(0, 70) + "â€¦";
+    return stage.name + " Â· " + lane.name + (desc ? " â€” " + desc : " (cÃ©lula vazia)");
+  }
+
+  function openReferenceModal(data, laneId, stageId, onSaved) {
+    var key = cellKey(laneId, stageId);
+    var cell = data.cells[key] || (data.cells[key] = { text: "", role: "", channel: "", evidences: [], references: [] });
+    cell.references = cell.references || [];
+
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: "Vincular a outra cÃ©lula" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Indique que a informaÃ§Ã£o desta cÃ©lula vem de, ou se relaciona com, outra etapa/camada do blueprint. O vÃ­nculo aparece como um atalho clicÃ¡vel na cÃ©lula." }));
+
+    var sel = el("select", { class: "search-input", style: "width:100%;" });
+    sel.appendChild(el("option", { value: "", text: "Escolha uma cÃ©lulaâ€¦" }));
+    data.lanes.filter(function (l) { return l.kind === "content"; }).forEach(function (lane) {
+      data.stages.forEach(function (stage) {
+        if (lane.id === laneId && stage.id === stageId) return;
+        var already = cell.references.some(function (r) { return r.laneId === lane.id && r.stageId === stage.id; });
+        if (already) return;
+        sel.appendChild(el("option", { value: lane.id + "|" + stage.id, text: cellRefOptionLabel(data, lane, stage) }));
+      });
+    });
+    wrap.appendChild(sel);
+
+    var addBtn = el("button", { class: "btn primary", style: "margin-top:10px;" }, [document.createTextNode("Adicionar vÃ­nculo")]);
+    addBtn.addEventListener("click", function () {
+      if (!sel.value) return;
+      var parts = sel.value.split("|");
+      cell.references.push({ id: uid("ref"), laneId: parts[0], stageId: parts[1] });
+      onSaved(); closeModal();
+    });
+    wrap.appendChild(el("div", { class: "modal-footer" }, [addBtn]));
+
+    if (cell.references.length) {
+      wrap.appendChild(el("h3", { class: "eyebrow", style: "margin-top:18px;display:block;", text: "VÃ­nculos existentes" }));
+      cell.references.forEach(function (r) {
+        var lane = data.lanes.filter(function (l) { return l.id === r.laneId; })[0];
+        var stage = data.stages.filter(function (s) { return s.id === r.stageId; })[0];
+        var row = el("div", { class: "version-item" });
+        row.appendChild(el("span", { text: (stage && lane) ? cellRefOptionLabel(data, lane, stage) : "(removido)" }));
+        var rm = el("button", { class: "btn small danger ghost" }, [document.createTextNode("Remover")]);
+        rm.addEventListener("click", function () {
+          armRemove(rm, function () {
+            cell.references = cell.references.filter(function (x) { return x.id !== r.id; });
+            onSaved(); closeModal();
+          });
+        });
+        row.appendChild(rm);
+        wrap.appendChild(row);
+      });
+    }
+    var closeModal = openModal(wrap);
+  }
+
+  function openLaneTypesModal(data, onSaved) {
+    ensureLaneTypes(data);
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: "Tipos de camada" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Crie, renomeie ou mude a cor dos tipos usados para classificar as camadas de conteÃºdo do blueprint." }));
+    var list = el("div", {});
+    wrap.appendChild(list);
+
+    function render() {
+      list.innerHTML = "";
+      data.laneTypes.forEach(function (t) {
+        var row = el("div", { class: "version-item" });
+        var left = el("div", { style: "display:flex;align-items:center;gap:8px;flex:1;" });
+        var swatches = el("div", { style: "display:flex;gap:4px;" });
+        LANE_TYPE_COLORS.forEach(function (c) {
+          var sw = el("button", { class: "type-swatch" + (t.color === c ? " active" : ""), style: "background:var(--" + c + ");", title: c });
+          sw.addEventListener("click", function () { t.color = c; onSaved(); render(); });
+          swatches.appendChild(sw);
+        });
+        var nameInput = el("input", { class: "search-input", style: "max-width:150px;", value: t.label });
+        nameInput.addEventListener("change", function () { t.label = nameInput.value.trim() || t.label; onSaved(); });
+        left.appendChild(swatches); left.appendChild(nameInput);
+        row.appendChild(left);
+        var rm = el("button", { class: "btn small danger ghost" }, [document.createTextNode("Remover")]);
+        rm.disabled = data.laneTypes.length <= 1;
+        rm.addEventListener("click", function () {
+          if (data.laneTypes.length <= 1) return;
+          armRemove(rm, function () {
+            var fallback = data.laneTypes.filter(function (x) { return x.id !== t.id; })[0];
+            data.lanes.forEach(function (l) { if (l.typeId === t.id) l.typeId = fallback.id; });
+            data.laneTypes = data.laneTypes.filter(function (x) { return x.id !== t.id; });
+            onSaved(); render();
+          });
+        });
+        row.appendChild(rm);
+        list.appendChild(row);
+      });
+    }
+    render();
+
+    var addBtn = el("button", { class: "btn primary", style: "margin-top:10px;" }, [document.createTextNode("+ Novo tipo")]);
+    addBtn.addEventListener("click", function () {
+      var used = data.laneTypes.map(function (t) { return t.color; });
+      var nextColor = LANE_TYPE_COLORS.filter(function (c) { return used.indexOf(c) === -1; })[0] || LANE_TYPE_COLORS[data.laneTypes.length % LANE_TYPE_COLORS.length];
+      data.laneTypes.push({ id: uid("ltype"), label: "Novo tipo", color: nextColor });
+      onSaved(); render();
+    });
+    wrap.appendChild(addBtn);
+    openModal(wrap);
+  }
+
+  function shareLinkRow(url, onCopy) {
+    var input = el("input", { class: "share-url", readonly: "true", value: url });
+    input.addEventListener("click", function () { input.select(); });
+    var copyBtn = el("button", { class: "btn" }, [document.createTextNode("Copiar link")]);
+    copyBtn.addEventListener("click", function () {
+      input.select();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () { onCopy(); }).catch(function () { toast("Selecione e copie o link manualmente"); });
+      } else { toast("Selecione e copie o link manualmente"); }
+    });
+    var row = el("div", { style: "display:flex;gap:8px;align-items:center;" });
+    row.appendChild(input); row.appendChild(copyBtn);
+    return row;
+  }
+
+  function openShareModal(bp) {
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: "Compartilhar" }));
+
+    wrap.appendChild(el("h3", { style: "margin:0 0 4px;font-size:14px;", text: "ðŸ”´ Link ao vivo â€” colaboraÃ§Ã£o em tempo real" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Abre este MESMO blueprint, guardado na base compartilhada da equipe. Todo mundo que abrir este link vÃª e edita os mesmos dados, com atualizaÃ§Ãµes aparecendo automaticamente para quem estiver com a tela aberta â€” sem precisar baixar nada nem gerar um novo link depois de editar." }));
+    var liveUrl = location.origin + location.pathname + "#b=" + bp.id;
+    wrap.appendChild(shareLinkRow(liveUrl, function () { toast("Link ao vivo copiado"); }));
+
+    wrap.appendChild(el("h3", { style: "margin:20px 0 4px;font-size:14px;", text: "Link de cÃ³pia independente" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Abre uma FOTO deste blueprint como um novo registro, separado do original â€” Ãºtil para mandar para alguÃ©m fora da equipe, ou para duplicar como ponto de partida. Quem abrir nÃ£o fica sincronizado com o original." }));
+    var editUrl = location.origin + location.pathname + "#edit=" + encodeURIComponent(encodeEditState(bp));
+    wrap.appendChild(shareLinkRow(editUrl, function () { toast("Link de cÃ³pia copiado"); }));
+
+    wrap.appendChild(el("h3", { style: "margin:20px 0 4px;font-size:14px;", text: "Link somente leitura" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Mesma ideia, mas quem abrir sÃ³ visualiza e filtra â€” nÃ£o pode editar." }));
+    var viewUrl = location.origin + location.pathname + "#view=" + encodeURIComponent(encodeShareState(bp, APP.filters));
+    wrap.appendChild(shareLinkRow(viewUrl, function () { toast("Link somente leitura copiado"); }));
+
+    wrap.appendChild(el("h3", { style: "margin:20px 0 4px;font-size:14px;", text: "Arquivo HTML autÃ´nomo" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Gere um arquivo que funciona sozinho, sem exigir login â€” envie por e-mail, coloque num wiki/SharePoint ou hospede onde quiser. Prefira esta opÃ§Ã£o quando precisar de acesso garantido para quem nÃ£o tem conta na organizaÃ§Ã£o do claude.ai. Abre somente leitura." }));
+    var dlBtn = el("button", { class: "btn" }, [document.createTextNode("Baixar pÃ¡gina para compartilhar")]);
+    dlBtn.addEventListener("click", function () { downloadStandaloneViewer(bp); });
+    wrap.appendChild(dlBtn);
+
+    openModal(wrap);
+  }
+
+  function buildStandaloneViewerHtml(bp) {
+    var portable = portableFromRecord(bp);
+    var filtersSnapshot = { activeProfileId: APP.filters.activeProfileId, hiddenLanes: Array.from(APP.filters.hiddenLanes), roles: Array.from(APP.filters.roles), channels: Array.from(APP.filters.channels), showReferences: APP.filters.showReferences !== false, viewMode: APP.filters.viewMode === "flow" ? "flow" : "swimlane" };
+    var styleText = document.querySelector("style").outerHTML;
+    var appScript = document.getElementById("appScript").textContent;
+    function safeJson(obj) { return JSON.stringify(obj).replace(/<\/script/gi, "<\\/script"); }
+    var embed = "window.__EMBEDDED_BLUEPRINT__ = " + safeJson(portable) + ";\nwindow.__EMBEDDED_FILTERS__ = " + safeJson(filtersSnapshot) + ";\n";
+    return "<!doctype html><html><head><meta charset=\"utf-8\"><title>" + escapeHtml(bp.title) + "</title>" + styleText + "</head><body>" +
+      '<div id="app"></div><div id="modalRoot"></div><div class="toast" id="toast" role="status" aria-live="polite"></div>' +
+      "<script>" + embed + appScript + "</" + "script>" +
+      "</body></html>";
+  }
+  function downloadStandaloneViewer(bp) { offerDownload(slugify(bp.title) + "-visualizador.html", buildStandaloneViewerHtml(bp), "text/html"); }
+
+  function extractEmbeddedBlueprintFromHtml(text) {
+    var marker = "window.__EMBEDDED_BLUEPRINT__ = ";
+    var idx = text.indexOf(marker);
+    if (idx === -1) throw new Error('NÃ£o encontrei um blueprint incorporado neste HTML. Use o arquivo baixado em "Compartilhar â†’ Baixar pÃ¡gina para compartilhar" â€” o "Baixar HTML" do menu de exportaÃ§Ã£o Ã© sÃ³ uma imagem estÃ¡tica, sem dados para reimportar.');
+    var rest = text.slice(idx + marker.length);
+    var endMarker = ";\nwindow.__EMBEDDED_FILTERS__";
+    var endIdx = rest.indexOf(endMarker);
+    if (endIdx === -1) throw new Error("NÃ£o consegui reconhecer o formato deste arquivo HTML.");
+    return JSON.parse(rest.slice(0, endIdx));
+  }
+
+  function openImportModal() {
+    var wrap = el("div", {});
+    wrap.appendChild(el("h2", { text: "Importar blueprint" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Cole a sintaxe de blueprint (com etapas, fases, camadas, divisores, grÃ¡fico de emoÃ§Ã£o e evidÃªncias), um JSON ou HTML exportado desta ferramenta, ou peÃ§a a um assistente de IA para gerar o texto no formato abaixo." }));
+
+    var tabs = el("div", { class: "tab-row" });
+    var body = el("div", {});
+    var tabDefs = [["syntax", "Texto / Sintaxe"], ["json", "JSON / HTML"], ["ai", "PDF / PPT / Imagem"]];
+    tabDefs.forEach(function (t) {
+      var b = el("button", { class: "tab-btn" + (APP.importTab === t[0] ? " active" : "") }, [document.createTextNode(t[1])]);
+      b.addEventListener("click", function () { APP.importTab = t[0]; renderTabBody(); Array.prototype.forEach.call(tabs.children, function (c) { c.classList.remove("active"); }); b.classList.add("active"); });
+      tabs.appendChild(b);
+    });
+    wrap.appendChild(tabs); wrap.appendChild(body);
+    renderTabBody();
+
+    function renderTabBody() {
+      body.innerHTML = "";
+      if (APP.importTab === "syntax") {
+        var ta = el("textarea", { class: "syntax-input", placeholder: "Cole aqui o texto no formato de sintaxe de blueprintâ€¦" });
+        var err = el("div", { class: "field-error" });
+        var exBtn = el("button", { class: "btn small ghost" }, [document.createTextNode("Ver exemplo")]);
+        var exBlock = el("div", { class: "example-block", text: SYNTAX_EXAMPLE, style: "display:none" });
+        exBtn.addEventListener("click", function () { exBlock.style.display = exBlock.style.display === "none" ? "block" : "none"; });
+        var copyEx = el("button", { class: "btn small ghost" }, [document.createTextNode("Copiar exemplo")]);
+        copyEx.addEventListener("click", function () {
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(SYNTAX_EXAMPLE).then(function () { toast("Exemplo copiado"); }).catch(function () { ta.value = SYNTAX_EXAMPLE; });
+          else ta.value = SYNTAX_EXAMPLE;
+        });
+        var importBtn = el("button", { class: "btn primary" }, [document.createTextNode("Importar")]);
+        importBtn.addEventListener("click", function () {
+          try {
+            var portable = parseBlueprintSyntax(ta.value);
+            var rec = wrapRecord(portable);
+            importBtn.disabled = true;
+            remoteInsert(rec).then(function () {
+              APP.library.unshift(rec);
+              closeModal(); openBlueprint(rec.id); toast("Blueprint importado");
+            }).catch(function () { importBtn.disabled = false; });
+          } catch (e) { err.textContent = e.message; }
+        });
+        body.appendChild(ta); body.appendChild(err);
+        body.appendChild(el("div", { style: "display:flex;gap:8px;margin-top:8px;" }, [exBtn, copyEx]));
+        body.appendChild(exBlock);
+        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:8px;margin-bottom:0;", text: "EvidÃªncias do tipo Imagem nÃ£o sÃ£o suportadas por texto â€” adicione-as depois, direto na cÃ©lula, dentro da ferramenta." }));
+        body.appendChild(el("div", { class: "modal-footer" }, [importBtn]));
+      } else if (APP.importTab === "json") {
+        var fileInput = el("input", { type: "file", accept: ".json,.html,application/json,text/html" });
+        var errJ = el("div", { class: "field-error" });
+        fileInput.addEventListener("change", function () {
+          var f = fileInput.files[0]; if (!f) return;
+          var reader = new FileReader();
+          reader.onload = function () {
+            var obj, jsonErr;
+            try { obj = JSON.parse(reader.result); }
+            catch (e1) {
+              jsonErr = e1;
+              try { obj = extractEmbeddedBlueprintFromHtml(reader.result); }
+              catch (e2) { errJ.textContent = e2.message; return; }
+            }
+            try {
+              if (!obj.stages || !obj.lanes || !obj.cells) throw new Error("Arquivo invÃ¡lido: faltam stages/lanes/cells.");
+              var rec = wrapRecord(obj);
+              remoteInsert(rec).then(function () {
+                APP.library.unshift(rec);
+                closeModal(); openBlueprint(rec.id); toast("Blueprint importado");
+              }).catch(function () {});
+            } catch (e) { errJ.textContent = e.message; }
+          };
+          reader.readAsText(f);
+        });
+        body.appendChild(fileInput); body.appendChild(errJ);
+        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:8px;margin-bottom:0;", text: 'Aceita um .json baixado em "Baixar JSON" ou o .html baixado em "Compartilhar â†’ Baixar pÃ¡gina para compartilhar" (esse HTML carrega os dados completos do blueprint â€” o "Baixar HTML" do menu de exportaÃ§Ã£o Ã© sÃ³ uma imagem estÃ¡tica e nÃ£o pode ser reimportado).' }));
+      } else {
+        body.appendChild(el("div", { class: "disabled-note", text: "ImportaÃ§Ã£o com reconstruÃ§Ã£o por IA a partir de PDF, PowerPoint ou imagem nÃ£o Ã© possÃ­vel dentro desta ferramenta (artifact roda 100% no navegador, sem acesso a um serviÃ§o de IA ou de leitura de documentos). Isso requer o backend descrito no plano de stack (NestJS + gateway de IA)." }));
+        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:10px", text: "Alternativa hoje: peÃ§a a um assistente de IA para descrever o blueprint no formato de texto/sintaxe (aba anterior) e cole o resultado aqui." }));
+      }
+    }
+    var closeModal = openModal(wrap);
+  }
+
+  if (window.__EMBEDDED_BLUEPRINT__) {
+    var embeddedFilters = window.__EMBEDDED_FILTERS__ || { activeProfileId: null, hiddenLanes: [], roles: [], channels: [], showReferences: true, viewMode: "swimlane" };
+    renderViewer({ bp: window.__EMBEDDED_BLUEPRINT__, f: embeddedFilters });
+  } else {
+    boot();
+  }
+})();
+</script>
+
+
+</body></html>
