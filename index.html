@@ -71,7 +71,7 @@
   }
   a { color: var(--accent-strong); }
 
-  /* The dropdown popup a <select> opens is rendered by the OS/browser, not by our theme â€”
+  /* The dropdown popup a <select> opens is rendered by the OS/browser, not by our theme —
      without this, its options fall back to light-on-light or dark-on-dark depending on the
      select's own (often muted/transparent) closed-state color. */
   select { color-scheme: light dark; }
@@ -329,20 +329,20 @@
 
   var STATUS_DEFS = {
     rascunho: { label: "Rascunho", varc: "var(--ink-soft)" },
-    em_revisao: { label: "Em revisÃ£o", varc: "var(--warm)" },
+    em_revisao: { label: "Em revisão", varc: "var(--warm)" },
     validado: { label: "Validado", varc: "var(--good)" },
-    atencao: { label: "AtenÃ§Ã£o", varc: "var(--danger)" }
+    atencao: { label: "Atenção", varc: "var(--danger)" }
   };
   var STATUS_ORDER = ["rascunho", "em_revisao", "validado", "atencao"];
 
   var LANE_DEFS = [
-    { key: "evidence", name: "EvidÃªncia FÃ­sica", kind: "content", side: "front" },
-    { key: "customer", name: "AÃ§Ãµes do Cliente", kind: "content", side: "front" },
-    { key: "d1", name: "Linha de InteraÃ§Ã£o", kind: "divider" },
-    { key: "frontstage", name: "Frontstage (visÃ­vel)", kind: "content", side: "front" },
+    { key: "evidence", name: "Evidência Física", kind: "content", side: "front" },
+    { key: "customer", name: "Ações do Cliente", kind: "content", side: "front" },
+    { key: "d1", name: "Linha de Interação", kind: "divider" },
+    { key: "frontstage", name: "Frontstage (visível)", kind: "content", side: "front" },
     { key: "d2", name: "Linha de Visibilidade", kind: "divider" },
-    { key: "backstage", name: "Backstage (nÃ£o visÃ­vel)", kind: "content", side: "back" },
-    { key: "d3", name: "Linha de InteraÃ§Ã£o Interna", kind: "divider" },
+    { key: "backstage", name: "Backstage (não visível)", kind: "content", side: "back" },
+    { key: "d3", name: "Linha de Interação Interna", kind: "divider" },
     { key: "support", name: "Processos de Apoio", kind: "content", side: "back" }
   ];
 
@@ -368,11 +368,11 @@
   function defaultProfilesForLanes(lanes) {
     function idsForKeys(keys) { return lanes.filter(function (l) { return keys.indexOf(l.key) !== -1; }).map(function (l) { return l.id; }); }
     var hasDefaultKeys = lanes.some(function (l) { return ["evidence", "customer", "backstage", "support"].indexOf(l.key) !== -1; });
-    if (!hasDefaultKeys) return [{ id: uid("profile"), label: "Completo", hint: "Todas as camadas visÃ­veis", hiddenLaneIds: [] }];
+    if (!hasDefaultKeys) return [{ id: uid("profile"), label: "Completo", hint: "Todas as camadas visíveis", hiddenLaneIds: [] }];
     return [
-      { id: uid("profile"), label: "Executivo", hint: "SÃ³ a experiÃªncia do cliente", hiddenLaneIds: idsForKeys(["evidence", "backstage", "support"]) },
+      { id: uid("profile"), label: "Executivo", hint: "Só a experiência do cliente", hiddenLaneIds: idsForKeys(["evidence", "backstage", "support"]) },
       { id: uid("profile"), label: "Operacional", hint: "Blueprint completo", hiddenLaneIds: [] },
-      { id: uid("profile"), label: "TÃ©cnico", hint: "Sistemas e bastidores", hiddenLaneIds: idsForKeys(["evidence", "customer"]) }
+      { id: uid("profile"), label: "Técnico", hint: "Sistemas e bastidores", hiddenLaneIds: idsForKeys(["evidence", "customer"]) }
     ];
   }
 
@@ -384,53 +384,53 @@
   ];
 
   var EVIDENCE_TYPES = {
-    nota: { label: "Nota", desc: "ObservaÃ§Ã£o livre â€” contexto sobre esse ponto que nÃ£o se encaixa nos outros tipos." },
+    nota: { label: "Nota", desc: "Observação livre — contexto sobre esse ponto que não se encaixa nos outros tipos." },
     img: { label: "Imagem", desc: "Uma captura de tela, foto ou print que ilustra esse momento." },
-    oportunidade: { label: "Oportunidade", desc: "Uma possibilidade de melhoria ou expansÃ£o identificada nesse ponto." },
-    solucao: { label: "SoluÃ§Ã£o", desc: "Uma proposta concreta para resolver um problema identificado nesse ponto." },
-    pain: { label: "Pain point", desc: "Uma dificuldade, frustraÃ§Ã£o ou barreira que o cliente ou time enfrenta aqui." },
-    metrica: { label: "MÃ©trica", desc: "Um nÃºmero que mede esse ponto â€” ex: NPS, tempo mÃ©dio, taxa de conversÃ£o." }
+    oportunidade: { label: "Oportunidade", desc: "Uma possibilidade de melhoria ou expansão identificada nesse ponto." },
+    solucao: { label: "Solução", desc: "Uma proposta concreta para resolver um problema identificado nesse ponto." },
+    pain: { label: "Pain point", desc: "Uma dificuldade, frustração ou barreira que o cliente ou time enfrenta aqui." },
+    metrica: { label: "Métrica", desc: "Um número que mede esse ponto — ex: NPS, tempo médio, taxa de conversão." }
   };
 
   var FILTER_HELP = {
-    perfil: "Conjuntos salvos de camadas visÃ­veis, para adaptar a leitura do blueprint a diferentes pÃºblicos.",
-    camadas: "Controla quais linhas do blueprint aparecem. Desmarque uma camada para simplificar a visualizaÃ§Ã£o.",
-    papel: "Quem executa essa aÃ§Ã£o â€” cargo, time ou pessoa responsÃ¡vel (ex: SDR, Suporte, Cliente).",
-    canal: "Por onde essa aÃ§Ã£o acontece â€” o meio ou sistema utilizado (ex: E-mail, Telefone, AplicaÃ§Ã£o).",
-    vinculos: "Mostra as referÃªncias entre cÃ©lulas â€” como atalhos na prÃ³pria cÃ©lula (Camadas) ou como linhas conectando os nÃ³s (Fluxograma)."
+    perfil: "Conjuntos salvos de camadas visíveis, para adaptar a leitura do blueprint a diferentes públicos.",
+    camadas: "Controla quais linhas do blueprint aparecem. Desmarque uma camada para simplificar a visualização.",
+    papel: "Quem executa essa ação — cargo, time ou pessoa responsável (ex: SDR, Suporte, Cliente).",
+    canal: "Por onde essa ação acontece — o meio ou sistema utilizado (ex: E-mail, Telefone, Aplicação).",
+    vinculos: "Mostra as referências entre células — como atalhos na própria célula (Camadas) ou como linhas conectando os nós (Fluxograma)."
   };
 
-  var FLOW_HINT = "Fluxograma: os vÃ­nculos entre cÃ©lulas aparecem como linhas conectando os nÃ³s. Passe o mouse sobre uma cÃ©lula e clique em um dos pontos na borda para criar um novo vÃ­nculo. Para editar papel, canal, evidÃªncia ou destaque de uma cÃ©lula, volte para a visÃ£o Camadas.";
+  var FLOW_HINT = "Fluxograma: os vínculos entre células aparecem como linhas conectando os nós. Passe o mouse sobre uma célula e clique em um dos pontos na borda para criar um novo vínculo. Para editar papel, canal, evidência ou destaque de uma célula, volte para a visão Camadas.";
 
   var SYNTAX_EXAMPLE = [
-    "titulo: RenovaÃ§Ã£o de contrato",
+    "titulo: Renovação de contrato",
     "status: rascunho",
     "",
     "etapas:",
     "- Alerta de vencimento",
-    "- NegociaÃ§Ã£o",
-    "- RenovaÃ§Ã£o assinada",
+    "- Negociação",
+    "- Renovação assinada",
     "",
     "fases:",
-    "- AtenÃ§Ã£o: Alerta de vencimento, NegociaÃ§Ã£o",
-    "- Fechamento: RenovaÃ§Ã£o assinada",
+    "- Atenção: Alerta de vencimento, Negociação",
+    "- Fechamento: Renovação assinada",
     "",
-    "camada: AÃ§Ãµes do Cliente",
-    "- Alerta de vencimento: Recebe e-mail de vencimento prÃ³ximo [canal: E-mail] [pain: NÃ£o sabe como renovar sozinho]",
-    "- NegociaÃ§Ã£o: Conversa com o time de CS sobre o novo plano [papel: Cliente] [oportunidade: Upsell para plano premium]",
-    "- RenovaÃ§Ã£o assinada: Assina o aditivo contratual [canal: CLM] [metrica: NPS=64]",
+    "camada: Ações do Cliente",
+    "- Alerta de vencimento: Recebe e-mail de vencimento próximo [canal: E-mail] [pain: Não sabe como renovar sozinho]",
+    "- Negociação: Conversa com o time de CS sobre o novo plano [papel: Cliente] [oportunidade: Upsell para plano premium]",
+    "- Renovação assinada: Assina o aditivo contratual [canal: CLM] [metrica: NPS=64]",
     "",
-    "divisor: Linha de InteraÃ§Ã£o",
+    "divisor: Linha de Interação",
     "",
-    "camada: Frontstage (visÃ­vel)",
-    "- Alerta de vencimento: CS dispara alerta automÃ¡tico [papel: CS]",
-    "- NegociaÃ§Ã£o: CS apresenta proposta de renovaÃ§Ã£o [papel: CS] [solucao: Oferecer desconto por fidelidade]",
-    "- RenovaÃ§Ã£o assinada: CS confirma assinatura [papel: CS]",
+    "camada: Frontstage (visível)",
+    "- Alerta de vencimento: CS dispara alerta automático [papel: CS]",
+    "- Negociação: CS apresenta proposta de renovação [papel: CS] [solucao: Oferecer desconto por fidelidade]",
+    "- Renovação assinada: CS confirma assinatura [papel: CS]",
     "",
-    "grafico: EmoÃ§Ã£o do usuÃ¡rio",
+    "grafico: Emoção do usuário",
     "- Alerta de vencimento: -1",
-    "- NegociaÃ§Ã£o: 0",
-    "- RenovaÃ§Ã£o assinada: 2"
+    "- Negociação: 0",
+    "- Renovação assinada: 2"
   ].join("\n");
 
   /* ---------------- state ---------------- */
@@ -453,7 +453,7 @@
   }
 
   function seedPortable() {
-    var stageNames = ["Descoberta", "AvaliaÃ§Ã£o / Trial", "ContrataÃ§Ã£o", "Onboarding", "Uso contÃ­nuo", "Suporte & renovaÃ§Ã£o"];
+    var stageNames = ["Descoberta", "Avaliação / Trial", "Contratação", "Onboarding", "Uso contínuo", "Suporte & renovação"];
     var stages = stageNames.map(function (n) { return { id: uid("stage"), name: n }; });
     var built = buildDefaultLanes(); var lanes = built.lanes;
     var byKey = {}; lanes.forEach(function (l) { byKey[l.key] = l.id; });
@@ -461,32 +461,32 @@
     function set(laneKey, i, text, role, channel) {
       cells[cellKey(byKey[laneKey], stages[i].id)] = { text: text, role: role || "", channel: channel || "" };
     }
-    set("customer", 0, "Ouve falar da Senior via indicaÃ§Ã£o ou busca por um ERP", "", "Site / SEO");
+    set("customer", 0, "Ouve falar da Senior via indicação ou busca por um ERP", "", "Site / SEO");
     set("customer", 1, "Assiste demo e testa ambiente sandbox", "", "Videochamada");
     set("customer", 2, "Assina contrato e define escopo do projeto", "", "E-mail / CLM");
-    set("customer", 3, "Participa das reuniÃµes de implantaÃ§Ã£o e valida parametrizaÃ§Ãµes", "", "ReuniÃµes");
-    set("customer", 4, "Usa o sistema no dia a dia; abre chamados quando trava", "", "AplicaÃ§Ã£o");
-    set("customer", 5, "Renova contrato ou expande mÃ³dulos contratados", "", "E-mail");
+    set("customer", 3, "Participa das reuniões de implantação e valida parametrizações", "", "Reuniões");
+    set("customer", 4, "Usa o sistema no dia a dia; abre chamados quando trava", "", "Aplicação");
+    set("customer", 5, "Renova contrato ou expande módulos contratados", "", "E-mail");
     set("evidence", 0, "Site institucional, cases de clientes");
-    set("evidence", 1, "Ambiente de demonstraÃ§Ã£o, proposta comercial");
-    set("evidence", 2, "Contrato assinado, cronograma de implantaÃ§Ã£o");
-    set("evidence", 3, "Checklist de parametrizaÃ§Ã£o, treinamento gravado");
+    set("evidence", 1, "Ambiente de demonstração, proposta comercial");
+    set("evidence", 2, "Contrato assinado, cronograma de implantação");
+    set("evidence", 3, "Checklist de parametrização, treinamento gravado");
     set("evidence", 4, "Dashboard de uso, tickets de suporte");
-    set("evidence", 5, "RelatÃ³rio de renovaÃ§Ã£o, proposta de upsell");
+    set("evidence", 5, "Relatório de renovação, proposta de upsell");
     set("frontstage", 0, "SDR qualifica o lead", "SDR");
-    set("frontstage", 1, "PrÃ©-vendas conduz a demo", "PrÃ©-vendas");
+    set("frontstage", 1, "Pré-vendas conduz a demo", "Pré-vendas");
     set("frontstage", 2, "Vendas fecha o contrato", "Vendas");
-    set("frontstage", 3, "Consultor de implantaÃ§Ã£o parametriza o sistema com o cliente", "ImplantaÃ§Ã£o");
+    set("frontstage", 3, "Consultor de implantação parametriza o sistema com o cliente", "Implantação");
     set("frontstage", 4, "Suporte responde chamados", "Suporte");
-    set("frontstage", 5, "Customer Success conduz reuniÃ£o de renovaÃ§Ã£o", "CS");
-    set("backstage", 2, "JurÃ­dico valida clÃ¡usulas contratuais", "JurÃ­dico");
-    set("backstage", 3, "Time tÃ©cnico migra dados legados", "Engenharia de Dados");
+    set("frontstage", 5, "Customer Success conduz reunião de renovação", "CS");
+    set("backstage", 2, "Jurídico valida cláusulas contratuais", "Jurídico");
+    set("backstage", 3, "Time técnico migra dados legados", "Engenharia de Dados");
     set("backstage", 4, "Time de produto prioriza bugs reportados", "Produto");
     set("support", 2, "CRM / CLM", "", "Sistema interno");
-    set("support", 3, "Ferramenta de migraÃ§Ã£o, ambiente de homologaÃ§Ã£o", "", "Sistema interno");
+    set("support", 3, "Ferramenta de migração, ambiente de homologação", "", "Sistema interno");
     set("support", 4, "Plataforma de suporte (tickets), base de conhecimento", "", "Sistema interno");
     set("support", 5, "CRM, sistema de billing", "", "Sistema interno");
-    return { title: "Onboarding de clientes â€“ Plataforma Senior", status: "validado", favorite: true, stages: stages, lanes: lanes, cells: cells, phases: [], profiles: defaultProfilesForLanes(lanes), laneTypes: built.laneTypes };
+    return { title: "Onboarding de clientes – Plataforma Senior", status: "validado", favorite: true, stages: stages, lanes: lanes, cells: cells, phases: [], profiles: defaultProfilesForLanes(lanes), laneTypes: built.laneTypes };
   }
 
   function blankPortable() {
@@ -495,7 +495,7 @@
     return { title: "Novo blueprint", status: "rascunho", favorite: false, stages: stages, lanes: lanes, cells: {}, phases: [], profiles: defaultProfilesForLanes(lanes), laneTypes: built.laneTypes };
   }
 
-  /* ---------------- persistence (Supabase â€” shared team database) ---------------- */
+  /* ---------------- persistence (Supabase — shared team database) ---------------- */
   function wrapRecord(portable) {
     var now = Date.now();
     return {
@@ -540,7 +540,7 @@
     clearTimeout(touchTimers[bp.id]);
     touchTimers[bp.id] = setTimeout(function () {
       sb.from(TABLE).update(recordToRow(bp)).eq("id", bp.id).then(function (res) {
-        if (res.error) toast("NÃ£o sincronizou com a base: " + res.error.message);
+        if (res.error) toast("Não sincronizou com a base: " + res.error.message);
       });
     }, 500);
   }
@@ -603,11 +603,11 @@
   function fmtRelative(ts) {
     var diff = Date.now() - ts, min = Math.round(diff / 60000);
     if (min < 1) return "agora";
-    if (min < 60) return "hÃ¡ " + min + " min";
+    if (min < 60) return "há " + min + " min";
     var h = Math.round(min / 60);
-    if (h < 24) return "hÃ¡ " + h + "h";
+    if (h < 24) return "há " + h + "h";
     var d = Math.round(h / 24);
-    return "hÃ¡ " + d + "d";
+    return "há " + d + "d";
   }
   function escapeHtml(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 
@@ -633,7 +633,8 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
     toast("Download iniciado: " + filename);
   }
-  function slugify(s) { return (s || "blueprint").toLowerCase().normalize("NFD").replace(/[Ì€-Í¯]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "blueprint"; }
+  var COMBINING_MARKS_RE = new RegExp("[" + String.fromCharCode(0x0300) + "-" + String.fromCharCode(0x036f) + "]", "g");
+  function slugify(s) { return (s || "blueprint").toLowerCase().normalize("NFD").replace(COMBINING_MARKS_RE, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "blueprint"; }
 
   function downscaleImage(file, maxDim, quality, cb) {
     var reader = new FileReader();
@@ -675,7 +676,7 @@
       var line = raw.trim();
       if (line === "") { mode = null; return; }
       var m;
-      if ((m = /^t[iÃ­]tulo:\s*(.+)$/i.exec(line))) { title = m[1].trim(); mode = null; return; }
+      if ((m = /^t[ií]tulo:\s*(.+)$/i.exec(line))) { title = m[1].trim(); mode = null; return; }
       if ((m = /^status:\s*(.+)$/i.exec(line))) {
         var s = m[1].trim().toLowerCase();
         if (STATUS_ORDER.indexOf(s) !== -1) status = s;
@@ -833,7 +834,7 @@
     var root = app();
     root.innerHTML = "";
     root.appendChild(el("div", { class: "empty-state" }, [
-      el("h2", { text: "Conectando Ã  base compartilhadaâ€¦" }),
+      el("h2", { text: "Conectando à base compartilhada…" }),
       el("p", { text: "Carregando os blueprints da equipe." })
     ]));
   }
@@ -843,8 +844,8 @@
     var retry = el("button", { class: "btn primary" }, [document.createTextNode("Tentar de novo")]);
     retry.addEventListener("click", boot);
     root.appendChild(el("div", { class: "empty-state" }, [
-      el("h2", { text: "NÃ£o consegui conectar Ã  base compartilhada" }),
-      el("p", { text: (err && err.message) ? err.message : "Verifique sua conexÃ£o e tente novamente." }),
+      el("h2", { text: "Não consegui conectar à base compartilhada" }),
+      el("p", { text: (err && err.message) ? err.message : "Verifique sua conexão e tente novamente." }),
       el("div", { class: "actions" }, [retry])
     ]));
   }
@@ -864,7 +865,7 @@
       var oldId = payload.old && payload.old.id;
       var wasCurrent = APP.currentId === oldId;
       APP.library = APP.library.filter(function (b) { return b.id !== oldId; });
-      if (wasCurrent) { toast("Este blueprint foi excluÃ­do por outra pessoa"); APP.currentId = null; goLibrary(); }
+      if (wasCurrent) { toast("Este blueprint foi excluído por outra pessoa"); APP.currentId = null; goLibrary(); }
       else if (!getCurrent() && (location.hash === "" || location.hash === "#")) renderLibrary();
       return;
     }
@@ -900,7 +901,7 @@
         renderBootLoading();
         remoteInsert(importedRec).then(function () {
           APP.library.unshift(importedRec);
-          toast("Blueprint recebido por link â€” agora faz parte da base compartilhada");
+          toast("Blueprint recebido por link — agora faz parte da base compartilhada");
           location.hash = "#b=" + importedRec.id;
         }).catch(function () { renderLibrary(); });
       } catch (e) { renderLibrary(); }
@@ -917,7 +918,7 @@
           APP.library.unshift(rec);
           APP.currentId = rec.id; APP.filters = freshFilters(); renderEditor();
         } else {
-          toast("Esse blueprint nÃ£o existe mais ou foi excluÃ­do");
+          toast("Esse blueprint não existe mais ou foi excluído");
           renderLibrary();
         }
       });
@@ -952,7 +953,7 @@
 
     var main = el("div", { class: "library-main" });
     var toolrow = el("div", { class: "library-toolrow" });
-    var search = el("input", { class: "search-input", type: "text", placeholder: "Buscar por tÃ­tuloâ€¦" });
+    var search = el("input", { class: "search-input", type: "text", placeholder: "Buscar por título…" });
     search.value = libraryUi.search;
     search.addEventListener("input", function () { libraryUi.search = search.value; renderLibraryGrid(grid); });
     toolrow.appendChild(search);
@@ -967,7 +968,7 @@
       chip.addEventListener("click", function () { libraryUi.statusFilter = s; renderLibrary(); });
       toolrow.appendChild(chip);
     });
-    var favChip = el("button", { class: "chip-toggle" + (libraryUi.onlyFav ? " active" : "") }, [document.createTextNode(libraryUi.onlyFav ? "â˜… Favoritos" : "â˜† Favoritos")]);
+    var favChip = el("button", { class: "chip-toggle" + (libraryUi.onlyFav ? " active" : "") }, [document.createTextNode(libraryUi.onlyFav ? "★ Favoritos" : "☆ Favoritos")]);
     favChip.addEventListener("click", function () { libraryUi.onlyFav = !libraryUi.onlyFav; renderLibrary(); });
     toolrow.appendChild(favChip);
     main.appendChild(toolrow);
@@ -998,14 +999,14 @@
     list.forEach(function (bp) {
       var laneCount = bp.data.lanes.filter(function (l) { return l.kind === "content"; }).length;
       var card = el("div", { class: "bp-card", tabindex: "0", role: "button" });
-      var star = el("button", { class: "star-btn" + (bp.favorite ? " on" : ""), title: "Favoritar" }, [document.createTextNode(bp.favorite ? "â˜…" : "â˜†")]);
+      var star = el("button", { class: "star-btn" + (bp.favorite ? " on" : ""), title: "Favoritar" }, [document.createTextNode(bp.favorite ? "★" : "☆")]);
       star.addEventListener("click", function (ev) { ev.stopPropagation(); bp.favorite = !bp.favorite; touch(bp); renderLibrary(); });
       card.appendChild(el("div", { class: "row-top" }, [
         el("span", { class: "status-tag", style: "color:" + STATUS_DEFS[bp.status].varc }, [el("span", { class: "dot", style: "background:" + STATUS_DEFS[bp.status].varc }), document.createTextNode(STATUS_DEFS[bp.status].label)]),
         star
       ]));
       card.appendChild(el("div", { class: "title", text: bp.title }));
-      card.appendChild(el("div", { class: "meta", text: bp.data.stages.length + " etapas Â· " + laneCount + " camadas Â· atualizado " + fmtRelative(bp.updatedAt) }));
+      card.appendChild(el("div", { class: "meta", text: bp.data.stages.length + " etapas · " + laneCount + " camadas · atualizado " + fmtRelative(bp.updatedAt) }));
       var delBtn = el("button", { class: "btn small danger ghost" }, [document.createTextNode("Excluir")]);
       delBtn.addEventListener("click", function (ev) {
         ev.stopPropagation();
@@ -1015,7 +1016,7 @@
           remoteDelete(bp.id);
         });
       });
-      card.appendChild(el("div", { class: "row-bottom" }, [el("span", { class: "eyebrow", text: "abrir â†’" }), delBtn]));
+      card.appendChild(el("div", { class: "row-bottom" }, [el("span", { class: "eyebrow", text: "abrir →" }), delBtn]));
       card.addEventListener("click", function () { openBlueprint(bp.id); });
       grid.appendChild(card);
     });
@@ -1030,7 +1031,7 @@
     var root = app();
     root.innerHTML = "";
 
-    var back = el("button", { class: "btn ghost" }, [document.createTextNode("â† Blueprints")]);
+    var back = el("button", { class: "btn ghost" }, [document.createTextNode("← Blueprints")]);
     back.addEventListener("click", goLibrary);
 
     var title = el("h1", { contenteditable: "true", spellcheck: "false", text: bp.title });
@@ -1041,16 +1042,16 @@
     statusSel.addEventListener("change", function () { bp.status = statusSel.value; touch(bp); pill.querySelector(".dot").style.background = STATUS_DEFS[bp.status].varc; });
     var pill = el("span", { class: "status-pill" }, [el("span", { class: "dot", style: "background:" + STATUS_DEFS[bp.status].varc }), statusSel]);
 
-    var star = el("button", { class: "star-btn" + (bp.favorite ? " on" : ""), title: "Favoritar" }, [document.createTextNode(bp.favorite ? "â˜…" : "â˜†")]);
-    star.addEventListener("click", function () { bp.favorite = !bp.favorite; touch(bp); star.classList.toggle("on"); star.textContent = bp.favorite ? "â˜…" : "â˜†"; });
+    var star = el("button", { class: "star-btn" + (bp.favorite ? " on" : ""), title: "Favoritar" }, [document.createTextNode(bp.favorite ? "★" : "☆")]);
+    star.addEventListener("click", function () { bp.favorite = !bp.favorite; touch(bp); star.classList.toggle("on"); star.textContent = bp.favorite ? "★" : "☆"; });
 
-    var historyBtn = el("button", { class: "btn ghost" }, [document.createTextNode("HistÃ³rico")]);
+    var historyBtn = el("button", { class: "btn ghost" }, [document.createTextNode("Histórico")]);
     historyBtn.addEventListener("click", function () { openHistoryModal(bp); });
     var shareBtn = el("button", { class: "btn" }, [document.createTextNode("Compartilhar")]);
     shareBtn.addEventListener("click", function () { openShareModal(bp); });
 
     var downloadWrap = el("div", { style: "position:relative;display:inline-block;" });
-    var downloadBtn = el("button", { class: "btn" }, [document.createTextNode("Baixar â–¾")]);
+    var downloadBtn = el("button", { class: "btn" }, [document.createTextNode("Baixar ▾")]);
     var downloadMenu = el("div", { style: "display:none;position:absolute;right:0;top:calc(100% + 4px);background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.12);min-width:170px;z-index:10;padding:4px;" });
     [["Baixar PDF", function () { downloadPdfExport(bp); }], ["Baixar HTML", function () { downloadHtml(bp); }], ["Baixar JSON", function () { downloadJson(bp); }]].forEach(function (pair) {
       var item = el("button", { class: "btn ghost", style: "display:block;width:100%;text-align:left;" }, [document.createTextNode(pair[0])]);
@@ -1062,7 +1063,7 @@
     downloadWrap.appendChild(downloadBtn); downloadWrap.appendChild(downloadMenu);
 
     var saveBtn = el("button", { class: "btn primary" }, [document.createTextNode("Salvar")]);
-    saveBtn.addEventListener("click", function () { pushVersion(bp); toast("VersÃ£o salva no histÃ³rico"); });
+    saveBtn.addEventListener("click", function () { pushVersion(bp); toast("Versão salva no histórico"); });
 
     root.appendChild(el("header", { class: "topbar" }, [
       back,
@@ -1077,12 +1078,12 @@
     addLane.addEventListener("click", function () { addLaneToBp(bp); renderCanvasArea(); });
     var addDivider = el("button", { class: "btn small" }, [document.createTextNode("+ Divisor")]);
     addDivider.addEventListener("click", function () { addDividerToBp(bp); renderCanvasArea(); });
-    var addChart = el("button", { class: "btn small" }, [document.createTextNode("+ GrÃ¡fico de emoÃ§Ã£o")]);
+    var addChart = el("button", { class: "btn small" }, [document.createTextNode("+ Gráfico de emoção")]);
     addChart.addEventListener("click", function () { addChartLaneToBp(bp); renderCanvasArea(); });
-    var filtersToggle = el("button", { class: "icon-btn" + (editorUi.filtersOpen ? " active" : "") }, [document.createTextNode("â–¤ Filtros")]);
+    var filtersToggle = el("button", { class: "icon-btn" + (editorUi.filtersOpen ? " active" : "") }, [document.createTextNode("▤ Filtros")]);
     filtersToggle.addEventListener("click", function () { editorUi.filtersOpen = !editorUi.filtersOpen; renderCanvasArea(); });
-    var swimBtn = el("button", { class: "icon-btn", title: "Ver como camadas" }, [document.createTextNode("â–¦ Camadas")]);
-    var flowBtn = el("button", { class: "icon-btn", title: "Ver como fluxograma" }, [document.createTextNode("â‡„ Fluxograma")]);
+    var swimBtn = el("button", { class: "icon-btn", title: "Ver como camadas" }, [document.createTextNode("▦ Camadas")]);
+    var flowBtn = el("button", { class: "icon-btn", title: "Ver como fluxograma" }, [document.createTextNode("⇄ Fluxograma")]);
     swimBtn.addEventListener("click", function () { APP.filters.viewMode = "swimlane"; renderCanvasArea(); });
     flowBtn.addEventListener("click", function () { APP.filters.viewMode = "flow"; renderCanvasArea(); });
 
@@ -1102,7 +1103,7 @@
       scroll.appendChild(buildCanvasGrid(bp.data, APP.filters, "edit", function () { touch(bp); }));
       body.appendChild(scroll);
       var addLaneRow = el("div", { class: "add-lane-row" });
-      var btn = el("button", { class: "add-lane-btn" }, [document.createTextNode("+ nova camada de conteÃºdo")]);
+      var btn = el("button", { class: "add-lane-btn" }, [document.createTextNode("+ nova camada de conteúdo")]);
       btn.addEventListener("click", function () { addLaneToBp(bp); renderCanvasArea(); });
       addLaneRow.appendChild(btn);
       body.appendChild(addLaneRow);
@@ -1117,12 +1118,12 @@
   }
 
   function addDividerToBp(bp) {
-    bp.data.lanes.push({ id: uid("lane"), key: uid("div"), name: "Nova linha de interaÃ§Ã£o", kind: "divider" });
+    bp.data.lanes.push({ id: uid("lane"), key: uid("div"), name: "Nova linha de interação", kind: "divider" });
     touch(bp);
   }
 
   function addChartLaneToBp(bp) {
-    bp.data.lanes.push({ id: uid("lane"), key: uid("chart"), name: "EmoÃ§Ã£o do usuÃ¡rio", kind: "chart" });
+    bp.data.lanes.push({ id: uid("lane"), key: uid("chart"), name: "Emoção do usuário", kind: "chart" });
     touch(bp);
   }
 
@@ -1139,7 +1140,7 @@
     var data = { stages: decoded.bp.stages, lanes: decoded.bp.lanes, cells: decoded.bp.cells, phases: decoded.bp.phases || [] };
     var filters = { activeProfileId: decoded.f.activeProfileId, hiddenLanes: new Set(decoded.f.hiddenLanes), roles: new Set(decoded.f.roles), channels: new Set(decoded.f.channels), showReferences: decoded.f.showReferences !== false, viewMode: decoded.f.viewMode === "flow" ? "flow" : "swimlane" };
 
-    root.appendChild(el("div", { class: "viewer-banner", text: "MODO VISUALIZAÃ‡ÃƒO Â· SOMENTE LEITURA â€” os filtros abaixo estÃ£o disponÃ­veis" }));
+    root.appendChild(el("div", { class: "viewer-banner", text: "MODO VISUALIZAÇÃO · SOMENTE LEITURA — os filtros abaixo estão disponíveis" }));
     root.appendChild(el("header", { class: "topbar" }, [
       el("div", { class: "titles" }, [
         el("div", { class: "eyebrow", text: "Blueprint compartilhado" }),
@@ -1150,9 +1151,9 @@
       ])
     ]));
 
-    var filtersToggle = el("button", { class: "icon-btn active" }, [document.createTextNode("â–¤ Filtros")]);
-    var swimBtn = el("button", { class: "icon-btn" + (filters.viewMode !== "flow" ? " active" : ""), title: "Ver como camadas" }, [document.createTextNode("â–¦ Camadas")]);
-    var flowBtn = el("button", { class: "icon-btn" + (filters.viewMode === "flow" ? " active" : ""), title: "Ver como fluxograma" }, [document.createTextNode("â‡„ Fluxograma")]);
+    var filtersToggle = el("button", { class: "icon-btn active" }, [document.createTextNode("▤ Filtros")]);
+    var swimBtn = el("button", { class: "icon-btn" + (filters.viewMode !== "flow" ? " active" : ""), title: "Ver como camadas" }, [document.createTextNode("▦ Camadas")]);
+    var flowBtn = el("button", { class: "icon-btn" + (filters.viewMode === "flow" ? " active" : ""), title: "Ver como fluxograma" }, [document.createTextNode("⇄ Fluxograma")]);
     swimBtn.addEventListener("click", function () { filters.viewMode = "swimlane"; draw(); });
     flowBtn.addEventListener("click", function () { filters.viewMode = "flow"; draw(); });
     var body = el("div", {});
@@ -1180,7 +1181,7 @@
 
     data.profiles = (data.profiles && data.profiles.length) ? data.profiles : defaultProfilesForLanes(data.lanes);
     var editableStrip = mode === "edit";
-    var profGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "Perfil de visÃ£o" }), el("p", { class: "group-help", text: FILTER_HELP.perfil })]);
+    var profGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "Perfil de visão" }), el("p", { class: "group-help", text: FILTER_HELP.perfil })]);
     var profRow = el("div", { class: "profile-row" });
     data.profiles.forEach(function (p) {
       var chip = el("div", { class: "profile-chip" + (filters.activeProfileId === p.id ? " active" : ""), role: "button", tabindex: "0" });
@@ -1198,7 +1199,7 @@
         onChange();
       });
       if (editableStrip) {
-        var rmP = el("button", { class: "mini-btn profile-rm", text: "Ã—", title: "Remover perfil" });
+        var rmP = el("button", { class: "mini-btn profile-rm", text: "×", title: "Remover perfil" });
         rmP.addEventListener("click", function (ev) {
           ev.stopPropagation();
           armRemoveIcon(rmP, function () {
@@ -1212,7 +1213,7 @@
       profRow.appendChild(chip);
     });
     if (editableStrip) {
-      var addProfileBtn = el("button", { class: "profile-chip add-profile" }, [document.createTextNode("+ Salvar visÃ£o atual")]);
+      var addProfileBtn = el("button", { class: "profile-chip add-profile" }, [document.createTextNode("+ Salvar visão atual")]);
       addProfileBtn.addEventListener("click", function () {
         var newProfile = { id: uid("profile"), label: "Novo perfil", hint: "", hiddenLaneIds: Array.from(filters.hiddenLanes) };
         data.profiles.push(newProfile);
@@ -1223,7 +1224,7 @@
     }
     profGroup.appendChild(profRow); strip.appendChild(profGroup);
 
-    var laneGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "Camadas visÃ­veis" }), el("p", { class: "group-help", text: FILTER_HELP.camadas })]);
+    var laneGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "Camadas visíveis" }), el("p", { class: "group-help", text: FILTER_HELP.camadas })]);
     var laneRow = el("div", { class: "lane-row" });
     data.lanes.filter(function (l) { return l.kind === "content"; }).forEach(function (lane) {
       var label = el("label", { class: "lane-toggle" });
@@ -1241,12 +1242,12 @@
     strip.appendChild(buildChipGroup("Papel", FILTER_HELP.papel, collectValues(data, "role"), filters.roles, onChange));
     strip.appendChild(buildChipGroup("Canal", FILTER_HELP.canal, collectValues(data, "channel"), filters.channels, onChange));
 
-    var refGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "VÃ­nculos entre cÃ©lulas" }), el("p", { class: "group-help", text: FILTER_HELP.vinculos })]);
+    var refGroup = el("div", { class: "group" }, [el("h3", { class: "eyebrow", text: "Vínculos entre células" }), el("p", { class: "group-help", text: FILTER_HELP.vinculos })]);
     var refLabel = el("label", { class: "lane-toggle" });
     var refInput = el("input", { type: "checkbox" });
     refInput.checked = filters.showReferences !== false;
     refInput.addEventListener("change", function () { filters.showReferences = refInput.checked; onChange(); });
-    refLabel.appendChild(refInput); refLabel.appendChild(el("span", { text: "Mostrar vÃ­nculos" }));
+    refLabel.appendChild(refInput); refLabel.appendChild(el("span", { text: "Mostrar vínculos" }));
     refGroup.appendChild(refLabel);
     strip.appendChild(refGroup);
     return strip;
@@ -1282,14 +1283,14 @@
     var head = el("div", { class: "stage-head", style: stage.color ? ("border-bottom: 3px solid var(--" + stage.color + ");") : "" });
     if (editable) {
       var ctrl = el("div", { class: "ctrl-row" });
-      var mvLeft = el("button", { class: "mini-btn", text: "â—€", title: "Mover etapa para a esquerda" });
+      var mvLeft = el("button", { class: "mini-btn", text: "◀", title: "Mover etapa para a esquerda" });
       mvLeft.disabled = stageIdx === 0;
       mvLeft.addEventListener("click", function () { if (moveInArray(data.stages, data.stages.indexOf(stage), -1)) { onEdit(); rerenderIfEditor(); } });
-      var mvRight = el("button", { class: "mini-btn", text: "â–¶", title: "Mover etapa para a direita" });
+      var mvRight = el("button", { class: "mini-btn", text: "▶", title: "Mover etapa para a direita" });
       mvRight.disabled = stageIdx === data.stages.length - 1;
       mvRight.addEventListener("click", function () { if (moveInArray(data.stages, data.stages.indexOf(stage), 1)) { onEdit(); rerenderIfEditor(); } });
       ctrl.appendChild(mvLeft); ctrl.appendChild(mvRight); ctrl.appendChild(el("div", { class: "spacer" }));
-      var rm = el("button", { class: "remove", text: "Ã—" });
+      var rm = el("button", { class: "remove", text: "×" });
       rm.addEventListener("click", function () {
         armRemove(rm, function () {
           data.stages = data.stages.filter(function (s) { return s.id !== stage.id; });
@@ -1307,7 +1308,7 @@
       var phaseSel = el("select", { class: "phase-select" });
       phaseSel.appendChild(el("option", { value: "", text: "Sem fase" }));
       (data.phases || []).forEach(function (p) { var o = el("option", { value: p.id, text: p.name }); if (stage.phaseId === p.id) o.selected = true; phaseSel.appendChild(o); });
-      phaseSel.appendChild(el("option", { value: "__new__", text: "+ Nova faseâ€¦" }));
+      phaseSel.appendChild(el("option", { value: "__new__", text: "+ Nova fase…" }));
       phaseSel.addEventListener("change", function () {
         if (phaseSel.value === "__new__") {
           var newPhase = { id: uid("phase"), name: "Nova fase" };
@@ -1330,7 +1331,7 @@
       head.appendChild(colorRow);
     }
     if (editable) {
-      var resizeHandle = el("div", { class: "col-resize-handle", title: "Arraste para redimensionar Â· duplo clique para ajuste automÃ¡tico" });
+      var resizeHandle = el("div", { class: "col-resize-handle", title: "Arraste para redimensionar · duplo clique para ajuste automático" });
       attachColumnResize(resizeHandle, stage, data, grid, editable, onEdit);
       head.appendChild(resizeHandle);
     }
@@ -1348,7 +1349,7 @@
     }
     nameRow.appendChild(nameSpan);
     if (editable) {
-      var ungroup = el("button", { class: "mini-btn", text: "Ã—", title: "Desagrupar fase (mantÃ©m as etapas)" });
+      var ungroup = el("button", { class: "mini-btn", text: "×", title: "Desagrupar fase (mantém as etapas)" });
       ungroup.addEventListener("click", function () {
         stagesInGroup.forEach(function (s) { s.phaseId = null; });
         onEdit(); rerenderIfEditor();
@@ -1363,13 +1364,13 @@
       stagesInGroup.forEach(function (stage) {
         var col = el("div", { class: "phase-merged-col", title: stage.name, style: stage.color ? ("border-bottom: 3px solid var(--" + stage.color + ");") : "" });
         var idx = data.stages.indexOf(stage);
-        var mvLeft = el("button", { class: "mini-btn", text: "â—€", title: "Mover " + stage.name + " para a esquerda" });
+        var mvLeft = el("button", { class: "mini-btn", text: "◀", title: "Mover " + stage.name + " para a esquerda" });
         mvLeft.disabled = idx === 0;
         mvLeft.addEventListener("click", function () { if (moveInArray(data.stages, data.stages.indexOf(stage), -1)) { onEdit(); rerenderIfEditor(); } });
-        var mvRight = el("button", { class: "mini-btn", text: "â–¶", title: "Mover " + stage.name + " para a direita" });
+        var mvRight = el("button", { class: "mini-btn", text: "▶", title: "Mover " + stage.name + " para a direita" });
         mvRight.disabled = idx === data.stages.length - 1;
         mvRight.addEventListener("click", function () { if (moveInArray(data.stages, data.stages.indexOf(stage), 1)) { onEdit(); rerenderIfEditor(); } });
-        var rm = el("button", { class: "mini-btn", text: "Ã—", title: "Remover " + stage.name });
+        var rm = el("button", { class: "mini-btn", text: "×", title: "Remover " + stage.name });
         rm.addEventListener("click", function () {
           armRemoveIcon(rm, function () {
             data.stages = data.stages.filter(function (s) { return s.id !== stage.id; });
@@ -1377,7 +1378,7 @@
             onEdit(); rerenderIfEditor();
           });
         });
-        var colorBtn = el("button", { class: "mini-btn", text: "â—", title: "Pintar " + stage.name + " (clique para trocar de cor)" });
+        var colorBtn = el("button", { class: "mini-btn", text: "●", title: "Pintar " + stage.name + " (clique para trocar de cor)" });
         colorBtn.style.color = stage.color ? ("var(--" + stage.color + ")") : "";
         colorBtn.addEventListener("click", function () {
           var palette = [null].concat(LANE_TYPE_COLORS);
@@ -1388,7 +1389,7 @@
           onEdit();
         });
         col.appendChild(mvLeft); col.appendChild(mvRight); col.appendChild(rm); col.appendChild(colorBtn);
-        var colResizeHandle = el("div", { class: "col-resize-handle", title: "Arraste para redimensionar Â· duplo clique para ajuste automÃ¡tico" });
+        var colResizeHandle = el("div", { class: "col-resize-handle", title: "Arraste para redimensionar · duplo clique para ajuste automático" });
         attachColumnResize(colResizeHandle, stage, data, grid, editable, onEdit);
         col.appendChild(colResizeHandle);
         subRow.appendChild(col);
@@ -1525,11 +1526,11 @@
         row.appendChild(el("div", { class: "line" }));
         if (editable) {
           var dIdx = data.lanes.indexOf(lane);
-          var upD = el("button", { class: "mini-btn", text: "â–²", title: "Mover linha para cima" });
+          var upD = el("button", { class: "mini-btn", text: "▲", title: "Mover linha para cima" });
           upD.disabled = dIdx === 0;
           upD.addEventListener("click", function () { if (moveInArray(data.lanes, data.lanes.indexOf(lane), -1)) { onEdit(); rerenderIfEditor(); } });
           row.appendChild(upD);
-          var downD = el("button", { class: "mini-btn", text: "â–¼", title: "Mover linha para baixo" });
+          var downD = el("button", { class: "mini-btn", text: "▼", title: "Mover linha para baixo" });
           downD.disabled = dIdx === data.lanes.length - 1;
           downD.addEventListener("click", function () { if (moveInArray(data.lanes, data.lanes.indexOf(lane), 1)) { onEdit(); rerenderIfEditor(); } });
           row.appendChild(downD);
@@ -1538,7 +1539,7 @@
         if (editable) { lbl.contentEditable = "true"; lbl.spellcheck = false; lbl.addEventListener("blur", function () { lane.name = lbl.textContent.trim() || lane.name; onEdit(); }); }
         row.appendChild(lbl);
         if (editable) {
-          var rmD = el("button", { class: "mini-btn", text: "Ã—", title: "Remover linha" });
+          var rmD = el("button", { class: "mini-btn", text: "×", title: "Remover linha" });
           rmD.addEventListener("click", function () {
             armRemoveIcon(rmD, function () {
               data.lanes = data.lanes.filter(function (l) { return l.id !== lane.id; });
@@ -1557,10 +1558,10 @@
       if (editable) {
         var ctrlL = el("div", { class: "ctrl-row" });
         var lIdx = data.lanes.indexOf(lane);
-        var upL = el("button", { class: "mini-btn", text: "â–²", title: "Mover camada para cima" });
+        var upL = el("button", { class: "mini-btn", text: "▲", title: "Mover camada para cima" });
         upL.disabled = lIdx === 0;
         upL.addEventListener("click", function () { if (moveInArray(data.lanes, data.lanes.indexOf(lane), -1)) { onEdit(); rerenderIfEditor(); } });
-        var downL = el("button", { class: "mini-btn", text: "â–¼", title: "Mover camada para baixo" });
+        var downL = el("button", { class: "mini-btn", text: "▼", title: "Mover camada para baixo" });
         downL.disabled = lIdx === data.lanes.length - 1;
         downL.addEventListener("click", function () { if (moveInArray(data.lanes, data.lanes.indexOf(lane), 1)) { onEdit(); rerenderIfEditor(); } });
         ctrlL.appendChild(upL); ctrlL.appendChild(downL); ctrlL.appendChild(el("div", { class: "spacer" }));
@@ -1578,7 +1579,7 @@
       var nm = el("div", { class: "name", text: lane.name });
       if (editable) { nm.contentEditable = "true"; nm.spellcheck = false; nm.addEventListener("blur", function () { lane.name = nm.textContent.trim() || lane.name; onEdit(); }); }
       labelCell.appendChild(nm);
-      labelCell.appendChild(el("span", { class: "kind", text: lane.kind === "chart" ? "grÃ¡fico" : (laneType ? laneType.label : "") }));
+      labelCell.appendChild(el("span", { class: "kind", text: lane.kind === "chart" ? "gráfico" : (laneType ? laneType.label : "") }));
       if (editable && lane.kind === "content") {
         var typeSel = el("select", { class: "phase-select" });
         (data.laneTypes || []).forEach(function (t) {
@@ -1586,7 +1587,7 @@
           if (lane.typeId === t.id) o.selected = true;
           typeSel.appendChild(o);
         });
-        typeSel.appendChild(el("option", { value: "__manage__", text: "âœŽ Gerenciar tiposâ€¦" }));
+        typeSel.appendChild(el("option", { value: "__manage__", text: "✎ Gerenciar tipos…" }));
         typeSel.addEventListener("change", function () {
           if (typeSel.value === "__manage__") {
             openLaneTypesModal(data, function () { onEdit(); rerenderIfEditor(); });
@@ -1620,7 +1621,7 @@
         var dimmed = isDimmed(cd, filters);
         var cellEl = el("div", { class: "cell" + (dimmed ? " dimmed" : "") + (cd.highlighted ? " highlighted" : "") + (filters.viewMode === "flow" ? " flow-node" : ""), "data-cell-key": key });
         var textEl = el("div", { class: "text" });
-        textEl.setAttribute("data-placeholder", "descrever aÃ§Ã£o...");
+        textEl.setAttribute("data-placeholder", "descrever ação...");
         textEl.textContent = cd.text;
         if (editable) {
           textEl.contentEditable = "true"; textEl.spellcheck = false;
@@ -1651,8 +1652,8 @@
             var typeLabel = typeDef ? typeDef.label : ev.type;
             if (ev.type === "img" && ev.imageData) pill.appendChild(el("img", { src: ev.imageData }));
             var textPart;
-            if (ev.type === "metrica") textPart = (ev.metricLabel || "MÃ©trica") + ": " + (ev.metricValue || "");
-            else textPart = ev.text ? (ev.text.length > 16 ? ev.text.slice(0, 16) + "â€¦" : ev.text) : typeLabel;
+            if (ev.type === "metrica") textPart = (ev.metricLabel || "Métrica") + ": " + (ev.metricValue || "");
+            else textPart = ev.text ? (ev.text.length > 16 ? ev.text.slice(0, 16) + "…" : ev.text) : typeLabel;
             pill.appendChild(el("span", { text: textPart }));
             pill.addEventListener("click", function () {
               openEvidenceModal(data, lane.id, stage.id, ev.id, function () { onEdit(); rerenderIfEditor(); }, !editable);
@@ -1668,8 +1669,8 @@
             var refLane = data.lanes.filter(function (l) { return l.id === r.laneId; })[0];
             var refStage = data.stages.filter(function (s) { return s.id === r.stageId; })[0];
             if (!refStage) return;
-            var pill = el("button", { class: "ref-pill", title: "Ir para " + refStage.name + (refLane ? " Â· " + refLane.name : "") });
-            pill.appendChild(el("span", { text: "â†” " + refStage.name + (refLane ? " Â· " + refLane.name : "") }));
+            var pill = el("button", { class: "ref-pill", title: "Ir para " + refStage.name + (refLane ? " · " + refLane.name : "") });
+            pill.appendChild(el("span", { text: "↔ " + refStage.name + (refLane ? " · " + refLane.name : "") }));
             pill.addEventListener("click", function () {
               var target = document.querySelector('[data-cell-key="' + cellKey(r.laneId, r.stageId) + '"]');
               if (target) {
@@ -1688,8 +1689,8 @@
           actionSel.appendChild(el("option", { value: "", text: "+ adicionar" }));
           if (!cd.role) actionSel.appendChild(el("option", { value: "papel", text: "Papel" }));
           if (!cd.channel) actionSel.appendChild(el("option", { value: "canal", text: "Canal" }));
-          actionSel.appendChild(el("option", { value: "evidencia", text: "EvidÃªncia" }));
-          actionSel.appendChild(el("option", { value: "vinculo", text: "VÃ­nculo" }));
+          actionSel.appendChild(el("option", { value: "evidencia", text: "Evidência" }));
+          actionSel.appendChild(el("option", { value: "vinculo", text: "Vínculo" }));
           actionSel.appendChild(el("option", { value: "destacar", text: cd.highlighted ? "Remover destaque" : "Destacar" }));
           actionSel.addEventListener("change", function () {
             var action = actionSel.value;
@@ -1709,7 +1710,7 @@
 
         if (editable && filters.viewMode === "flow") {
           ["n", "e", "s", "w"].forEach(function (dir) {
-            var handle = el("button", { class: "flow-handle " + dir, type: "button", title: "Criar vÃ­nculo a partir desta cÃ©lula" });
+            var handle = el("button", { class: "flow-handle " + dir, type: "button", title: "Criar vínculo a partir desta célula" });
             handle.addEventListener("click", function (ev) {
               ev.stopPropagation();
               openReferenceModal(data, lane.id, stage.id, function () { onEdit(); rerenderIfEditor(); });
@@ -1819,10 +1820,10 @@
     var dstStage = data.stages.filter(function (s) { return s.id === ref.stageId; })[0];
 
     var wrap = el("div", {});
-    wrap.appendChild(el("h2", { text: "Remover vÃ­nculo" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: (srcStage ? srcStage.name : "?") + " Â· " + (srcLane ? srcLane.name : "?") + "   â†’   " + (dstStage ? dstStage.name : "?") + " Â· " + (dstLane ? dstLane.name : "?") }));
+    wrap.appendChild(el("h2", { text: "Remover vínculo" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: (srcStage ? srcStage.name : "?") + " · " + (srcLane ? srcLane.name : "?") + "   →   " + (dstStage ? dstStage.name : "?") + " · " + (dstLane ? dstLane.name : "?") }));
     var footer = el("div", { class: "modal-footer" });
-    var rm = el("button", { class: "btn danger ghost" }, [document.createTextNode("Remover vÃ­nculo")]);
+    var rm = el("button", { class: "btn danger ghost" }, [document.createTextNode("Remover vínculo")]);
     rm.addEventListener("click", function () {
       cell.references = cell.references.filter(function (x) { return x.id !== refId; });
       onSaved(); closeModal();
@@ -1842,7 +1843,7 @@
     if (APP.filters.channels.size) bits.push("Canal: " + Array.from(APP.filters.channels).join(", "));
     var hidden = bp.data.lanes.filter(function (l) { return APP.filters.hiddenLanes.has(l.id); }).map(function (l) { return l.name; });
     if (hidden.length) bits.push("Camadas ocultas: " + hidden.join(", "));
-    return bits.join(" Â· ") + " Â· gerado em " + new Date().toLocaleDateString("pt-BR");
+    return bits.join(" · ") + " · gerado em " + new Date().toLocaleDateString("pt-BR");
   }
 
   function buildExportHtml(bp, autoprint) {
@@ -1862,14 +1863,14 @@
   function downloadJson(bp) { offerDownload(slugify(bp.title) + ".json", JSON.stringify(portableFromRecord(bp), null, 2), "application/json"); }
   function downloadPdfExport(bp) {
     offerDownload(slugify(bp.title) + "-imprimir.html", buildExportHtml(bp, true), "text/html");
-    toast("Baixado â€” abra o arquivo: a impressÃ£o abre sozinha (escolha \"Salvar como PDF\")");
+    toast("Baixado — abra o arquivo: a impressão abre sozinha (escolha \"Salvar como PDF\")");
   }
 
   /* ================= modals ================= */
   function openModal(contentEl) {
     var backdrop = el("div", { class: "modal-backdrop" });
     var modal = el("div", { class: "modal" });
-    var closeX = el("button", { class: "close-x", text: "Ã—" });
+    var closeX = el("button", { class: "close-x", text: "×" });
     closeX.addEventListener("click", close);
     backdrop.addEventListener("click", function (ev) { if (ev.target === backdrop) close(); });
     modal.appendChild(closeX);
@@ -1882,9 +1883,9 @@
 
   function openHistoryModal(bp) {
     var wrap = el("div", {});
-    wrap.appendChild(el("h2", { text: "HistÃ³rico de versÃµes" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: "Salvo neste navegador. Clique em \"Salvar\" no editor para criar um novo checkpoint (atÃ© 15)." }));
-    if (bp.versions.length === 0) wrap.appendChild(el("div", { class: "empty-hint", text: "Nenhuma versÃ£o salva ainda." }));
+    wrap.appendChild(el("h2", { text: "Histórico de versões" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Salvo neste navegador. Clique em \"Salvar\" no editor para criar um novo checkpoint (até 15)." }));
+    if (bp.versions.length === 0) wrap.appendChild(el("div", { class: "empty-hint", text: "Nenhuma versão salva ainda." }));
     bp.versions.forEach(function (v, idx) {
       var row = el("div", { class: "version-item" });
       row.appendChild(el("span", { text: fmtDate(v.savedAt) }));
@@ -1892,7 +1893,7 @@
       restore.addEventListener("click", function () {
         armRemove(restore, function () {
           bp.data = JSON.parse(JSON.stringify(v.data));
-          touch(bp); closeModal(); renderEditor(); toast("VersÃ£o restaurada");
+          touch(bp); closeModal(); renderEditor(); toast("Versão restaurada");
         });
       });
       row.appendChild(restore);
@@ -1910,7 +1911,7 @@
     var pendingImageData = existing && existing.type === "img" ? existing.imageData : null;
 
     var wrap = el("div", {});
-    wrap.appendChild(el("h2", { text: existing ? "EvidÃªncia" : "Adicionar evidÃªncia" }));
+    wrap.appendChild(el("h2", { text: existing ? "Evidência" : "Adicionar evidência" }));
     var typeRow = el("div", { class: "tab-row" });
     var body = el("div", {});
     var footer = el("div", { class: "modal-footer" });
@@ -1936,10 +1937,10 @@
     function renderFields() {
       body.innerHTML = "";
       body._collect = null;
-      if (!currentType) { body.appendChild(el("div", { class: "empty-hint", text: "Escolha um tipo de evidÃªncia acima." })); renderFooter(); return; }
+      if (!currentType) { body.appendChild(el("div", { class: "empty-hint", text: "Escolha um tipo de evidência acima." })); renderFooter(); return; }
       if (EVIDENCE_TYPES[currentType] && EVIDENCE_TYPES[currentType].desc) body.appendChild(el("p", { class: "modal-sub", style: "margin-bottom:10px;", text: EVIDENCE_TYPES[currentType].desc }));
       if (currentType === "metrica") {
-        var labelInput = el("input", { class: "search-input", style: "width:100%;margin-bottom:8px;", placeholder: "Nome da mÃ©trica (ex: NPS)" });
+        var labelInput = el("input", { class: "search-input", style: "width:100%;margin-bottom:8px;", placeholder: "Nome da métrica (ex: NPS)" });
         labelInput.value = existing ? existing.metricLabel || "" : "";
         labelInput.disabled = !!readOnly;
         var valueInput = el("input", { class: "search-input", style: "width:100%;", placeholder: "Valor (ex: 42, 3.2 dias)" });
@@ -1966,7 +1967,7 @@
         body._collect = function () { return { imageData: pendingImageData }; };
       } else {
         var ta = el("textarea", { class: "syntax-input", style: "min-height:100px;font-family:var(--font-body);" });
-        ta.placeholder = (EVIDENCE_TYPES[currentType] ? EVIDENCE_TYPES[currentType].label : currentType) + "â€¦";
+        ta.placeholder = (EVIDENCE_TYPES[currentType] ? EVIDENCE_TYPES[currentType].label : currentType) + "…";
         ta.value = existing ? existing.text || "" : "";
         ta.disabled = !!readOnly;
         body.appendChild(ta);
@@ -2020,9 +2021,9 @@
     wrap.appendChild(el("p", { class: "modal-sub", text: help }));
 
     var sel = el("select", { class: "search-input", style: "width:100%;margin-bottom:8px;" });
-    sel.appendChild(el("option", { value: "", text: "â€” selecionar existente â€”" }));
+    sel.appendChild(el("option", { value: "", text: "— selecionar existente —" }));
     existingValues.forEach(function (v) { var o = el("option", { value: v, text: v }); if (cell[field] === v) o.selected = true; sel.appendChild(o); });
-    var newInput = el("input", { class: "search-input", style: "width:100%;", placeholder: "Ou digite um novo " + label.toLowerCase() + "â€¦" });
+    var newInput = el("input", { class: "search-input", style: "width:100%;", placeholder: "Ou digite um novo " + label.toLowerCase() + "…" });
     if (cell[field] && existingValues.indexOf(cell[field]) === -1) newInput.value = cell[field];
     sel.addEventListener("change", function () { if (sel.value) newInput.value = ""; });
     newInput.addEventListener("input", function () { if (newInput.value) sel.value = ""; });
@@ -2049,8 +2050,8 @@
   function cellRefOptionLabel(data, lane, stage) {
     var c = data.cells[cellKey(lane.id, stage.id)];
     var desc = c && c.text ? c.text.trim().replace(/\s+/g, " ") : "";
-    if (desc.length > 70) desc = desc.slice(0, 70) + "â€¦";
-    return stage.name + " Â· " + lane.name + (desc ? " â€” " + desc : " (cÃ©lula vazia)");
+    if (desc.length > 70) desc = desc.slice(0, 70) + "…";
+    return stage.name + " · " + lane.name + (desc ? " — " + desc : " (célula vazia)");
   }
 
   function openReferenceModal(data, laneId, stageId, onSaved) {
@@ -2059,11 +2060,11 @@
     cell.references = cell.references || [];
 
     var wrap = el("div", {});
-    wrap.appendChild(el("h2", { text: "Vincular a outra cÃ©lula" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: "Indique que a informaÃ§Ã£o desta cÃ©lula vem de, ou se relaciona com, outra etapa/camada do blueprint. O vÃ­nculo aparece como um atalho clicÃ¡vel na cÃ©lula." }));
+    wrap.appendChild(el("h2", { text: "Vincular a outra célula" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Indique que a informação desta célula vem de, ou se relaciona com, outra etapa/camada do blueprint. O vínculo aparece como um atalho clicável na célula." }));
 
     var sel = el("select", { class: "search-input", style: "width:100%;" });
-    sel.appendChild(el("option", { value: "", text: "Escolha uma cÃ©lulaâ€¦" }));
+    sel.appendChild(el("option", { value: "", text: "Escolha uma célula…" }));
     data.lanes.filter(function (l) { return l.kind === "content"; }).forEach(function (lane) {
       data.stages.forEach(function (stage) {
         if (lane.id === laneId && stage.id === stageId) return;
@@ -2074,7 +2075,7 @@
     });
     wrap.appendChild(sel);
 
-    var addBtn = el("button", { class: "btn primary", style: "margin-top:10px;" }, [document.createTextNode("Adicionar vÃ­nculo")]);
+    var addBtn = el("button", { class: "btn primary", style: "margin-top:10px;" }, [document.createTextNode("Adicionar vínculo")]);
     addBtn.addEventListener("click", function () {
       if (!sel.value) return;
       var parts = sel.value.split("|");
@@ -2084,7 +2085,7 @@
     wrap.appendChild(el("div", { class: "modal-footer" }, [addBtn]));
 
     if (cell.references.length) {
-      wrap.appendChild(el("h3", { class: "eyebrow", style: "margin-top:18px;display:block;", text: "VÃ­nculos existentes" }));
+      wrap.appendChild(el("h3", { class: "eyebrow", style: "margin-top:18px;display:block;", text: "Vínculos existentes" }));
       cell.references.forEach(function (r) {
         var lane = data.lanes.filter(function (l) { return l.id === r.laneId; })[0];
         var stage = data.stages.filter(function (s) { return s.id === r.stageId; })[0];
@@ -2108,7 +2109,7 @@
     ensureLaneTypes(data);
     var wrap = el("div", {});
     wrap.appendChild(el("h2", { text: "Tipos de camada" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: "Crie, renomeie ou mude a cor dos tipos usados para classificar as camadas de conteÃºdo do blueprint." }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Crie, renomeie ou mude a cor dos tipos usados para classificar as camadas de conteúdo do blueprint." }));
     var list = el("div", {});
     wrap.appendChild(list);
 
@@ -2174,24 +2175,24 @@
     var wrap = el("div", {});
     wrap.appendChild(el("h2", { text: "Compartilhar" }));
 
-    wrap.appendChild(el("h3", { style: "margin:0 0 4px;font-size:14px;", text: "ðŸ”´ Link ao vivo â€” colaboraÃ§Ã£o em tempo real" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: "Abre este MESMO blueprint, guardado na base compartilhada da equipe. Todo mundo que abrir este link vÃª e edita os mesmos dados, com atualizaÃ§Ãµes aparecendo automaticamente para quem estiver com a tela aberta â€” sem precisar baixar nada nem gerar um novo link depois de editar." }));
+    wrap.appendChild(el("h3", { style: "margin:0 0 4px;font-size:14px;", text: "🔴 Link ao vivo — colaboração em tempo real" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Abre este MESMO blueprint, guardado na base compartilhada da equipe. Todo mundo que abrir este link vê e edita os mesmos dados, com atualizações aparecendo automaticamente para quem estiver com a tela aberta — sem precisar baixar nada nem gerar um novo link depois de editar." }));
     var liveUrl = location.origin + location.pathname + "#b=" + bp.id;
     wrap.appendChild(shareLinkRow(liveUrl, function () { toast("Link ao vivo copiado"); }));
 
-    wrap.appendChild(el("h3", { style: "margin:20px 0 4px;font-size:14px;", text: "Link de cÃ³pia independente" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: "Abre uma FOTO deste blueprint como um novo registro, separado do original â€” Ãºtil para mandar para alguÃ©m fora da equipe, ou para duplicar como ponto de partida. Quem abrir nÃ£o fica sincronizado com o original." }));
+    wrap.appendChild(el("h3", { style: "margin:20px 0 4px;font-size:14px;", text: "Link de cópia independente" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Abre uma FOTO deste blueprint como um novo registro, separado do original — útil para mandar para alguém fora da equipe, ou para duplicar como ponto de partida. Quem abrir não fica sincronizado com o original." }));
     var editUrl = location.origin + location.pathname + "#edit=" + encodeURIComponent(encodeEditState(bp));
-    wrap.appendChild(shareLinkRow(editUrl, function () { toast("Link de cÃ³pia copiado"); }));
+    wrap.appendChild(shareLinkRow(editUrl, function () { toast("Link de cópia copiado"); }));
 
     wrap.appendChild(el("h3", { style: "margin:20px 0 4px;font-size:14px;", text: "Link somente leitura" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: "Mesma ideia, mas quem abrir sÃ³ visualiza e filtra â€” nÃ£o pode editar." }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Mesma ideia, mas quem abrir só visualiza e filtra — não pode editar." }));
     var viewUrl = location.origin + location.pathname + "#view=" + encodeURIComponent(encodeShareState(bp, APP.filters));
     wrap.appendChild(shareLinkRow(viewUrl, function () { toast("Link somente leitura copiado"); }));
 
-    wrap.appendChild(el("h3", { style: "margin:20px 0 4px;font-size:14px;", text: "Arquivo HTML autÃ´nomo" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: "Gere um arquivo que funciona sozinho, sem exigir login â€” envie por e-mail, coloque num wiki/SharePoint ou hospede onde quiser. Prefira esta opÃ§Ã£o quando precisar de acesso garantido para quem nÃ£o tem conta na organizaÃ§Ã£o do claude.ai. Abre somente leitura." }));
-    var dlBtn = el("button", { class: "btn" }, [document.createTextNode("Baixar pÃ¡gina para compartilhar")]);
+    wrap.appendChild(el("h3", { style: "margin:20px 0 4px;font-size:14px;", text: "Arquivo HTML autônomo" }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Gere um arquivo que funciona sozinho, sem exigir login — envie por e-mail, coloque num wiki/SharePoint ou hospede onde quiser. Prefira esta opção quando precisar de acesso garantido para quem não tem conta na organização do claude.ai. Abre somente leitura." }));
+    var dlBtn = el("button", { class: "btn" }, [document.createTextNode("Baixar página para compartilhar")]);
     dlBtn.addEventListener("click", function () { downloadStandaloneViewer(bp); });
     wrap.appendChild(dlBtn);
 
@@ -2215,18 +2216,18 @@
   function extractEmbeddedBlueprintFromHtml(text) {
     var marker = "window.__EMBEDDED_BLUEPRINT__ = ";
     var idx = text.indexOf(marker);
-    if (idx === -1) throw new Error('NÃ£o encontrei um blueprint incorporado neste HTML. Use o arquivo baixado em "Compartilhar â†’ Baixar pÃ¡gina para compartilhar" â€” o "Baixar HTML" do menu de exportaÃ§Ã£o Ã© sÃ³ uma imagem estÃ¡tica, sem dados para reimportar.');
+    if (idx === -1) throw new Error('Não encontrei um blueprint incorporado neste HTML. Use o arquivo baixado em "Compartilhar → Baixar página para compartilhar" — o "Baixar HTML" do menu de exportação é só uma imagem estática, sem dados para reimportar.');
     var rest = text.slice(idx + marker.length);
     var endMarker = ";\nwindow.__EMBEDDED_FILTERS__";
     var endIdx = rest.indexOf(endMarker);
-    if (endIdx === -1) throw new Error("NÃ£o consegui reconhecer o formato deste arquivo HTML.");
+    if (endIdx === -1) throw new Error("Não consegui reconhecer o formato deste arquivo HTML.");
     return JSON.parse(rest.slice(0, endIdx));
   }
 
   function openImportModal() {
     var wrap = el("div", {});
     wrap.appendChild(el("h2", { text: "Importar blueprint" }));
-    wrap.appendChild(el("p", { class: "modal-sub", text: "Cole a sintaxe de blueprint (com etapas, fases, camadas, divisores, grÃ¡fico de emoÃ§Ã£o e evidÃªncias), um JSON ou HTML exportado desta ferramenta, ou peÃ§a a um assistente de IA para gerar o texto no formato abaixo." }));
+    wrap.appendChild(el("p", { class: "modal-sub", text: "Cole a sintaxe de blueprint (com etapas, fases, camadas, divisores, gráfico de emoção e evidências), um JSON ou HTML exportado desta ferramenta, ou peça a um assistente de IA para gerar o texto no formato abaixo." }));
 
     var tabs = el("div", { class: "tab-row" });
     var body = el("div", {});
@@ -2242,7 +2243,7 @@
     function renderTabBody() {
       body.innerHTML = "";
       if (APP.importTab === "syntax") {
-        var ta = el("textarea", { class: "syntax-input", placeholder: "Cole aqui o texto no formato de sintaxe de blueprintâ€¦" });
+        var ta = el("textarea", { class: "syntax-input", placeholder: "Cole aqui o texto no formato de sintaxe de blueprint…" });
         var err = el("div", { class: "field-error" });
         var exBtn = el("button", { class: "btn small ghost" }, [document.createTextNode("Ver exemplo")]);
         var exBlock = el("div", { class: "example-block", text: SYNTAX_EXAMPLE, style: "display:none" });
@@ -2267,7 +2268,7 @@
         body.appendChild(ta); body.appendChild(err);
         body.appendChild(el("div", { style: "display:flex;gap:8px;margin-top:8px;" }, [exBtn, copyEx]));
         body.appendChild(exBlock);
-        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:8px;margin-bottom:0;", text: "EvidÃªncias do tipo Imagem nÃ£o sÃ£o suportadas por texto â€” adicione-as depois, direto na cÃ©lula, dentro da ferramenta." }));
+        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:8px;margin-bottom:0;", text: "Evidências do tipo Imagem não são suportadas por texto — adicione-as depois, direto na célula, dentro da ferramenta." }));
         body.appendChild(el("div", { class: "modal-footer" }, [importBtn]));
       } else if (APP.importTab === "json") {
         var fileInput = el("input", { type: "file", accept: ".json,.html,application/json,text/html" });
@@ -2284,7 +2285,7 @@
               catch (e2) { errJ.textContent = e2.message; return; }
             }
             try {
-              if (!obj.stages || !obj.lanes || !obj.cells) throw new Error("Arquivo invÃ¡lido: faltam stages/lanes/cells.");
+              if (!obj.stages || !obj.lanes || !obj.cells) throw new Error("Arquivo inválido: faltam stages/lanes/cells.");
               var rec = wrapRecord(obj);
               remoteInsert(rec).then(function () {
                 APP.library.unshift(rec);
@@ -2295,10 +2296,10 @@
           reader.readAsText(f);
         });
         body.appendChild(fileInput); body.appendChild(errJ);
-        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:8px;margin-bottom:0;", text: 'Aceita um .json baixado em "Baixar JSON" ou o .html baixado em "Compartilhar â†’ Baixar pÃ¡gina para compartilhar" (esse HTML carrega os dados completos do blueprint â€” o "Baixar HTML" do menu de exportaÃ§Ã£o Ã© sÃ³ uma imagem estÃ¡tica e nÃ£o pode ser reimportado).' }));
+        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:8px;margin-bottom:0;", text: 'Aceita um .json baixado em "Baixar JSON" ou o .html baixado em "Compartilhar → Baixar página para compartilhar" (esse HTML carrega os dados completos do blueprint — o "Baixar HTML" do menu de exportação é só uma imagem estática e não pode ser reimportado).' }));
       } else {
-        body.appendChild(el("div", { class: "disabled-note", text: "ImportaÃ§Ã£o com reconstruÃ§Ã£o por IA a partir de PDF, PowerPoint ou imagem nÃ£o Ã© possÃ­vel dentro desta ferramenta (artifact roda 100% no navegador, sem acesso a um serviÃ§o de IA ou de leitura de documentos). Isso requer o backend descrito no plano de stack (NestJS + gateway de IA)." }));
-        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:10px", text: "Alternativa hoje: peÃ§a a um assistente de IA para descrever o blueprint no formato de texto/sintaxe (aba anterior) e cole o resultado aqui." }));
+        body.appendChild(el("div", { class: "disabled-note", text: "Importação com reconstrução por IA a partir de PDF, PowerPoint ou imagem não é possível dentro desta ferramenta (artifact roda 100% no navegador, sem acesso a um serviço de IA ou de leitura de documentos). Isso requer o backend descrito no plano de stack (NestJS + gateway de IA)." }));
+        body.appendChild(el("p", { class: "modal-sub", style: "margin-top:10px", text: "Alternativa hoje: peça a um assistente de IA para descrever o blueprint no formato de texto/sintaxe (aba anterior) e cole o resultado aqui." }));
       }
     }
     var closeModal = openModal(wrap);
